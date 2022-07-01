@@ -1,20 +1,19 @@
 import React from "react";
-import styled from "styled-components";
+import { Container, Logo, CalendarSearch, NavBarSt, Welcome } from "./NavBar.styled";
 
 const NavBar: React.FC = () => {
-
-    const Container = styled.div`
-        margin: 20px;
-        display: flex;
-        justify-content: space-between;
-        font-family: 'Poppins', sans-serif;
-    `
-
     return (
-        <Container>
-            <p>Hello</p>
-            <p>world</p>
-        </Container>
+        <NavBarSt>
+            <Container>
+                <Logo src="\Assets\Logo.png" />
+                <CalendarSearch placeholder="Search" />
+                <Welcome>
+                    <p className="caption">Welcome</p>
+                    <h3>lorem ipsum</h3>
+                </Welcome>
+            </Container>
+        </NavBarSt>
+
     )
 }
 
