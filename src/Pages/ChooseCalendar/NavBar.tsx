@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Logo, CalendarSearch, NavBarSt, Welcome } from "./NavBar.styled";
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import { Container, Logo, CalendarSearch, NavBarSt, Welcome, DropDown } from "./NavBar.styled";
 
 const NavBar: React.FC = () => {
     return (
@@ -7,10 +8,14 @@ const NavBar: React.FC = () => {
             <Container>
                 <Logo src="\Assets\Logo.png" />
                 <CalendarSearch placeholder="Search" />
-                <Welcome>
-                    <p className="caption">Welcome</p>
-                    <h3>lorem ipsum</h3>
-                </Welcome>
+                <DropDown>
+                    <Welcome>
+                        <p className="caption">ยินดีต้อนรับ</p>
+                        <h3>lorem ipsum</h3>
+                    </Welcome>
+                    <h1><KeyboardArrowDownOutlinedIcon /></h1>
+                </DropDown>
+
             </Container>
         </NavBarSt>
 

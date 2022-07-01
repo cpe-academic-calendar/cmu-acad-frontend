@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const NavBarSt = styled.div`
     background: #FFFFFF;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    
 `
 
 export const Container = styled.div`
@@ -15,8 +16,7 @@ export const Container = styled.div`
 `
 
 export const Logo = styled.img`
-    width: 10%;
-    height: fit-content;
+    width: 12%;
 `
 
 export const CalendarSearch = styled.input`
@@ -37,5 +37,14 @@ export const Welcome = styled.div`
     }
     .caption{
         font-size: small;
+    }
+`
+
+export const DropDown = styled.div`
+    display: flex;
+    align-items: center;
+    h1{
+        font-size: large;
+        margin-left: 8px;
     }
 `
