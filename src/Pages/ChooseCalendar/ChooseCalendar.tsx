@@ -1,11 +1,49 @@
 import React from "react";
 import NavBar from "./NavBar";
+import cards_dummy from "../../cards_dummy.json"
+import CalendarCard from "./CalendarCard";
+import styled from "styled-components";
 
-const ChooseCalendar:React.FC = () => {
-    return (
-        <div>
-            <NavBar />
-        </div>
+interface Data { name: string; year: string; create_date: string; recently_edited: string; };
+
+const NewCalendar = styled.button`
+    background-color: #F57F17;
+    color: #FFF;
+    font-size: xx-large;
+    border: none;
+    border-radius: 30px;
+`
+
+
+function ChooseCalendar(){
+
+    // const card_render:React.FC = () => {
+    //     return(
+    //         <>
+    //         {
+    //             cards_dummy.map((item :Data)=>(
+    //             <div>
+    //                 <CalendarCard name={item.name} year={item.year} create_date={item.create_date}  recently_edited={item.recently_edited}/>
+    //             </div>
+                               
+    //             ))
+    //         }
+    //         </>
+    //     )
+    // }
+    return(
+        <>
+        <NavBar />
+        {
+            cards_dummy.map((item :Data)=>(
+                <div>
+                    <CalendarCard name={item.name} year={item.year} create_date={item.create_date}  recently_edited={item.recently_edited}/>
+                </div>
+            ))
+        }
+        {/* {card_render} */}
+        <NewCalendar>+</NewCalendar>
+        </>
     )
 }
 

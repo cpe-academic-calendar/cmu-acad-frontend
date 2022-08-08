@@ -29,7 +29,7 @@ export const CalendarSearch = styled.input`
     background-color: white;
 `
 
-export const Welcome = styled.div`
+export const Welcome = styled.span`
     display: flex;
     flex-direction: column;
     h3{

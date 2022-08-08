@@ -10,8 +10,10 @@ const NavBar: React.FC = () => {
                 <CalendarSearch placeholder="Search" />
                 <DropDown>
                     <Welcome>
-                        <p className="caption">ยินดีต้อนรับ</p>
-                        <h3>lorem ipsum</h3>
+                        <span>
+                            <p className="caption">ยินดีต้อนรับ</p>
+                            <h3>lorem ipsum</h3>
+                        </span>
                     </Welcome>
                     <h1><KeyboardArrowDownOutlinedIcon /></h1>
                 </DropDown>
