@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "../../Components/NavBar";
 import cards_dummy from "../../cards_dummy.json"
 import CalendarCard from "./CalendarCard";
 import styled from "styled-components";
