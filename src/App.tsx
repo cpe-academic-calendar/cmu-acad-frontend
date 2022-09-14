@@ -5,6 +5,7 @@ import ChooseCalendar from './Pages/ChooseCalendar/ChooseCalendar';
 import SettingCalendar from './Pages/SettingCalendar/SettingCalendar';
 import { createGlobalStyle } from 'styled-components';
 import DraftYear from './Pages/DraftYear/DraftYear';
+import 'react-calendar/dist/Calendar.css';
 
 const GobalStyle = createGlobalStyle`
   font-family: 'Roboto', sans-serif;
