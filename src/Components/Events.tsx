@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   ButtonSelect,
   ColorChoice,
+  ColorOption,
   DayOffButton,
   DescriptionContainer,
   DescriptionDetail,
@@ -9,6 +10,8 @@ import {
   ExamButton,
   Header,
   HeaderButton,
+  InputDescript,
+  InputName,
   SaveButton,
   SettingDate,
   SettingDuration,
@@ -36,7 +39,9 @@ export default function EventEdit() {
           </Header>
           <SettingEvent>
             <SettingDate>
-              <SettingName>ขื่อ</SettingName>
+              <SettingName>
+                <InputName  type="text" name="firstname" placeholder="เพิ่มชื่อ"/>
+              </SettingName>
               <SettingDuration className="rounded-full">
                 ระยะเวลา
               </SettingDuration>
@@ -57,19 +62,24 @@ export default function EventEdit() {
               </ExamButton>
               </ButtonSelect>
               <ColorChoice>
-                choice
-                <button>
-                  Up
-                </button>
+              <ColorOption>
+                <option >Please choose</option>
+                <option >Option 1</option>
+                <option >Option 2</option>
+                <option >Option 3</option>
+                <option >Option 4</option>
+              </ColorOption>
               </ColorChoice>
             </SettingStatus>
             <DescriptionContainer>
               <DescriptionDetail>
-                  เพิ่มคำบรรยาย
+                <InputDescript>
+                เพิ่มคำอธิบาย...
+                </InputDescript>
               </DescriptionDetail>
             </DescriptionContainer>
           </SettingEvent>
-            <SaveButton className="rounded-full">
+            <SaveButton className="rounded-full dark:md:hover:bg-amber-500">
               บันทึก
             </SaveButton>
         </div>
