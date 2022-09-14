@@ -17,20 +17,6 @@ const NewCalendar = styled.button`
 
 function ChooseCalendar(){
 
-    // const card_render:React.FC = () => {
-    //     return(
-    //         <>
-    //         {
-    //             cards_dummy.map((item :Data)=>(
-    //             <div>
-    //                 <CalendarCard name={item.name} year={item.year} create_date={item.create_date}  recently_edited={item.recently_edited}/>
-    //             </div>
-                               
-    //             ))
-    //         }
-    //         </>
-    //     )
-    // }
     return(
         <>
         <NavBar />
