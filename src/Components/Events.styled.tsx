@@ -46,18 +46,31 @@ export const SettingDate = styled.div`
 
 export const SettingName = styled.div`
   border: 2px solid #aaaaaa;
+  background: #fcfcfc;
+  border-radius: 20px;
   width: 224px;
   height: 33px;
-  padding: 5px;
+  
+`;
+export const InputName = styled.input`
+  margin-left: 5px;
+  padding-left : 10px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  background: #fcfcfc;
-  border-radius: 30px;
   color: rgba(0, 0, 0, 0.5);
-`;
+`
+export const InputDescript = styled.textarea`
+  width: 90%;
+  height: 80%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  font-size: 16px;
+  resize: none;
+  color: #aaaaaa;
+`
 
 export const SettingDuration = styled.div`
   border: 2px solid #aaaaaa;
@@ -115,7 +128,25 @@ export const ColorChoice = styled.div`
   background: #fcfcfc;
   border: 2px solid #aaaaaa;
   border-radius: 30px;
+  width: 100px;
+  height: 33px;
 `;
+
+export const ColorOption = styled.select`
+  padding: 1px;
+  width:60%;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+/* identical to box height */
+
+
+/* Text/ Text50 */
+
+color: rgba(0, 0, 0, 0.5);
+`
 
 export const SaveButton = styled.button`
   padding: 10px;
@@ -130,17 +161,13 @@ export const SaveButton = styled.button`
   font-size: 16px;
   line-height: 19px;
   /* identical to box height */
-
   color: #ffffff;
 `;
 
 export const DescriptionDetail = styled.div`
   margin-left: 14px;
   margin-top: 11px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
-  color: rgba(0, 0, 0, 0.5);
+  width: 344px;
+  height: 128px;
+
 `;
