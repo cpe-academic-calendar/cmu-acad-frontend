@@ -24,7 +24,6 @@ const DraftYear: React.FC = () => {
           <ButtonSave>Save Changes</ButtonSave>
         </NavButton>
       </NavBarSt>
-      {/* <Draft /> */}
     </div>
   );
 };

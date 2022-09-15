@@ -41,48 +41,42 @@ export default function EventEdit() {
           <SettingEvent>
             <SettingDate>
               <SettingName>
-                <InputName  type="text" name="name" placeholder="เพิ่มชื่อ"/>
+                <InputName type="text" name="name" placeholder="เพิ่มชื่อ" />
               </SettingName>
               <SettingDuration className="rounded-full">
-              <DurationInput  type="text" name="duration" placeholder="ระยะเวลา"/>
+                <DurationInput
+                  type="text"
+                  name="duration"
+                  placeholder="ระยะเวลา"
+                />
               </SettingDuration>
             </SettingDate>
-            <TextStatus>
-              สถานะ...
-            </TextStatus>
+            <TextStatus>สถานะ...</TextStatus>
             <SettingStatus>
               <ButtonSelect>
-              <StudyButton >
-                วันเรียน  
-              </StudyButton>
-              <DayOffButton>
-                วันหยุด  
-              </DayOffButton>
-              <ExamButton>
-                วันสอบ  
-              </ExamButton>
+                <StudyButton>วันเรียน</StudyButton>
+                <DayOffButton>วันหยุด</DayOffButton>
+                <ExamButton>วันสอบ</ExamButton>
               </ButtonSelect>
               <ColorChoice>
-              <ColorOption>
-                <option >Color</option>
-                <option >Option 1</option>
-                <option >Option 2</option>
-                <option >Option 3</option>
-                <option >Option 4</option>
-              </ColorOption>
+                <ColorOption>
+                  <option>Color</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                  <option>Option 4</option>
+                </ColorOption>
               </ColorChoice>
             </SettingStatus>
             <DescriptionContainer>
               <DescriptionDetail>
-                <InputDescript>
-                เพิ่มคำอธิบาย...
-                </InputDescript>
+                <InputDescript>เพิ่มคำอธิบาย...</InputDescript>
               </DescriptionDetail>
             </DescriptionContainer>
           </SettingEvent>
-            <SaveButton className="rounded-full dark:md:hover:bg-amber-500">
-              บันทึก
-            </SaveButton>
+          <SaveButton className="rounded-full dark:md:hover:bg-amber-500">
+            บันทึก
+          </SaveButton>
         </div>
       </EventContainer>
     </div>
