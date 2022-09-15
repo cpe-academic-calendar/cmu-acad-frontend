@@ -13,7 +13,7 @@ export const InfoContainer = styled.div`
   padding-bottom: 13px;
   padding-right: 8px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export const TitleHeader = styled.div`
@@ -24,8 +24,9 @@ export const TitleHeader = styled.div`
 export const InfoLayout = styled.div``;
 
 export const Status = styled.div`
-  margin-top: 5px;
+  margin-top: 10px;
   display: flex;
+  gap: 5px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
@@ -52,7 +53,7 @@ export const Description = styled.div`
 
 export const DescriptionHead = styled.div`
   display: flex;
-  margin-top: 16px;
+  margin-top: 10px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -99,4 +100,5 @@ export const StatusType = styled.div``;
 
 export const ButtonContainer = styled.div`
   margin-top: -5px;
+  margin-right: 8px;
 `;
