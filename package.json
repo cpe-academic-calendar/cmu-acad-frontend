@@ -26,7 +26,7 @@
     "react": "^18.1.0",
     "react-big-calendar": "^1.5.0",
     "react-calendar": "^3.8.0",
-    "react-datepicker": "^4.8.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.1.0",
     "react-icons": "^4.4.0",
     "react-full-year-calendar": "^0.1.11",
@@ -65,8 +65,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-big-calendar": "^0.38.2",
-    "@types/react-datepicker": "^4.4.2",
+    "@types/react-color": "^3.0.6",
     "autoprefixer": "^10.4.10",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
