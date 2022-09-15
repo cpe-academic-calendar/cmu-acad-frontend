@@ -6,6 +6,7 @@ import {
   DayOffButton,
   DescriptionContainer,
   DescriptionDetail,
+  DurationInput,
   EventContainer,
   ExamButton,
   Header,
@@ -40,10 +41,10 @@ export default function EventEdit() {
           <SettingEvent>
             <SettingDate>
               <SettingName>
-                <InputName  type="text" name="firstname" placeholder="เพิ่มชื่อ"/>
+                <InputName  type="text" name="name" placeholder="เพิ่มชื่อ"/>
               </SettingName>
               <SettingDuration className="rounded-full">
-                ระยะเวลา
+              <DurationInput  type="text" name="duration" placeholder="ระยะเวลา"/>
               </SettingDuration>
             </SettingDate>
             <TextStatus>
@@ -51,19 +52,19 @@ export default function EventEdit() {
             </TextStatus>
             <SettingStatus>
               <ButtonSelect>
-              <StudyButton className="">
-                asdasd  
+              <StudyButton >
+                วันเรียน  
               </StudyButton>
               <DayOffButton>
-                asdasd  
+                วันหยุด  
               </DayOffButton>
               <ExamButton>
-                asdasd  
+                วันสอบ  
               </ExamButton>
               </ButtonSelect>
               <ColorChoice>
               <ColorOption>
-                <option >Please choose</option>
+                <option >Color</option>
                 <option >Option 1</option>
                 <option >Option 2</option>
                 <option >Option 3</option>

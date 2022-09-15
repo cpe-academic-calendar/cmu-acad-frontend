@@ -21,9 +21,9 @@ export const BodyEvent = styled.div`
 `;
 
 export const TitileHeader = styled.div`
-  padding-top: 9px;
+  padding-top: 10px;
   padding-bottom: 9px;
-  margin-left: 22px;
+  padding-left: 5px;
   color: white;
 `;
 export const HeaderButton = styled.div`
@@ -50,17 +50,26 @@ export const SettingName = styled.div`
   border-radius: 20px;
   width: 224px;
   height: 33px;
-  
 `;
 export const InputName = styled.input`
   margin-left: 5px;
-  padding-left : 10px;
+  padding-left: 10px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
   color: rgba(0, 0, 0, 0.5);
+`;
+
+export const DurationInput = styled.input`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 100%;
 `
 export const InputDescript = styled.textarea`
   width: 90%;
@@ -70,7 +79,7 @@ export const InputDescript = styled.textarea`
   font-size: 16px;
   resize: none;
   color: #aaaaaa;
-`
+`;
 
 export const SettingDuration = styled.div`
   border: 2px solid #aaaaaa;
@@ -110,9 +119,9 @@ export const ButtonSelect = styled.div`
   gap: 10px;
 `;
 export const SettingStatus = styled.div`
-  display: flex;
-  justify-content: space-between;
   margin-top: 10px;
+  display: flex;
+  justify-content:space-around ;
 `;
 
 export const StudyButton = styled.button`
@@ -125,28 +134,29 @@ export const DayOffButton = styled(StudyButton)``;
 export const ExamButton = styled(StudyButton)``;
 
 export const ColorChoice = styled.div`
+  margin-top: 10px;
+  margin-left: 10px;
   background: #fcfcfc;
   border: 2px solid #aaaaaa;
   border-radius: 30px;
-  width: 100px;
-  height: 33px;
+  width: 101px;
 `;
 
 export const ColorOption = styled.select`
-  padding: 1px;
-  width:60%;
-  font-family: 'Roboto';
+  margin-left: 5px;
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-/* identical to box height */
+  /* identical to box height */
 
+  /* Text/ Text50 */
 
-/* Text/ Text50 */
-
-color: rgba(0, 0, 0, 0.5);
-`
+  color: rgba(0, 0, 0, 0.5);
+  width: 90%;
+  margin-top: 10px;
+`;
 
 export const SaveButton = styled.button`
   padding: 10px;
@@ -169,5 +179,4 @@ export const DescriptionDetail = styled.div`
   margin-top: 11px;
   width: 344px;
   height: 128px;
-
 `;
