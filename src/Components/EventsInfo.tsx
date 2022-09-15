@@ -12,13 +12,12 @@ import {
   Title,
   TitleHeader,
 } from "./EventInfo.styled";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const EventInfo: React.FC = () => {
   return (
-    <div>
       <InfoContainer>
         <InfoLayout>
           <TitleHeader>
@@ -47,7 +46,6 @@ const EventInfo: React.FC = () => {
           </button>
         </ButtonContainer>
       </InfoContainer>
-    </div>
   );
 };
 
