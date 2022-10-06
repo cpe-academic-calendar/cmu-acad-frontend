@@ -25,3 +25,9 @@ export const CalendarMonth = styled.div``;
 export const LabelHeader = styled.div`
   display: flex;
 `;
+
+export const LabelCalendar = styled.div`
+  .custom-input{
+    color: black;
+  }
+`

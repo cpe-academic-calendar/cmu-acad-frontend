@@ -17,7 +17,6 @@ const NavBar: React.FC = () => {
                     </Welcome>
                     <h1><KeyboardArrowDownOutlinedIcon /></h1>
                 </DropDown>
-
             </Container>
         </NavBarSt>
 

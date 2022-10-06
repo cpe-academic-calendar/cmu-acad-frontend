@@ -1,6 +1,7 @@
 import React from "react";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+
 
 import {
   NavButton,
@@ -19,11 +20,15 @@ const DraftYear: React.FC = () => {
           <InsertDriveFileOutlinedIcon />
         </InsertFile>
         <NavButton>
-          <BackButton> Back</BackButton>
+          <BackButton>
+            {" "}
+            Back
+            <ButtonSave>Save Changes</ButtonSave>
+          </BackButton>
           <CalendarTodayOutlinedIcon />
-          <ButtonSave>Save Changes</ButtonSave>
         </NavButton>
       </NavBarSt>
+      <Draft />
     </div>
   );
 };

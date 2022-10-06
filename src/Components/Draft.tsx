@@ -1,59 +1,68 @@
-import React, { useCallback, useState } from "react";
-import {
-  CalendarContainer,
-  CalendarMonth,
-  DraftContainer,
-  LabelHeader,
-} from "./Draft.styled";
-import {
-  add,
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  getDay,
-  isEqual,
-  isSameMonth,
-  isToday,
-  parse,
-} from "date-fns";
+import { useState } from "react";
+import DatePicker, { Calendar, DateObject } from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import styled from "styled-components";
+import "react-multi-date-picker/styles/colors/yellow.css"
+import { Datepicker, CalendarPrev, CalendarNav, CalendarNext, CalendarToday, SegmentedGroup, SegmentedItem, setOptions, localeTh } from '@mobiscroll/react-lite';
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
+setOptions({
+    locale: localeTh,
+    theme: 'ios',
+    themeVariant: 'light'
+});
+
+
+const Container = styled.div`
+  margin-top: 19px;
+  color: #f57f17;
+  .custom-label {
+    color: #f57f17;
+  }
+  .w-screen {
+    grid-template-columns: auto auto auto;
+    border-color: white;
+    margin-left:auto ;
+    margin-right: auto;
+    padding-left: auto;
+    padding-right: auto;
+    
+   
+  }
+  .rmdp-wrapper{
+    border: none;
+  }
+  
+`;
 
 export default function Draft() {
-  let years = new Date().getFullYear();
-  let today = new Date(years);
-  let [selectedDay, setSelectDay] = useState(today);
-
-  let [current, setCurrent] = useState(
-    format(new Date(years, 0, 1), "MMM-yyyy")
-  );
-  let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
-  let firstMonth = parse(current, "MMM-yyyy", new Date());
-  let days = eachDayOfInterval({
-    start: firstMonth,
-    end: endOfMonth(firstMonth),
-  });
   const label = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
-  const dayLabel = label.map((day) => day);
-  console.log(days.map((data)=> data.getDay()))
-
+  const months = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม",
+  ];
+  const [value, setValue] = useState(new Date());
   return (
-    <div>
-
-       
-    </div>
-              
+    <Container >
+      <Calendar
+        fullYear
+        value={value}
+        weekDays={label}
+        months={months}
+        className="custom-label w-screen red"
+        // plugins={[
+        //   <DatePanel />
+        // ]}
+      />
+    </Container>
   );
 }
-
-let colStartClasses = [
-  "",
-  "col-start-2",
-  "col-start-3",
-  "col-start-4",
-  "col-start-5",
-  "col-start-6",
-  "col-start-7",
-];
