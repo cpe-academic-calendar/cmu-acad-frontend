@@ -1,40 +1,46 @@
-import { useState } from "react";
-import DatePicker, { Calendar, DateObject } from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import React from "react";
+import moment from "moment";
 import styled from "styled-components";
-import "react-multi-date-picker/styles/colors/yellow.css"
-import { Datepicker, CalendarPrev, CalendarNav, CalendarNext, CalendarToday, SegmentedGroup, SegmentedItem, setOptions, localeTh } from '@mobiscroll/react-lite';
-
-setOptions({
-    locale: localeTh,
-    theme: 'ios',
-    themeVariant: 'light'
-});
-
+import { render } from "react-dom";
+import { eachDayOfInterval, endOfMonth, isFirstDayOfMonth, startOfMonth } from "date-fns";
 
 const Container = styled.div`
   margin-top: 19px;
   color: #f57f17;
-  .custom-label {
-    color: #f57f17;
+  gap: 20px;
+  .year {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .w-screen {
-    grid-template-columns: auto auto auto;
-    border-color: white;
-    margin-left:auto ;
-    margin-right: auto;
-    padding-left: auto;
-    padding-right: auto;
-    
-   
+  .month-name {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 50px;
   }
-  .rmdp-wrapper{
-    border: none;
-  }
-  
 `;
 
 export default function Draft() {
+  const first = startOfMonth(new Date());
+  const last = endOfMonth(new Date());
+  const weeksCount = Math.ceil((first.getDate()+ last.getDate())/7)
+  const calendar = Object.assign([],{first,last})
+  console.log(calendar)
+  const dayofMonth = eachDayOfInterval(
+      {
+        start: first,
+        end: last
+      }
+  )
+  for(let weekNumber = 0; weekNumber < weeksCount; weekNumber++){
+    const week = []
+    
+  }
+  
+  
+  
   const label = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
   const months = [
     "มกราคม",
@@ -50,19 +56,13 @@ export default function Draft() {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  const [value, setValue] = useState(new Date());
   return (
-    <Container >
-      <Calendar
-        fullYear
-        value={value}
-        weekDays={label}
-        months={months}
-        className="custom-label w-screen red"
-        // plugins={[
-        //   <DatePanel />
-        // ]}
-      />
-    </Container>
+    <div className="flex">
+      {label.map((dayofMonth, index) => (
+        <div key={index}>
+
+        </div>
+      ))}
+    </div>
   );
 }
