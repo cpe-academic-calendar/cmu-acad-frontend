@@ -8,10 +8,8 @@ import {
   ButtonSave,
   BackButton,
 } from "../SettingCalendar/SearchBar.styled";
-import { InsertFile } from "./DraftYear.styled";
+import { DraftComponent, InsertFile } from "./DraftYear.styled";
 import Draft from "../../Components/Draft";
-import BigCalendar from "react-big-calendar";
-import moment from "moment";
 
 
 class DraftYear extends React.Component {
@@ -31,7 +29,9 @@ class DraftYear extends React.Component {
             <CalendarTodayOutlinedIcon />
           </NavButton>
         </NavBarSt>
+        <DraftComponent>
         <Draft />
+        </DraftComponent>
       </div>
     );
   }
