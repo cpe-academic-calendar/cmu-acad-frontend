@@ -8,6 +8,7 @@ import DraftYear from './Pages/DraftYear/DraftYear';
 import 'react-calendar/dist/Calendar.css';
 import EventEdit from './Components/Events';
 import EventInfo from './Components/EventsInfo';
+import Activity from './Components/Activity';
 
 const GobalStyle = createGlobalStyle`
   font-family: 'Roboto', sans-serif;
@@ -25,6 +26,7 @@ function App() {
           <Route path="/DraftYear" element={<DraftYear />}/>
           <Route path="Event" element={<EventEdit />} />
           <Route path="Info" element={<EventInfo />} />
+          <Route path="/activity" element={<Activity />} />
         </ Routes>
       </ BrowserRouter>
     </div>
