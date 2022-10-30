@@ -6,6 +6,9 @@ import FolderIcon from '@mui/icons-material/Folder';
 import NavBar from "../../Components/NavBar";
 import CalendarActiveList from "./CalendarActiveList";
 import CalendarArchiveList from "./CalendarArchiveList";
+import cards_dummy from "../../cards_dummy.json";
+import CalendarCard from "./CalendarCard";
+import styled from "styled-components";
 
 function ChooseCalendar() {
     const [calendarSort, setCalendarSort] = useState<String>('Active')
@@ -13,10 +16,8 @@ function ChooseCalendar() {
     const setSort = (x: String) => {
         setCalendarSort(x);
     }
-
     let render_list = null;
     let sort_button = null;
-
 
     switch (calendarSort){
         case "Active" :
