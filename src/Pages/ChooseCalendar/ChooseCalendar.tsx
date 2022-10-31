@@ -4,45 +4,6 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import NavBar from "../../Components/NavBar";
-<<<<<<< HEAD
-import cards_dummy from "../../cards_dummy.json";
-import CalendarCard from "./CalendarCard";
-import styled from "styled-components";
-
-interface Data {
-  name: string;
-  year: string;
-  create_date: string;
-  recently_edited: string;
-}
-
-const NewCalendar = styled.button`
-  background-color: #f57f17;
-  color: #fff;
-  font-size: xx-large;
-  border: none;
-  border-radius: 30px;
-`;
-
-function ChooseCalendar() {
-  return (
-    <>
-      <NavBar />
-      {cards_dummy.map((item: Data) => (
-        <div>
-          <CalendarCard
-            name={item.name}
-            year={item.year}
-            create_date={item.create_date}
-            recently_edited={item.recently_edited}
-          />
-        </div>
-      ))}
-      {/* {card_render} */}
-      <NewCalendar>+</NewCalendar>
-    </>
-  );
-=======
 import CalendarActiveList from "./CalendarActiveList";
 import CalendarArchiveList from "./CalendarArchiveList";
 
@@ -115,7 +76,6 @@ function ChooseCalendar() {
         <NewCalendarButton>+</NewCalendarButton>  
         </>
      );
->>>>>>> feat: ChooseCalendar
 }
 
 export default ChooseCalendar;
