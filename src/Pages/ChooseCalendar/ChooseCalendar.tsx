@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import NavBar from "../../Components/NavBar";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import CalendarActiveList from "./CalendarActiveList";
 import CalendarArchiveList from "./CalendarArchiveList";
 =======
@@ -188,6 +189,8 @@ function ChooseCalendar() {
     </>
   );
 =======
+=======
+>>>>>>> refactor: ChooseCaleandr function
 import CalendarActiveList from "./CalendarActiveList";
 import CalendarArchiveList from "./CalendarArchiveList";
 
@@ -260,7 +263,6 @@ function ChooseCalendar() {
         <NewCalendarButton>+</NewCalendarButton>  
         </>
      );
->>>>>>> feat: ChooseCalendar
 }
 >>>>>>> feat: ChooseCalendar
 
