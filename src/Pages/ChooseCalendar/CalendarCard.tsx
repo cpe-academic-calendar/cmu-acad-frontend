@@ -1,8 +1,10 @@
 import React from 'react';
-import { Container, End, Start } from './CalendarCard.styled'
+import { Card, End, Start } from './CalendarCard.styled'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useState } from 'react';
 
 interface Props {
     name : string;
@@ -12,22 +14,36 @@ interface Props {
 }
 
 const CalendarCard: React.FC<Props> = ( data:Props ) => {
+    const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
+    const selectCalendarClicked = ( state:Boolean ) => {
+        setSelectCalendar(state);
+    }
+
     return(
-        <Container>
+        <Card>
             <Start>
-                <RadioButtonUncheckedOutlinedIcon />
-                <CalendarTodayOutlinedIcon />
-                <span className="content">
+                {
+                    selectCalendar?
+                    <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                        <CheckCircleIcon />
+                    </div>
+                    :
+                    <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                        <RadioButtonUncheckedOutlinedIcon />
+                    </div>
+                }
+                <CalendarTodayOutlinedIcon className='icon' />
+                <div className="content">
                     <h4>{data.name}</h4>
                     <p>{data.year}</p>
-                </span>
+                </div>
             </Start>
             <End>
                     <h4>{data.create_date}</h4>
                     <h4>{data.recently_edited}</h4>
-                    <DragIndicatorOutlinedIcon />
+                    <MoreVertIcon />
             </End>
-        </Container>
+        </Card>
     )
 }
 
