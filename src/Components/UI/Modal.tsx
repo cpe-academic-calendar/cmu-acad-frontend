@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import ExportPopUP from "../ExportPopUp";
 import DayPopUp from "../DayPopUp";
-import DuplicatePopUp from "../DuplicatePopUp";
 
 const BG = styled.div`
     width: 100%;
@@ -16,8 +15,8 @@ const Content = styled.div`
     margin: 0 auto;
 `
 
-function Modal() {
-    let props = <DuplicatePopUp />;
+const Modal: React.FC = ( ) =>{
+    let props = <ExportPopUP />;
     return(
         <BG>
             <Content>
