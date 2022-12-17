@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-const Font = createGlobalStyle`
+export const Font = createGlobalStyle`
   @font-face {
     font-family: 'Noto Sans Thai', sans-serif;
     font-style: normal;
@@ -11,35 +11,30 @@ const Font = createGlobalStyle`
     font-family: 'Noto Sans Thai', sans-serif;
     font-style: normal;
     font-weight: bold;
-    src: url('/Fonts/NotoSansThai-Bold.ttf');
+    src: url('/Fonts/NotoSansThai-Bold.ttf') format("truetype");
   }
   @font-face {
-    font-family: 'Noto Sans Thai', sans-serif;
+    font-family: 'Noto Sans Thai', sans-serif format("truetype");
     font-style: normal;
     font-weight: 300;
-    src: url('/Fonts/NotoSansThai-Light.ttf');
+    src: url('/Fonts/NotoSansThai-Light.ttf') format("truetype");
   }
   @font-face {
-    font-family: 'Noto Sans Thai', sans-serif;
+    font-family: 'Noto Sans Thai', sans-serif format("truetype");
     font-style: normal;
     font-weight: 400;
-    src: url('/Fonts/NotoSansThai-Regular.ttf');
+    src: url('/Fonts/NotoSansThai-Regular.ttf') format("truetype");
   }
   @font-face {
     font-family: 'Noto Sans Thai', sans-serif;
     font-style: normal;
     font-weight: 500;
-    src: url('/Fonts/NotoSansThai-Medium.ttf');
+    src: url('/Fonts/NotoSansThai-Medium.ttf') format("truetype");
   }
   @font-face {
     font-family: 'Noto Sans Thai', sans-serif;
     font-style: normal;
     font-weight: 600;
-    src: url('/Fonts/NotoSansThai-SemiBold.ttf');
+    src: url('/Fonts/NotoSansThai-SemiBold.ttf') format("truetype");
   }
-  body: {
-    font-family: 'Noto Sans Thai', sans-serif;
-  }
-`
-
-export default Font;
+`;
