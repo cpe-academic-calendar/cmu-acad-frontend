@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ChooseCalendar from './Pages/ChooseCalendar/ChooseCalendar';
 import SettingCalendar from './Pages/SettingCalendar/SettingCalendar';
+// import DraftYear from './Pages/DraftYear/DraftYear';
 import 'react-calendar/dist/Calendar.css';
 import EventEdit from './Components/Events';
 import EventInfo from './Components/EventsInfo';
@@ -19,6 +20,7 @@ import Modal from './Components/UI/Modal';
 function App() {
   return (
     <div>
+      <Reset />
       <Font />
       <Variables />
       <BrowserRouter>
