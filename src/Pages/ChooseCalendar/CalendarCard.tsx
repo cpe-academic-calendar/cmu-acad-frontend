@@ -1,10 +1,11 @@
 import React from 'react';
-import { Card, End, Start } from './CalendarCard.styled'
+// import { Card, End, Start } from './CalendarCard.styled'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
+import styled from "styled-components";
 
 interface Props {
     name : string;
@@ -46,5 +47,55 @@ const CalendarCard: React.FC<Props> = ( data:Props ) => {
         </Card>
     )
 }
+
+const Card = styled.div`
+    padding-left: 16vh;
+    padding-right: 16vh;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    :hover{
+        background-color: var(--hover);
+    }
+`
+
+const Start = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    .content{
+        flex-direction: column;
+        padding: 1rem;
+        h4{
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        p{
+            color: #7e7e7e;
+        }
+    }
+    .icon{
+        margin-right: 2vh;
+    }
+    .check{
+        margin-right: 2vh;
+    }
+`
+
+const End = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    
+    .content{
+        flex-direction: column;
+    }
+    h4{
+        margin-right: 12vh;
+    }
+`
 
 export default CalendarCard;
