@@ -4,8 +4,8 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import NavBar from "../../Components/NavBar";
-import CalendarActiveList from "./CalendarActiveList";
-import CalendarArchiveList from "./CalendarArchiveList";
+import CalendarActiveList from "./Components/CalendarActiveList";
+import CalendarArchiveList from "./Components/CalendarArchiveList";
 import styled from "styled-components";
 
 function ChooseCalendar() {

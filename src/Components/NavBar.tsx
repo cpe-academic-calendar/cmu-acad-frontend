@@ -39,14 +39,14 @@ const Container = styled.div`
 `
 
 const Logo = styled.img`
-    width: 12%;
+    width: 16vh;
 `
 
 const CalendarSearch = styled.input`
     width: 50%;
     margin-top: auto;
     margin-bottom: auto;
-    padding: 12px 20px;
+    padding: 10px 20px;
     border: 1px solid #F57F17;
     border-radius: 30px;
     background-color: white;

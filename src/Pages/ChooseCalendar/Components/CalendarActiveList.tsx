@@ -1,5 +1,5 @@
 import React from "react";
-import cards_dummy from "../../cards_dummy.json"
+import cards_dummy from "../../../cards_dummy.json"
 import CalendarCard from "./CalendarCard";
 
 interface Data { name: string; year: string; create_date: string; recently_edited: string; };

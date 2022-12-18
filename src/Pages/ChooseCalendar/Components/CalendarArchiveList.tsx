@@ -1,5 +1,5 @@
 import React from "react";
-import archive_dummy from '../../archive_dummy.json'
+import archive_dummy from '../../../archive_dummy.json'
 import CalendarCard from './CalendarCard'
 
 interface Data { name: string; year: string; create_date: string; recently_edited: string; };
