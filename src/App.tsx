@@ -15,6 +15,7 @@ import { Reset } from './Styles/Reset';
 import Variables from './Styles/Variables';
 import ExportPopUP from './Components/ExportPopUp';
 import Modal from './Components/UI/Modal';
+import AddCalendar from './Components/AddCalendar';
 
 
 function App() {
@@ -34,6 +35,12 @@ function App() {
           <Route path="/day_popup" element={<DayPopUp/>} />
           <Route path="/export_popup" element={<ExportPopUP/>} />
           <Route path="/modal" element={<Modal />} />
+          <Route path="/yearview" element={<Draft />}/>
+          <Route path="/event" element={<EventEdit />} />
+          <Route path="/info" element={<EventInfo />} />
+          <Route path="/activity" element={<Activity />} />
+          <Route path="/popup" element={<DayPopUp/>} />
+          <Route path="/addcalendar" element={<AddCalendar />} />
         </ Routes>
       </ BrowserRouter>
     </div>
