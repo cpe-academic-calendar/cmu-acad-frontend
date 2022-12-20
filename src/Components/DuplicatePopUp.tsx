@@ -2,12 +2,21 @@ import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
 
 const DuplicatePopUp :React.FC = () => {
-    return ( <PopUp>
-        <Exit>
+    return ( 
+    <PopUp>
+        <MenuBar>
+            <Heading>
+                <h1>Duplicate</h1>
+                <p>ทำซ้ำปฏิทินเดิม</p>
+            </Heading>
             <CloseIcon />
-        </Exit>
-        <Title>Duplicate</Title>
-    </PopUp> );
+        </MenuBar>
+        <CalendarName>
+            <input placeholder="ชื่อปฏิทินใหม่" />
+            <button>Duplicate</button>
+        </CalendarName>
+    </PopUp>
+    );
 }
 
 const PopUp = styled.div`
@@ -20,21 +29,53 @@ const PopUp = styled.div`
     display: flex;
     background-color: #fff;
     padding: 4vh;
+    align-items: center;
 `
 
-// const Row = styled.div`
-//     display: flex;
-//     justify-content: space-between;
-// `
-
-const Exit = styled.div`
+const MenuBar = styled.div`
+    display: flex;
     color: var(--primary-color);
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
 `
 
-const Title = styled.h1`
-    color: var(--primary-color);
+const Heading = styled.div`
+    display: flex;
+    flex-direction: column;
+    h1{
+        color: var(--primary-color);
+        font-size: x-large;
+        font-weight: 600;
+    }
+    p{
+        color: #000;
+    }
+`
+
+const CalendarName = styled.form`
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    input{
+        border-radius: 30px;
+        padding: 8px;
+        border: 1px solid var(--stroke);
+        margin-bottom: 2vh;
+    }
+    input:hover{
+        border: 1px solid var(--primary-color);
+    }
+    button{
+        background-color: var(--primary-color);
+        color: var(--background);
+        border-radius: 30px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: auto;
+        padding-right: auto;
+    }
 `
 
 export default DuplicatePopUp;

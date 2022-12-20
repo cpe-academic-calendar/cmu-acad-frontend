@@ -8,6 +8,7 @@ const Variables = createGlobalStyle`
         --hover: #fafafa;
         --disable-color: #aaa;
         --error: #C62828;
+        --stroke: #E7E7E7;
         // Color in calendar
         --violet: #673AB7;
         --purple: #AB47BC;
