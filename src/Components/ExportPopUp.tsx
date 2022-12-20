@@ -43,7 +43,7 @@ const Content = styled.div`
     }
 `
 
-function ExportPopUp() {
+const ExportPopUp: React.FC = () => {
     return ( 
         <PopUp>
             <MenuBar>
