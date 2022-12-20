@@ -1,15 +1,13 @@
 import styled from 'styled-components'
 
 export const AddContainer = styled.div`
-    padding-top: 12px;
-    padding-left: 42px;
-    padding-right: 21px;
+    padding: 32px;
     border: 1px;
     background: #FCFCFC;
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
-    width: 509px;
-    height: 300px;
+    width: 609px;
+    height: 100%;
 `
 
 export const Header = styled.div`
@@ -39,18 +37,31 @@ export const SemesterTitle = styled(Title)`
 
 export const CloseButton = styled.button`
     color: #F57F17;
+    transform: scale(180%);
 `
 
 export const CreateButton = styled.input`
     padding: 5px 42px 5px 42px;
+    display: flex;
+    align-items: center;
     background-color: #F57F17;
     color: white;
 
+
 `
 export const AddForm = styled.form`
-    margin-top: 5px;
-    margin-left: 50px;
+    display: grid;
+    padding: 0px 50px;
+    width: 100%;
 `
 export const FormInput = styled.input`
-    width: 80%;
+    width: 100%;
+`
+
+export const MonthInput = styled.select`
+    width: 100%;
+`
+
+export const DateInput = styled.input`
+    width: 100%;
 `

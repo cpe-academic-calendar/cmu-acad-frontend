@@ -1,5 +1,6 @@
 import React from "react"
-import { AddContainer, CloseButton, Header, Title, CreateButton, AddForm, SemesterTitle, FormInput } from "./AddCalendar.styled";
+import CloseIcon from '@mui/icons-material/Close';
+import { AddContainer, CloseButton, Header, Title, CreateButton, AddForm, SemesterTitle, FormInput, MonthInput, DateInput } from "./AddCalendar.styled";
 const AddCalendar: React.FC = () => {
     return (
         <div className="grid place-items-center h-screen">
@@ -12,23 +13,25 @@ const AddCalendar: React.FC = () => {
                             </Header>
                             <Title>สร้างแบบร่างปฏิทินใหม่</Title>
                         </div>
-                        <CloseButton>X</CloseButton>
+                        <CloseButton>
+                            <CloseIcon />
+                        </CloseButton>
                     </div>
                     <AddForm>
                         <div >
-                            <FormInput type="text" name="name" className="border rounded-lg mb-3" placeholder="ชื่อปฏิทิน" />
+                            <FormInput type="text" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" />
                         </div>
                         <div>
-                            <FormInput type="text" name="name" className="border rounded-lg mb-3" placeholder="ปีการศึกษา" />
+                            <FormInput type="text" name="name" className="border rounded-full mb-3 p-2" placeholder="ปีการศึกษา" />
                         </div>
                         <SemesterTitle className="mb-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
                         <div >
-                            <FormInput type="text" name="name" className="border rounded-lg mb-3" placeholder="ปีการศึกษา" />
+                            <FormInput type="text" name="name" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" />
                         </div>
-                        <div className="flex-col mb-4 justify-center">
-                            <div className="flex mb-4 gap-8">
-                                <div>
-                                    <select>
+                        <div className="flex-col justify-center ">
+                            <div className="flex w-full justify-center gap-8">
+                                <div className="w-full">
+                                    <MonthInput className="border rounded-lg">
                                         <option value="0">เดือน</option>
                                         <option value="1">มกราคม</option>
                                         <option value="2">กุมภาพันธ์</option>
@@ -41,15 +44,15 @@ const AddCalendar: React.FC = () => {
                                         <option value="9">กันยายน</option>
                                         <option value="10">ตุลาคม</option>
                                         <option value="11">พฤศจิกายน</option>
-                                        <option value="12">ธันวาคม</option>
-                                    </select>
+                                        <option value="12">ธันวาคม </option>
+                                    </MonthInput>
                                 </div>
-                                <div>
-                                    <input type="date" className="border rounded-lg" value="วันที่" />
+                                <div className="w-full">
+                                    <DateInput type="date" className="border rounded-full  mb-4 " value="วันที่" />
                                 </div>
                             </div>
-                            <div >
-                                <CreateButton type="submit" className="boreder rounded-full ml-16" value="Create Draft" />
+                            <div className="grid justify-center" >
+                                <CreateButton type="submit" className="border rounded-full" value="Create Draft" />
                             </div>
                         </div>
                     </AddForm>
