@@ -9,40 +9,40 @@ import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
 
 type Props = {
-    name : string;
-    year : string;
+    name: string;
+    year: string;
     create_date: string;
-    recently_edited : string;
+    recently_edited: string;
 }
 
-const CalendarCard: React.FC<Props> = ( data ) => {
+const CalendarCard: React.FC<Props> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
-    const selectCalendarClicked = ( state:Boolean ) => {
+    const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
-    const popDuplicateOverlay = (state : Boolean) => {
+    const popDuplicateOverlay = (state: Boolean) => {
         setDuplicateOverlay(state);
     };
     let render_option = null;
 
-    duplicateOverlay? (
+    duplicateOverlay ? (
         render_option = <CalendarCardOption />
-    ):(render_option = null)
+    ) : (render_option = null)
 
-    return(
+    return (
         <div>
             <Card>
                 <Start>
                     {
-                        selectCalendar?
-                        <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
-                            <CheckCircleIcon />
-                        </div>
-                        :
-                        <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
-                            <RadioButtonUncheckedOutlinedIcon />
-                        </div>
+                        selectCalendar ?
+                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                                <CheckCircleIcon />
+                            </div>
+                            :
+                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                                <RadioButtonUncheckedOutlinedIcon />
+                            </div>
                     }
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content">
@@ -51,12 +51,18 @@ const CalendarCard: React.FC<Props> = ( data ) => {
                     </div>
                 </Start>
                 <End>
-                        <h4>{data.create_date}</h4>
-                        <h4>{data.recently_edited}</h4>
-                        <MoreVertIcon onClick={() => popDuplicateOverlay(!duplicateOverlay)} />
+                    <h4>{data.create_date}</h4>
+                    <h4>{data.recently_edited}</h4>
+                    <div className='block'>
+                        <div className='static'>
+                            <MoreVertIcon onClick={() => popDuplicateOverlay(!duplicateOverlay)} />
+                        </div>
+                        <div className='absolute mt-20'>
+                            {render_option}
+                        </div>
+                    </div>
                 </End>
             </Card>
-            {render_option}
         </div>
 
     )
