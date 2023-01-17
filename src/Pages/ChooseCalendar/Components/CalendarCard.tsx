@@ -6,15 +6,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
+import CalendarCardOption from './CalendarCardOption';
 
-interface Props {
+type Props = {
     name : string;
     year : string;
     create_date: string;
     recently_edited : string;
 }
 
-const CalendarCard: React.FC<Props> = ( data:Props ) => {
+const CalendarCard: React.FC<Props> = ( data ) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
     const selectCalendarClicked = ( state:Boolean ) => {
@@ -24,13 +25,9 @@ const CalendarCard: React.FC<Props> = ( data:Props ) => {
         setDuplicateOverlay(state);
     };
     let render_option = null;
+
     duplicateOverlay? (
-        render_option = <DraftOption>
-            <p>ทำซ้ำ</p>
-            <p>นำออก</p>
-            <p>จัดเก็บ</p>
-            <p className='delete'>ลบ</p>
-        </DraftOption>
+        render_option = <CalendarCardOption />
     ):(render_option = null)
 
     return(
@@ -112,19 +109,6 @@ const End = styled.div`
     }
     h4{
         margin-right: 12vh;
-    }
-`
-
-const DraftOption = styled.div`
-    align-items: center;
-    background-color: var(--background);
-    color: #000;
-    font-size: medium;
-    display: flex;
-    flex-direction: column;
-    padding: 4px;
-    .delete{
-        color: var(--error)
     }
 `
 

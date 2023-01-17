@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ChooseCalendar from './Pages/ChooseCalendar/ChooseCalendar';
 import SettingCalendar from './Pages/SettingCalendar/SettingCalendar';
-// import DraftYear from './Pages/DraftYear/DraftYear';
 import 'react-calendar/dist/Calendar.css';
 import EventEdit from './Components/Events';
 import EventInfo from './Components/EventsInfo';
@@ -15,7 +14,6 @@ import { Reset } from './Styles/Reset';
 import Variables from './Styles/Variables';
 import ExportPopUP from './Components/ExportPopUp';
 import Modal from './Components/UI/Modal';
-import AddCalendar from './Components/AddCalendar';
 
 
 function App() {
@@ -40,7 +38,6 @@ function App() {
           <Route path="/info" element={<EventInfo />} />
           <Route path="/activity" element={<Activity />} />
           <Route path="/popup" element={<DayPopUp/>} />
-          <Route path="/addcalendar" element={<AddCalendar />} />
         </ Routes>
       </ BrowserRouter>
     </div>

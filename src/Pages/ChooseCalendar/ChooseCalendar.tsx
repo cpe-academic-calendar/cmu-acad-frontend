@@ -1,38 +1,45 @@
 import React, { useState } from "react";
-// import { NewCalendarButton, TableCardHeader, Container, CalendarSortButton } from "./ChooseCalendar.styled";
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import NavBar from "../../Components/NavBar";
-import CalendarActiveList from "./Components/CalendarActiveList";
-import CalendarArchiveList from "./Components/CalendarArchiveList";
+import ActiveList from "./Components/ActiveList";
+import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
+import AddCalendar from "./Components/AddCalendar";
 
 function ChooseCalendar() {
     const [calendarSort, setCalendarSort] = useState<String>('Active')
-    const [iconMenu, setIconMenu] = useState<Boolean>(false)
-    const setSort = (x: String) => {
-        setCalendarSort(x);
+    const [iconMenu, setIconMenu] = useState<Boolean>(false);
+    const [newCalendar, setNewCalendar] = useState<Boolean>(false);
+
+    const setSort = (state: String) => {
+        setCalendarSort(state);
     }
+
+    const newCalendarHandle = () => {
+        setNewCalendar((prev)=>!prev);
+    };
+
     let render_list = null;
     let sort_button = null;
+    let new_calendar = null;
 
     switch (calendarSort){
         case "Active" :
-            render_list = <CalendarActiveList />
-            sort_button = <>
-                <CalendarSortButton>
-                    <div className="select" onClick={() => setSort("Active")}>
-                        <p>ปฏิทินทั้งหมด</p>
-                    </div>
-                    <div className="items" onClick={() => setSort("Archive")}>
-                        <p>ที่จัดเก็บ</p>
-                    </div>
-                </CalendarSortButton>
-            </>
+            render_list = <ActiveList />
+            sort_button =             
+            <CalendarSortButton>
+                <div className="select" onClick={() => setSort("Active")}>
+                    <p>ปฏิทินทั้งหมด</p>
+                </div>
+                <div className="items" onClick={() => setSort("Archive")}>
+                    <p>ที่จัดเก็บ</p>
+                </div>
+            </CalendarSortButton>
             break;
         case "Archive" :
-            render_list = <CalendarArchiveList />
+            render_list = <ArchiveList />
             sort_button = <>
             <CalendarSortButton>
                 <div className="items" onClick={() => setSort("Active")}>
@@ -40,6 +47,7 @@ function ChooseCalendar() {
                 </div>
                 <div className="select" onClick={() => setSort("Archive")}>
                     <p>ที่จัดเก็บ</p>
+                    <div className="selected" />
                 </div>
             </CalendarSortButton>
         </>
@@ -50,7 +58,7 @@ function ChooseCalendar() {
         <NavBar />
         <Container>
         {sort_button}
-        <TableCardHeader>
+            <TableCardHeader>
                     <InsertDriveFileOutlinedIcon color="action" />
                         <p>ชื่อ</p>
                     <div className="end">
@@ -72,7 +80,13 @@ function ChooseCalendar() {
             </TableCardHeader>
         {render_list}
         </Container>
-        <NewCalendarButton>+</NewCalendarButton>  
+        {
+            newCalendar?
+            new_calendar = <AddCalendar handleClosePopup={newCalendarHandle} />
+            :
+            new_calendar = null
+        }
+        <NewCalendarButton onClick={()=>newCalendarHandle()}>+</NewCalendarButton>  
         </>
      );
 }
@@ -147,6 +161,8 @@ const CalendarSortButton = styled.div`
     margin-bottom: 2rem;
     .items{
         margin: 12px;
+        display: flex;
+        flex-direction: column;
     }
     .select{
         margin: 12px;
@@ -155,5 +171,6 @@ const CalendarSortButton = styled.div`
         }
     }
 `
+
 
 export default ChooseCalendar;
