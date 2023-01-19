@@ -5,8 +5,8 @@ import styled from "styled-components";
 //     clickHandle: ()=> void
 // }
 
-const CalendarCardOption :React.FC = () => {
-    return ( <>
+const CalendarCardOption: React.FC = () => {
+    return (<>
         <Modal>
             <DraftOption>
                 <div className="hover:bg-gray-200">
@@ -23,7 +23,7 @@ const CalendarCardOption :React.FC = () => {
                 </div>
             </DraftOption>
         </Modal>
-    </> );
+    </>);
 }
 
 const DraftOption = styled.div`
@@ -52,5 +52,5 @@ const Modal = styled.div`
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
 `
- 
+
 export default CalendarCardOption;

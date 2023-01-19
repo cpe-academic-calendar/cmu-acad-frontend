@@ -1,12 +1,30 @@
-import React from "react"
+import React, { useState } from "react"
 import CloseIcon from '@mui/icons-material/Close';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import DatePicker from "react-date-picker";
 
 type ButtonProps = {
     handleClosePopup: () => void;
-  };
+};
 
-const AddCalendar: React.FC<ButtonProps> = ({handleClosePopup}) => {
+const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
+
+    const [selectMonth, setSelectMonth] = useState(0)
+    const [value,onChange] = useState(new Date())
+    const [semester,setSemester] = useState(0)
+
+    const handleChange = (e:any) => {
+        setSemester(e.target.value)
+    }
+
+    const onSelect = (e:any) => {   
+        console.log(e)
+        const date = value.getDate()
+        const year = semester - 543
+        setSelectMonth(e.target.value)
+        onChange(new Date(year,Number(selectMonth),date))
+    }   
+
     return (
         <Modal>
             <div className="grid place-items-center z-30">
@@ -19,7 +37,7 @@ const AddCalendar: React.FC<ButtonProps> = ({handleClosePopup}) => {
                                 </Header>
                                 <Title>สร้างแบบร่างปฏิทินใหม่</Title>
                             </div>
-                            <CloseButton onClick={()=>handleClosePopup()}>
+                            <CloseButton onClick={() => handleClosePopup()}>
                                 <CloseIcon />
                             </CloseButton>
                         </div>
@@ -27,38 +45,35 @@ const AddCalendar: React.FC<ButtonProps> = ({handleClosePopup}) => {
                             <div >
                                 <FormInput type="text" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" />
                             </div>
-                            <div>
-                                <FormInput type="number" name="name" className="border rounded-full mb-3 p-2" placeholder="ปีการศึกษา" />
-                            </div>
-                            <SemesterTitle className="mb-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
+                            <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
                             <div >
-                                <FormInput type="number" name="name" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" />
+                                <FormInput type="number" name="semester" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={handleChange} />
                             </div>
                             <div className="flex-col justify-center ">
                                 <div className="flex w-full justify-center gap-8">
                                     <div className="w-full">
-                                        <MonthInput className="border rounded-lg">
+                                        <MonthInput className="border rounded-lg" onChange={onSelect}>
                                             <option value="0">เดือน</option>
-                                            <option value="1">มกราคม</option>
-                                            <option value="2">กุมภาพันธ์</option>
-                                            <option value="3">มีนาคม</option>
-                                            <option value="4">เมษายน</option>
-                                            <option value="5">พฤษภาคม</option>
-                                            <option value="6">มิถุนายน</option>
-                                            <option value="7">กรกฎาคม</option>
-                                            <option value="8">สิงหาคม</option>
-                                            <option value="9">กันยายน</option>
+                                            <option value="01">มกราคม</option>
+                                            <option value="02">กุมภาพันธ์</option>
+                                            <option value="03">มีนาคม</option>
+                                            <option value="04">เมษายน</option>
+                                            <option value="05">พฤษภาคม</option>
+                                            <option value="06">มิถุนายน</option>
+                                            <option value="07">กรกฎาคม</option>
+                                            <option value="08">สิงหาคม</option>
+                                            <option value="09">กันยายน</option>
                                             <option value="10">ตุลาคม</option>
                                             <option value="11">พฤศจิกายน</option>
                                             <option value="12">ธันวาคม </option>
                                         </MonthInput>
                                     </div>
                                     <div className="w-full">
-                                        <DateInput type="date" className="border rounded-full  mb-4 " value="วันที่" />
+                                        <DatePicker  onChange={onChange} value={value} locale='th'/>
                                     </div>
                                 </div>
                                 <div className="grid justify-center" >
-                                    <CreateButton type="submit" className="border rounded-full" value="Create Draft" />
+                                    <CreateButton type="submit" className="border rounded-full" />
                                 </div>
                             </div>
                         </AddForm>
