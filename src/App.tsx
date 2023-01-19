@@ -13,6 +13,7 @@ import { Font } from './Styles/Font'
 import { Reset } from './Styles/Reset';
 import Variables from './Styles/Variables';
 import Modal from './Components/UI/Modal';
+import ClendarEdit from './Pages/CalendarEdit/ClendarEdit'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path="/info" element={<EventInfo />} />
           <Route path="/activity" element={<Activity />} />
           <Route path="/popup" element={<DayPopUp/>} />
+          <Route path="/calendar-edit" element={<ClendarEdit/>} />
         </ Routes>
       </ BrowserRouter>
     </div>
