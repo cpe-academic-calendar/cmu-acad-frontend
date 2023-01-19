@@ -5,25 +5,25 @@ import styled from "styled-components";
 //     clickHandle: ()=> void
 // }
 
-const CalendarCardOption :React.FC = () => {
-    return ( <>
+const CalendarCardOption: React.FC = () => {
+    return (<>
         <Modal>
             <DraftOption>
-                <div>
-                    <p>ทำซ้ำ</p>
+                <div className="hover:bg-gray-200">
+                    <button>ทำซ้ำ</button>
                 </div>
-                <div>
-                    <p>นำออก</p>
+                <div className="hover:bg-gray-200">
+                    <button>นำออก</button>
                 </div>
-                <div>
-                    <p>จัดเก็บ</p>
+                <div className="hover:bg-gray-200">
+                    <button>จัดเก็บ</button>
                 </div>
-                <div>
-                    <p className='delete'>ลบ</p>
+                <div className="hover:bg-gray-200">
+                    <button className='delete '>ลบ</button>
                 </div>
             </DraftOption>
         </Modal>
-    </> );
+    </>);
 }
 
 const DraftOption = styled.div`
@@ -48,11 +48,9 @@ const Modal = styled.div`
     padding-top: 4px;
     padding-bottom: 4px;
     z-index: 999;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
 `
- 
+
 export default CalendarCardOption;
