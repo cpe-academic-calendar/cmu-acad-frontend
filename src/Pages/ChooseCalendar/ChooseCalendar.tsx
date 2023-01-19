@@ -7,6 +7,8 @@ import ActiveList from "./Components/ActiveList";
 import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
+import DuplicatePopUp from "./Components/DuplicatePopUp";
+import ExportPopUp from "./Components/ExportPopUp";
 
 function ChooseCalendar() {
     const [calendarSort, setCalendarSort] = useState<String>('Active')

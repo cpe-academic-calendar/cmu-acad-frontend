@@ -12,7 +12,7 @@ import ExportPopUp from './ExportPopUp';
 
 type Props = {
     name: string;
-    year: string;
+    year: number;
     create_date: string;
     recently_edited: string;
 }
@@ -85,8 +85,8 @@ const CalendarCard: React.FC<Props> = (data) => {
                     }
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content">
-                        <h4>{data.name}</h4>
-                        <p>{data.year}</p>
+                            <h4>{data.name}</h4>
+                            <p>{data.year}</p>
                     </div>
                 </Start>
                 <End>

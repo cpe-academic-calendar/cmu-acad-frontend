@@ -1,20 +1,22 @@
-import React, { createContext, useState }from "react";
-import styled from "styled-components";
+import { useState } from 'react'
+import DuplicatePopUp from './DuplicatePopUp'
+import styled from 'styled-components'
+// type buttonProps = {
+//     clickHandle: ()=> void
+// }
 
-type buttonProps = {
-    deleteHandle?: ()=> void
-    archiveHandle?: ()=>void
-    exportHandle?: ()=>void
-    duplicateHandle?: ()=> void
-    onClick?: React.MouseEventHandler<HTMLButtonElement>
-}
+const CalendarCardOption: React.FC = () => {
+    const [duplicate, setDuplicate] = useState(false)
 
-const CalendarCardOption: React.FC<buttonProps> = ({duplicateHandle, exportHandle ,archiveHandle , deleteHandle}) => {
+    const handleDuplicate = () => {
+        setDuplicate(true)
+    }
+
     return (<>
-        <Modal>
+        <Modal className='z-20'>
             <DraftOption>
                 <div className="hover:bg-gray-200">
-                    <button onClick={() => duplicateHandle}>ทำซ้ำ</button>
+                    <button onClick={handleDuplicate}>ทำซ้ำ</button>
                 </div>
                 <div className="hover:bg-gray-200">
                     <button onClick={() => exportHandle}>นำออก</button>
@@ -27,8 +29,18 @@ const CalendarCardOption: React.FC<buttonProps> = ({duplicateHandle, exportHandl
                 </div>
             </DraftOption>
         </Modal>
+        <div>
+            {duplicate ? (
+                <div>
+                    {DuplicatePopUp()}
+                </div>
+            ) : null}
+        </div>
     </>);
 }
+
+const Duplicate = styled.div`
+`
 
 const DraftOption = styled.div`
     align-items: center;

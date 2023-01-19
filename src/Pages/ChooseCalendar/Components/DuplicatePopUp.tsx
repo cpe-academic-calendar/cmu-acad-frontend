@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
 
-// type buttonProps = {
-//     closeHandle: () => void;
-// }
-
 const DuplicatePopUp :React.FC = ( {} ) => {
     return ( 
     <Modal>
@@ -44,7 +40,6 @@ const PopUp = styled.div`
     width: 40vw;
     overflow: auto;
     border-radius: 10px;
-    display: flex;
     background-color: #fff;
     padding: 4vh;
     align-items: center;
