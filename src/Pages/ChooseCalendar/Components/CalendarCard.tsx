@@ -7,6 +7,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
+import DuplicatePopUp from './DuplicatePopUp';
+import ExportPopUp from './ExportPopUp';
 
 type Props = {
     name: string;
@@ -18,6 +20,7 @@ type Props = {
 const CalendarCard: React.FC<Props> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
+    const [popupOverlay, setPopupOverlay] = useState<String>('')
     const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
@@ -26,8 +29,44 @@ const CalendarCard: React.FC<Props> = (data) => {
     };
     let render_option = null;
 
+    //choose which option
+    let render_popup = null;
+    const duplicateHandle = () => {
+        console.log(popupOverlay)
+        setPopupOverlay('duplicate');
+    }
+    const exportHandle = () => {
+        setPopupOverlay('export');
+    }
+    const archiveHandle = () => {
+        setPopupOverlay('archive');
+    }
+    const deleteHandle = () => {
+        setPopupOverlay('delete');
+    }
+
+    switch(popupOverlay){
+        case 'duplicate':
+            console.log("duplicate")
+            render_option = <DuplicatePopUp /> 
+            break;
+        case 'export':
+            render_option = <ExportPopUp />
+            break;
+        case 'archive':
+            render_option = null;
+            break;
+        case 'delete':
+            render_option = null;
+    }
+
     duplicateOverlay ? (
-        render_option = <CalendarCardOption />
+        render_option = <CalendarCardOption 
+                            duplicateHandle={duplicateHandle}
+                            exportHandle={exportHandle} 
+                            archiveHandle={archiveHandle} 
+                            deleteHandle={deleteHandle} 
+                        />
     ) : (render_option = null)
 
     return (
@@ -63,6 +102,7 @@ const CalendarCard: React.FC<Props> = (data) => {
                     </div>
                 </End>
             </Card>
+            {render_popup}
         </div>
 
     )

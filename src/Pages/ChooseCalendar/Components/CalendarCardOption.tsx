@@ -1,25 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 
-// type buttonProps = {
-//     clickHandle: ()=> void
-// }
+type buttonProps = {
+    deleteHandle?: ()=> void
+    archiveHandle?: ()=>void
+    exportHandle?: ()=>void
+    duplicateHandle?: ()=> void
+    onClick?: React.MouseEventHandler<HTMLButtonElement>
+}
 
-const CalendarCardOption: React.FC = () => {
+const CalendarCardOption: React.FC<buttonProps> = ({duplicateHandle, exportHandle ,archiveHandle , deleteHandle}) => {
     return (<>
         <Modal>
             <DraftOption>
                 <div className="hover:bg-gray-200">
-                    <button>ทำซ้ำ</button>
+                    <button onClick={() => duplicateHandle}>ทำซ้ำ</button>
                 </div>
                 <div className="hover:bg-gray-200">
-                    <button>นำออก</button>
+                    <button onClick={() => exportHandle}>นำออก</button>
                 </div>
                 <div className="hover:bg-gray-200">
-                    <button>จัดเก็บ</button>
+                    <button onClick={() => archiveHandle}>จัดเก็บ</button>
                 </div>
                 <div className="hover:bg-gray-200">
-                    <button className='delete '>ลบ</button>
+                    <button onClick={() => deleteHandle} className='delete '>ลบ</button>
                 </div>
             </DraftOption>
         </Modal>

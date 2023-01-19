@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
-import DatePicker from "react-date-picker";
+// import DatePicker from "react-date-picker";
 
 type ButtonProps = {
     handleClosePopup: () => void;
@@ -69,7 +69,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                                         </MonthInput>
                                     </div>
                                     <div className="w-full">
-                                        <DatePicker  onChange={onChange} value={value} locale='th'/>
+                                        {/* <DatePicker  onChange={onChange} value={value} locale='th'/> */}
                                     </div>
                                 </div>
                                 <div className="grid justify-center" >
