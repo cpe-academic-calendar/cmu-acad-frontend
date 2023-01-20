@@ -11,6 +11,7 @@ import DuplicatePopUp from './DuplicatePopUp';
 import ExportPopUp from './ExportPopUp';
 
 type Props = {
+    id: number;
     name: string;
     year: number;
     create_date: string;
@@ -61,12 +62,7 @@ const CalendarCard: React.FC<Props> = (data) => {
     }
 
     duplicateOverlay ? (
-        render_option = <CalendarCardOption 
-                            duplicateHandle={duplicateHandle}
-                            exportHandle={exportHandle} 
-                            archiveHandle={archiveHandle} 
-                            deleteHandle={deleteHandle} 
-                        />
+        render_option = <CalendarCardOption item={data}/>
     ) : (render_option = null)
 
     return (

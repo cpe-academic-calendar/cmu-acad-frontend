@@ -1,9 +1,42 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
+import{useState} from  'react'
+import axios from 'axios'
+import { yearsToMonths } from "date-fns";
 
-const DuplicatePopUp :React.FC = ( {} ) => {
-    return ( 
-    <Modal>
+const DuplicatePopUp = (props:any): JSX.Element => {
+    const [calendar_name,setCalendarName] = useState("")
+    const [year,setYear]  = useState(0)
+    const [start_date,setStartDate] = useState("")
+    const [response, setResponse] = useState()
+
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+        await e.preventDefault();
+        await setYear(props.data.item.year)
+        await setStartDate(props.data.item.start_semester)
+        console.log(calendar_name)
+        console.log(start_date)
+        console.log(props.data.item.start_semester)
+        console.log(props.data.item.id)
+         await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
+            name: calendar_name,
+            date_semester: year,
+            calendar_status: "Active",
+            start_semester: start_date
+        })
+            .then((response) => {
+                setResponse(response.data)
+                console.log(response.data)
+                alert("duplicate calendar success")
+                window.location.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    console.log(props)
+    console.log(year,start_date)
+    return (
         <PopUp>
             <MenuBar>
                 <Heading>
@@ -12,12 +45,11 @@ const DuplicatePopUp :React.FC = ( {} ) => {
                 </Heading>
                 <CloseIcon />
             </MenuBar>
-            <CalendarName>
-                <input placeholder="ชื่อปฏิทินใหม่" />
+            <CalendarName onSubmit={handleSubmit}>
+                <input placeholder="ชื่อปฏิทินใหม่" onChange={(e) => setCalendarName(e.target.value)}/>
                 <button>Duplicate</button>
             </CalendarName>
         </PopUp>
-    </Modal>
     );
 }
 
@@ -34,10 +66,17 @@ const Modal = styled.div`
 `
 
 const PopUp = styled.div`
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    z-index: 40;
+    left: 25%;
+    top: 20%;
+    width:50%;
+    height: 40%;
     display: flex;
     flex-direction: column;
+    gap: 30px;
     max-width: 100vw;
-    width: 40vw;
     overflow: auto;
     border-radius: 10px;
     background-color: #fff;
@@ -69,6 +108,7 @@ const CalendarName = styled.form`
     max-width: fit-content;
     display: flex;
     flex-direction: column;
+    gap:20px;
     padding-left: 2vh;
     padding-right: 2vh;
     input{

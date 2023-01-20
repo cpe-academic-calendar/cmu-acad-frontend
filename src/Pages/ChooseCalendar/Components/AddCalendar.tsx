@@ -1,7 +1,13 @@
-import React, { useState } from "react"
+import React, { useEffect, useInsertionEffect, useState } from "react"
 import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
+<<<<<<< HEAD
 // import DatePicker from "react-date-picker";
+=======
+import DatePicker from "react-date-picker";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+>>>>>>> 25a9f1c (feat: crud front)
 
 type ButtonProps = {
     handleClosePopup: () => void;
@@ -10,20 +16,41 @@ type ButtonProps = {
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const [selectMonth, setSelectMonth] = useState(0)
-    const [value,onChange] = useState(new Date())
-    const [semester,setSemester] = useState(0)
+    const [value, onChange] = useState(new Date())
+    const [name, setName] = useState('')
+    const [semester, setSemester] = useState(0)
+    const [response, setResponse] = useState()
+    const navigate = useNavigate();
 
-    const handleChange = (e:any) => {
-        setSemester(e.target.value)
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        await e.preventDefault();
+        await axios.post('http://localhost:4000/calendar/create', {
+            name: name,
+            date_semester: semester,
+            calendar_status: "Active",
+            start_semester: "2022-05-19"
+        })
+            .then((response) => {
+                setResponse(response.data)
+                console.log(response.data)
+                navigate('/', { replace: true })
+                alert("create calendar success")
+                window.location.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
+    
 
-    const onSelect = (e:any) => {   
-        console.log(e)
+
+
+    const onSelect = (e: any) => {
         const date = value.getDate()
         const year = semester - 543
         setSelectMonth(e.target.value)
-        onChange(new Date(year,Number(selectMonth),date))
-    }   
+        onChange(new Date(year, Number(selectMonth), date))
+    }
 
     return (
         <Modal>
@@ -41,13 +68,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                                 <CloseIcon />
                             </CloseButton>
                         </div>
-                        <AddForm>
-                            <div >
-                                <FormInput type="text" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" />
+                        <AddForm onSubmit={handleSubmit}>
+                            <div  className="mb-3">
+                                <FormInput type="text" id="name" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" onChange={(e) => setName(e.target.value)} />
                             </div>
                             <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
                             <div >
-                                <FormInput type="number" name="semester" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={handleChange} />
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e) => setSemester(Number(e.target.value))} />
                             </div>
                             <div className="flex-col justify-center ">
                                 <div className="flex w-full justify-center gap-8">
@@ -69,11 +96,15 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                                         </MonthInput>
                                     </div>
                                     <div className="w-full">
+<<<<<<< HEAD
                                         {/* <DatePicker  onChange={onChange} value={value} locale='th'/> */}
+=======
+                                        <DatePicker className="w-full" onChange={onChange} value={value} locale='th' />
+>>>>>>> 25a9f1c (feat: crud front)
                                     </div>
                                 </div>
-                                <div className="grid justify-center" >
-                                    <CreateButton type="submit" className="border rounded-full" />
+                                <div className="grid justify-center mt-4">
+                                <SubmitButton type="submit" className="border rounded-full" >สร้าง</SubmitButton>
                                 </div>
                             </div>
                         </AddForm>
@@ -82,8 +113,18 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             </div>
         </Modal>
     )
-
 };
+
+const SubmitLayout = styled.div`
+
+`
+const SubmitButton = styled.button`
+padding: 5px 42px 5px 42px;
+display: flex;
+align-items: center;
+background-color: #F57F17;
+color: white;
+`
 
 const AddContainer = styled.div`
     padding: 32px;
@@ -125,7 +166,7 @@ const CloseButton = styled.button`
     transform: scale(180%);
 `
 
-const CreateButton = styled.input`
+const CreateButton = styled.button`
     padding: 5px 42px 5px 42px;
     display: flex;
     align-items: center;

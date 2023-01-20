@@ -4,7 +4,7 @@ import CalendarCard from "./CalendarCard";
 import axios from 'axios'
 import styled from "styled-components";
 
-interface Data { name: string; date_semester: number; create_at: string; update_at: string; };
+interface Data { id: number, name: string; date_semester: number; create_at: string; update_at: string; };
 
 const Container = styled.div`
     /* align-items: center;
@@ -31,7 +31,7 @@ function ActiveList() {
             {
                 item.map((item: Data) => (
                     <div>
-                        <CalendarCard name={item.name} year={item.date_semester} create_date={item.create_at.slice(0, 10)} recently_edited={item.update_at.slice(0, 10)} />
+                        <CalendarCard id={item.id} name={item.name} year={item.date_semester} create_date={item.create_at.slice(0, 10)} recently_edited={item.update_at.slice(0, 10)} />
                     </div>
                 ))
             }
