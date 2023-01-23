@@ -7,16 +7,21 @@ import styled from 'styled-components';
 import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 >>>>>>> 25a9f1c (feat: crud front)
+=======
+import { startOfWeek } from 'date-fns'
+>>>>>>> 7fa8cbc (feat: set Start Semester)
 
 type ButtonProps = {
     handleClosePopup: () => void;
 };
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
-
-    const [selectMonth, setSelectMonth] = useState(0)
-    const [value, onChange] = useState(new Date())
+    const year = new Date().getFullYear()
+    const date = 19
+    const month = 5
+    const [value, onChange] = useState(new Date(year,month,date))
     const [name, setName] = useState('')
     const [semester, setSemester] = useState(0)
     const [response, setResponse] = useState()
@@ -41,16 +46,12 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                 console.log(error);
             });
     }
-    
 
-
-
-    const onSelect = (e: any) => {
-        const date = value.getDate()
-        const year = semester - 543
-        setSelectMonth(e.target.value)
-        onChange(new Date(year, Number(selectMonth), date))
+    const  setYear =  (e: any) => {
+        const start = startOfWeek(new Date(e-543,month,date), { weekStartsOn: 1 })
+        onChange(start)
     }
+
 
     return (
         <Modal>
@@ -69,16 +70,17 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             </CloseButton>
                         </div>
                         <AddForm onSubmit={handleSubmit}>
-                            <div  className="mb-3">
+                            <div >
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e) => setYear(Number(e.target.value))} />
+                            </div>
+                            <div className="mb-3">
                                 <FormInput type="text" id="name" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" onChange={(e) => setName(e.target.value)} />
                             </div>
                             <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
-                            <div >
-                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e) => setSemester(Number(e.target.value))} />
-                            </div>
                             <div className="flex-col justify-center ">
                                 <div className="flex w-full justify-center gap-8">
                                     <div className="w-full">
+<<<<<<< HEAD
                                         <MonthInput className="border rounded-lg" onChange={onSelect}>
                                             <option value="0">เดือน</option>
                                             <option value="01">มกราคม</option>
@@ -99,12 +101,14 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 <<<<<<< HEAD
                                         {/* <DatePicker  onChange={onChange} value={value} locale='th'/> */}
 =======
+=======
+>>>>>>> 7fa8cbc (feat: set Start Semester)
                                         <DatePicker className="w-full" onChange={onChange} value={value} locale='th' />
 >>>>>>> 25a9f1c (feat: crud front)
                                     </div>
                                 </div>
                                 <div className="grid justify-center mt-4">
-                                <SubmitButton type="submit" className="border rounded-full" >สร้าง</SubmitButton>
+                                    <SubmitButton type="submit" className="border rounded-full" >สร้าง</SubmitButton>
                                 </div>
                             </div>
                         </AddForm>
