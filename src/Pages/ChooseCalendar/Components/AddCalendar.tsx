@@ -21,7 +21,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const year = new Date().getFullYear()
     const date = 19
     const month = 5
-    const [value, onChange] = useState(new Date(year,month,date))
+    const [value, onChange] = useState(new Date(year, month, date))
     const [name, setName] = useState('')
     const [semester, setSemester] = useState(0)
     const [response, setResponse] = useState()
@@ -47,8 +47,8 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             });
     }
 
-    const  setYear =  (e: any) => {
-        const start = startOfWeek(new Date(e-543,month,date), { weekStartsOn: 1 })
+    const setYear = (e: any) => {
+        const start = startOfWeek(new Date(e - 543, month, date), { weekStartsOn: 1 })
         onChange(start)
     }
 
@@ -81,6 +81,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                                 <div className="flex w-full justify-center gap-8">
                                     <div className="w-full">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         <MonthInput className="border rounded-lg" onChange={onSelect}>
                                             <option value="0">เดือน</option>
                                             <option value="01">มกราคม</option>
@@ -105,6 +106,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 >>>>>>> 7fa8cbc (feat: set Start Semester)
                                         <DatePicker className="w-full" onChange={onChange} value={value} locale='th' />
 >>>>>>> 25a9f1c (feat: crud front)
+=======
+                                        <DatePicker className="w-full"
+                                            onChange={onChange}
+                                            value={value}
+                                            defaultView='year'
+                                            locale='th' />
+>>>>>>> d929aaf (feat: year view)
                                     </div>
                                 </div>
                                 <div className="grid justify-center mt-4">
