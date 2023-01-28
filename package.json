@@ -39,7 +39,8 @@
     "smart-webcomponents": "^14.2.40",
     "styled-components": "^5.3.5",
     "typescript": "^4.7.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

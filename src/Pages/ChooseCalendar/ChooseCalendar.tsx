@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useContext } from "react";
+=======
+import React, { useEffect, useState } from "react";
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -7,78 +11,127 @@ import ActiveList from "./Components/ActiveList";
 import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
+<<<<<<< HEAD
 import DuplicatePopUp from "./Components/DuplicatePopUp";
 import ExportPopUp from "./Components/ExportPopUp";
+=======
+import axios from 'axios'
+import { CalendarPath } from "./Components/path";
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
 
-function ChooseCalendar() {
+
+interface data {
+    id: number,
+    name: string;
+    date_semester: number;
+    create_at: string;
+    update_at: string;
+}
+
+
+function ChooseCalendar(props: any) {
     const [calendarSort, setCalendarSort] = useState<String>('Active')
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
+    const [item, setItem] = useState<data[]>([]);
+
+    console.log(setItem)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            axios
+                .get(CalendarPath.find)
+                .then(
+                    response =>
+                        setItem(response.data)
+                )
+        };
+        fetchData()
+    }, [])
+    console.log(item)
 
     const setSort = (state: String) => {
         setCalendarSort(state);
     }
 
     const newCalendarHandle = () => {
-        setNewCalendar((prev)=>!prev);
+        setNewCalendar((prev) => !prev);
     };
+
+    const onClickhandle = async () => {
+        await axios.delete(`${CalendarPath.delete}/${props.item.id}`)
+            .then((response: any) => {
+                console.log(response.data)
+                alert("delete calendar success")
+                window.location.reload();
+            })
+    }
 
     let render_list = null;
     let sort_button = null;
     let new_calendar = null;
 
-    switch (calendarSort){
-        case "Active" :
-            render_list = <ActiveList />
-            sort_button =             
-            <CalendarSortButton>
-                <div className="select" onClick={() => setSort("Active")}>
-                    <p>ปฏิทินทั้งหมด</p>
-                </div>
-                <div className="items" onClick={() => setSort("Archive")}>
-                    <p>ที่จัดเก็บ</p>
-                </div>
-            </CalendarSortButton>
+    switch (calendarSort) {
+        case "Active":
+            render_list = <ActiveList data={item} />
+            sort_button =
+                <CalendarSortButton>
+                    <div className="select" onClick={() => setSort("Active")}>
+                        <p>ปฏิทินทั้งหมด</p>
+                    </div>
+                    <div className="items" onClick={() => setSort("Archive")}>
+                        <p>ที่จัดเก็บ</p>
+                    </div>
+                </CalendarSortButton>
             break;
-        case "Archive" :
+        case "Archive":
             render_list = <ArchiveList />
             sort_button = <>
-            <CalendarSortButton>
-                <div className="items" onClick={() => setSort("Active")}>
-                    <p>ปฏิทินทั้งหมด</p>
-                </div>
-                <div className="select" onClick={() => setSort("Archive")}>
-                    <p>ที่จัดเก็บ</p>
-                    <div className="selected" />
-                </div>
-            </CalendarSortButton>
-        </>
+                <CalendarSortButton>
+                    <div className="items" onClick={() => setSort("Active")}>
+                        <p>ปฏิทินทั้งหมด</p>
+                    </div>
+                    <div className="select" onClick={() => setSort("Archive")}>
+                        <p>ที่จัดเก็บ</p>
+                        <div className="selected" />
+                    </div>
+                </CalendarSortButton>
+            </>
             break;
     }
-    return ( 
+    return (
         <>
-        <NavBar />
-        <Container>
-        {sort_button}
-            <TableCardHeader>
+            <NavBar />
+            <Container>
+                {sort_button}
+                <TableCardHeader>
                     <InsertDriveFileOutlinedIcon color="action" />
-                        <p>ชื่อ</p>
+                    <p>ชื่อ</p>
                     <div className="end">
                         <p>วันที่สร้าง</p>
                         <p>แก้ไขล่าสุด</p>
-                    {
-                        iconMenu?
-                        <div className='active-icon'>
-                                <DeleteIcon />
-                                <FolderIcon />
-                        </div>
-                        :
-                        <div className='disable-icon'>
-                                <DeleteIcon />
-                                <FolderIcon />
-                        </div>
-                    }
+                        {
+                            iconMenu ?
+                                <div className='active-icon flex'>
+                                    <div onClick={onClickhandle}>
+                                        <DeleteIcon />
+                                    </div>
+                                    <div onClick={onClickhandle}>
+                                        <FolderIcon />
+                                    </div>
+                                </div>
+                                :
+                                <div className='disable-icon flex'>
+                                    <div onClick={onClickhandle}>
+                                        <DeleteIcon />
+                                    </div>
+                                    <div onClick={onClickhandle}>
+                                        <FolderIcon />
+                                    </div>
+                                </div>
+                        }
                     </div>
+<<<<<<< HEAD
             </TableCardHeader>
         {render_list}
         </Container>
@@ -90,8 +143,20 @@ function ChooseCalendar() {
         }
         
         <NewCalendarButton onClick={()=>newCalendarHandle()}>+</NewCalendarButton>  
+=======
+                </TableCardHeader>
+                {render_list}
+            </Container>
+            {
+                newCalendar ?
+                    new_calendar = <AddCalendar handleClosePopup={newCalendarHandle} />
+                    :
+                    new_calendar = null
+            }
+            <NewCalendarButton onClick={() => newCalendarHandle()}>+</NewCalendarButton>
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
         </>
-     );
+    );
 }
 
 const NewCalendarButton = styled.button`

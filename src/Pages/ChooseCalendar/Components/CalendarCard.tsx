@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 // import { Card, End, Start } from './CalendarCard.styled'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
@@ -7,8 +7,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
+<<<<<<< HEAD
 import DuplicatePopUp from './DuplicatePopUp';
 import ExportPopUp from './ExportPopUp';
+=======
+import { useCalendarCollect } from './CollectItem';
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
 
 type Props = {
     id: number;
@@ -21,13 +25,16 @@ type Props = {
 const CalendarCard: React.FC<Props> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
+<<<<<<< HEAD
     const [popupOverlay, setPopupOverlay] = useState<String>('')
+=======
+    const { userId, setId } = useCalendarCollect()
+
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
     const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
-    const popDuplicateOverlay = (state: Boolean) => {
-        setDuplicateOverlay(state);
-    };
+
     let render_option = null;
 
     //choose which option
@@ -62,8 +69,31 @@ const CalendarCard: React.FC<Props> = (data) => {
     }
 
     duplicateOverlay ? (
-        render_option = <CalendarCardOption item={data}/>
+        render_option = <CalendarCardOption item={data} />
     ) : (render_option = null)
+
+    const selectItem = async (id: number) => {
+        await setId(id)
+        await selectCalendarClicked(!selectCalendar)
+        console.log(userId)
+    }
+    const handleDropDownFocus = (state: Boolean) => {
+        setDuplicateOverlay(!state)
+    }
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutSide, true)
+    }, [])
+
+    const refOne = useRef<HTMLDivElement | null>(null)
+
+    const handleClickOutSide = (e: any) => {
+        if (refOne.current != null) {
+            if (!refOne.current?.contains(e.target)) {
+                setDuplicateOverlay(false)
+            }
+        }
+    }
 
     return (
         <div>
@@ -71,18 +101,18 @@ const CalendarCard: React.FC<Props> = (data) => {
                 <Start>
                     {
                         selectCalendar ?
-                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                            <div className='check' onClick={() => selectItem(data.id)}>
                                 <CheckCircleIcon />
                             </div>
                             :
-                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                            <div className='check' onClick={() => selectItem(data.id)}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
                     }
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content">
-                            <h4>{data.name}</h4>
-                            <p>{data.year}</p>
+                        <h4>{data.name}</h4>
+                        <p>{data.year}</p>
                     </div>
                 </Start>
                 <End>
@@ -90,9 +120,11 @@ const CalendarCard: React.FC<Props> = (data) => {
                     <h4>{data.recently_edited}</h4>
                     <div className='block'>
                         <div className='static'>
-                            <MoreVertIcon onClick={() => popDuplicateOverlay(!duplicateOverlay)} />
+                            <button>
+                                <MoreVertIcon onClick={() => handleDropDownFocus(duplicateOverlay)} />
+                            </button>
                         </div>
-                        <div className='absolute mt-20'>
+                        <div className='absolute mt-20' ref={refOne}>
                             {render_option}
                         </div>
                     </div>

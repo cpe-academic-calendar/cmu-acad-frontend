@@ -11,7 +11,13 @@ import { useNavigate } from "react-router-dom";
 >>>>>>> 25a9f1c (feat: crud front)
 =======
 import { startOfWeek } from 'date-fns'
+<<<<<<< HEAD
 >>>>>>> 7fa8cbc (feat: set Start Semester)
+=======
+import {CalendarPath} from './path'
+
+
+>>>>>>> c7c9bfa (feat: set global axios and some fix components)
 
 type ButtonProps = {
     handleClosePopup: () => void;
@@ -29,7 +35,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
-        await axios.post('http://localhost:4000/calendar/create', {
+        await axios.post(CalendarPath.create, {
             name: name,
             date_semester: semester,
             calendar_status: "Active",
@@ -49,6 +55,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const setYear = (e: any) => {
         const start = startOfWeek(new Date(e - 543, month, date), { weekStartsOn: 1 })
+        setSemester(e)
         onChange(start)
     }
 

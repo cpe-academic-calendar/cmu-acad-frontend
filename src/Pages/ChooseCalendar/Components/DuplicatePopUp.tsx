@@ -1,24 +1,25 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
-import{useState} from  'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { yearsToMonths } from "date-fns";
 
-const DuplicatePopUp = (props:any): JSX.Element => {
-    const [calendar_name,setCalendarName] = useState("")
-    const [year,setYear]  = useState(0)
-    const [start_date,setStartDate] = useState("")
+const DuplicatePopUp = (props: any): JSX.Element => {
+    const [calendar_name, setCalendarName] = useState("")
+    const [year, setYear] = useState(0)
+    const [start_date, setStartDate] = useState("")
     const [response, setResponse] = useState()
+    const [popup, setPopup] = useState(true)
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleClosePopup = () => {
+        setPopup(false)
+    }
+    console.log(popup)
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         await setYear(props.data.item.year)
         await setStartDate(props.data.item.start_semester)
-        console.log(calendar_name)
-        console.log(start_date)
-        console.log(props.data.item.start_semester)
-        console.log(props.data.item.id)
-         await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
+        await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
             date_semester: year,
             calendar_status: "Active",
@@ -34,22 +35,26 @@ const DuplicatePopUp = (props:any): JSX.Element => {
                 console.log(error);
             });
     }
-    console.log(props)
-    console.log(year,start_date)
     return (
-        <PopUp>
-            <MenuBar>
-                <Heading>
-                    <h1>Duplicate</h1>
-                    <p>ทำซ้ำปฏิทินเดิม</p>
-                </Heading>
-                <CloseIcon />
-            </MenuBar>
-            <CalendarName onSubmit={handleSubmit}>
-                <input placeholder="ชื่อปฏิทินใหม่" onChange={(e) => setCalendarName(e.target.value)}/>
-                <button>Duplicate</button>
-            </CalendarName>
-        </PopUp>
+        <>
+            {
+                popup ? (
+                    <PopUp>
+                        <MenuBar>
+                            <Heading>
+                                <h1>Duplicate</h1>
+                                <p>ทำซ้ำปฏิทินเดิม</p>
+                            </Heading>
+                            <CloseIcon onClick={handleClosePopup} />
+                        </MenuBar>
+                        <CalendarName onSubmit={handleSubmit}>
+                            <input placeholder="ชื่อปฏิทินใหม่" onChange={(e) => setCalendarName(e.target.value)} />
+                            <button>Duplicate</button>
+                        </CalendarName>
+                    </PopUp >
+                ) : null
+            }
+        </>
     );
 }
 
