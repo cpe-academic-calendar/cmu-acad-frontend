@@ -4,20 +4,23 @@ import React, { useState } from 'react';
 //Other files
 import { getMonth } from './util'
 import CalendarHeader from './Components/CalendarHeader';
-import Sidebar from './Components/Sidebar';
+import SideBar from './Components/Sidebar/Sidebar';
 import MonthCalendar from './Components/MonthCalendar';
 
 const ClendarEdit:React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState(getMonth());
-    console.table(getMonth());
+    const tempMonth = getMonth();
 
     return ( 
     <React.Fragment>
         <Col>
             <CalendarHeader />
             <Row>
-                <Sidebar />
-                <MonthCalendar month={currentMonth} />
+                <div className='calendar'>
+                    <MonthCalendar month={tempMonth} />
+                </div>
+                <div className='sidebar'>
+                    <SideBar />
+                </div>
             </Row>
         </Col>
     </React.Fragment> 
@@ -26,12 +29,14 @@ const ClendarEdit:React.FC = () => {
 
 const Col = styled.div`
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
 `
 
 const Row = styled.div`
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 7fr auto;
+    .calendar{
+        margin-right: 253px;
+    }
 `
 export default ClendarEdit;

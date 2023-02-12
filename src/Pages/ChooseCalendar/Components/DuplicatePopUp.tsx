@@ -1,23 +1,41 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
 
-const DuplicatePopUp :React.FC = () => {
+// type buttonProps = {
+//     closeHandle: () => void;
+// }
+
+const DuplicatePopUp :React.FC = ( {} ) => {
     return ( 
-    <PopUp>
-        <MenuBar>
-            <Heading>
-                <h1>Duplicate</h1>
-                <p>ทำซ้ำปฏิทินเดิม</p>
-            </Heading>
-            <CloseIcon />
-        </MenuBar>
-        <CalendarName>
-            <input placeholder="ชื่อปฏิทินใหม่" />
-            <button>Duplicate</button>
-        </CalendarName>
-    </PopUp>
+    <Modal>
+        <PopUp>
+            <MenuBar>
+                <Heading>
+                    <h1>Duplicate</h1>
+                    <p>ทำซ้ำปฏิทินเดิม</p>
+                </Heading>
+                <CloseIcon />
+            </MenuBar>
+            <CalendarName>
+                <input placeholder="ชื่อปฏิทินใหม่" />
+                <button>Duplicate</button>
+            </CalendarName>
+        </PopUp>
+    </Modal>
     );
 }
+
+const Modal = styled.div`
+    padding: 48px;
+    position: absolute;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.4);
+    width: 100vw;
+    height: 100vh;
+`
 
 const PopUp = styled.div`
     display: flex;

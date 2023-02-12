@@ -6,21 +6,31 @@ const SearchBar: React.FC = () => {
   return (
     <div>
       <NavBarSt>
-        <NavButton>
-          <BackButton> Back</BackButton>
-          <ButtonSave>Save Changes</ButtonSave>
-        </NavButton>
-      </NavBarSt>
-      <Header>
-        <CalendarIcon >
-        <CalendarTodayIcon />
-        </CalendarIcon>
-        <HeadTag>
-          <HeadName2>Holiday Settings</HeadName2>
-          <HeadName3>วันหยุดราชการ/ วันหยุดราชกิจจานุเบกษา</HeadName3>
-        </HeadTag>
-      </Header>
-     
+          <NavButton>
+            <BackButton> Back</BackButton>
+            <ButtonSave>Save Changes</ButtonSave>
+          </NavButton>
+        </NavBarSt>
+      <MenuDisplay>
+        <div className="menu">
+          <MenuItems className="active">
+            <CalendarTodayIcon className="icon" />
+            <h2>Holiday Settings</h2>
+          </MenuItems>
+          test
+        </div>
+        <div className="content">
+          <Header>
+            <CalendarIcon >
+            <CalendarTodayIcon />
+            </CalendarIcon>
+            <HeadTag>
+              <HeadName2>Holiday Settings</HeadName2>
+              <HeadName3>วันหยุดราชการ/ วันหยุดราชกิจจานุเบกษา</HeadName3>
+            </HeadTag>
+          </Header>
+        </div>
+      </MenuDisplay>
     </div>
   );
 };
@@ -29,7 +39,11 @@ const MenuDisplay = styled.div`
   display: flex;
   flex-direction: row;
   .menu{
-    
+    width: 15%;
+    flex-direction: column;
+  }
+  .content{
+    width: 75%
   }
 `
 
@@ -107,5 +121,29 @@ const CalendarIcon = styled.div`
 `;
 
 const HeadTag = styled.div``;
+
+const MenuItems = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px 26px;
+  border-radius: 0 15px 15px 0;
+  .active{
+    background-color: var(--primary-color);
+    h2{
+      color: white;
+    }
+  }
+  .default{
+    .active{
+    background-color: var(--primary-color);
+    h2{
+      color: var(--primary-color);
+    }
+  }
+  }
+  .icon{
+    margin-right: 8px;
+  }
+`
 
 export default SearchBar;

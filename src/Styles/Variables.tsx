@@ -31,6 +31,10 @@ const Variables = createGlobalStyle`
         --dark-brown: #363636;
         --grey: #BDBDBD;
         --silver: #78909C;
+        --default-event-color: #347BBB;
+        --default-holiday-color: #352829;
+        --default-exam-color: #666AD1;
+
     }
 `
 

@@ -12,8 +12,10 @@ import Draft from './Components/Draft';
 import { Font } from './Styles/Font'
 import { Reset } from './Styles/Reset';
 import Variables from './Styles/Variables';
+import ExportPopUP from './Pages/ChooseCalendar/Components/ExportPopUp';
 import Modal from './Components/UI/Modal';
 import ClendarEdit from './Pages/CalendarEdit/ClendarEdit'
+import DuplicatePopUp from './Pages/ChooseCalendar/Components/DuplicatePopUp';
 
 
 function App() {
@@ -36,7 +38,7 @@ function App() {
           <Route path="/event" element={<EventEdit />} />
           <Route path="/info" element={<EventInfo />} />
           <Route path="/activity" element={<Activity />} />
-          <Route path="/popup" element={<DayPopUp/>} />
+          <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
           <Route path="/calendar-edit" element={<ClendarEdit/>} />
         </ Routes>
       </ BrowserRouter>
