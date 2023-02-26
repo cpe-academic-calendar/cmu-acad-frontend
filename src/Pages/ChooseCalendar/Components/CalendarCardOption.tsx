@@ -91,14 +91,10 @@ const CalendarCardOption = (props: any): JSX.Element => {
                     <button onClick={handleDuplicate}>ทำซ้ำ</button>
                 </div>
                 <div className="hover:bg-gray-200">
-                    <button onClick={() => exportHandle}>นำออก</button>
+                    <button >นำออก</button>
                 </div>
                 <div className="hover:bg-gray-200">
-<<<<<<< HEAD
-                    <button onClick={() => archiveHandle}>จัดเก็บ</button>
-=======
                     <button onClick={handleArchive}>จัดเก็บ</button>
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
                 </div>
                 <div className="hover:bg-gray-200">
                     <button onClick={handleRestore}>กู้คืน</button>
