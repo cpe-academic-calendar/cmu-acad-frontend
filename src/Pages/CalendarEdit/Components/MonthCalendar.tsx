@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useContext } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
@@ -10,32 +10,57 @@ interface DateFromDayjs {
 const MonthCalendar:React.FC<DateFromDayjs> = ({ month }) => {
     return ( <>
         <Header>
-                <DayItems>วันอาทิตย์</DayItems>
-                <DayItems>วันจันทร์</DayItems>
-                <DayItems>วันอังคาร</DayItems>
-                <DayItems>วันพุธ</DayItems>
-                <DayItems>วันพฤหัส</DayItems>
-                <DayItems>วันศุกร์</DayItems>
+                <DayItems>
+                    <p>วันอาทิตย์</p>
+                </DayItems>
+                <DayItems>
+                    <p> วันจันทร์</p>
+                    <p>12</p>
+                </DayItems>
+                <DayItems>
+                    <p>วันอังคาร</p>
+                    <p>12</p>
+                </DayItems>
+                <DayItems>
+                    <p>วันพุธ</p>
+                    <p>12</p>
+                </DayItems>
+                <DayItems>
+                    <p>วันพฤหัส</p>
+                    <p>12</p>
+                </DayItems>
+                <DayItems>
+                    <p>วันศุกร์</p>
+                    <p>12</p>
+                </DayItems>
                 <DayItems>วันเสาร์</DayItems>
 
         </Header>
+        <Container>
         {
             month.map((row, i) => (
-                <Container key={i}>
+                <Calendar key={i}>
                     {row.map((day, idx)=> (
-                        <Day day={day} key={idx} />
+                        <div>
+                            <Day day={day} key={idx} />
+                        </div>
                     ))}
-                </Container>
+                </Calendar>
             ))
         }
+        </Container>
     </> );
 }
 
-const Container = styled.div`
+const Calendar = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows:184px;
     width: 100%;
+`
+
+const Container = styled.div`
+    margin-top: 133px;
 `
 const Header = styled.div`
     width: 100%;
@@ -53,6 +78,7 @@ const Header = styled.div`
 
 const DayItems = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 `

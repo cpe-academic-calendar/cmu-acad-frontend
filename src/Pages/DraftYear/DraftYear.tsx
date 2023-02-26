@@ -2,7 +2,7 @@ import * as React from "react";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import { DraftComponent, InsertFile } from "./DraftYear.styled";
-import Draft from "../../Components/Draft";
+import Draft from "../CalendarEdit/Components/YearCalendar";
 
 
 class DraftYear extends React.Component {

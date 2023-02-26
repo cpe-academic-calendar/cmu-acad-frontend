@@ -1,15 +1,24 @@
-import { getMonth } from '../util'
+import { getMonth } from './util'
 import styled from 'styled-components';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import React, { useContext } from 'react';
+import GlobalContext from './Context/GlobalContext';
+
+interface handleProps{
+    onFileClickHandle: () => void;
+}
+
+const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle} ) => {
+
+    const { currentView, setCurrentView } = useContext(GlobalContext);
 
 
-const CalendarHeader:React.FC = () => {
     return (
     <Nav>
         <Items>
-            <div className='files'>
+            <div className='files' onClick={onFileClickHandle}>
                 <InsertDriveFileOutlinedIcon fontSize='large'/>
                 <KeyboardArrowDownOutlinedIcon fontSize='medium' />
             </div>
@@ -17,8 +26,8 @@ const CalendarHeader:React.FC = () => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
-            <select id="display">
-                <option value="months">เดือน</option>
+            <select id="display" value={currentView} onChange={(e) => setCurrentView(e.target.value)}>
+                <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
         </Items>
@@ -77,4 +86,18 @@ const Items = styled.div`
         font-weight: 700;
     }
 `
+const FileOption = styled.div`
+    position: fixed;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    color: #111;
+    .item{
+        padding: 10px 30px;
+    }
+`
+
 export default CalendarHeader;

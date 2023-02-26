@@ -1,10 +1,22 @@
 import styled from "styled-components";
+import dayjs from "dayjs";
 
 interface EventProps {
     name: string;
-    date: string;
+    date: dayjs.Dayjs;
     type: string;
 }
+
+var buddhistEra = require('dayjs/plugin/buddhistEra')
+// var updateLocale = require('dayjs/plugin/updateLocale')
+dayjs.extend(buddhistEra)
+// dayjs.extend(updateLocale)
+// dayjs.updateLocale('en', {
+// months: [
+//     "January", "February", "March", "April", "May", "June", "July",
+//     "August", "September", "October", "November", "December"
+// ]
+// })
 
 const EventCard: React.FC<EventProps> = ({name, date, type}) => {
     let event_type = type;
@@ -25,7 +37,9 @@ const EventCard: React.FC<EventProps> = ({name, date, type}) => {
         {render_rectangle}
         <div className="content">
             <h1>{name}</h1>
-            <p>{date}</p>  
+            {/* <p>date</p> */}
+
+            <p>{dayjs(date).format('DD MMMM BBBB')}</p>
         </div>
     </Container> );
 }
