@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cards_dummy from "../../../cards_dummy.json"
 import CalendarCard from "./CalendarCard";
+import axios from 'axios'
+import styled from "styled-components";
 
-interface Data { name: string; year: string; create_date: string; recently_edited: string; };
+interface CalendarProps {
+    data: {
+        id: number,
+        name: string;
+        date_semester: number;
+        create_at: string;
+        update_at: string;
+    }[]
+}
 
-function ActiveList( ){
-    return(
-        <div>
-            {
-                cards_dummy.map((item :Data )=>(
+
+
+const Container = styled.div`
+    /* align-items: center;
+    display: flex;
+    justify-content: space-between; */
+`
+
+const ActiveList = (calendar: CalendarProps) => {
+    return (
+        <Container>
+            { calendar.data?.map((item) => (
                     <div>
-                        <CalendarCard name={item.name} year={item.year} create_date={item.create_date}  recently_edited={item.recently_edited} />
+                        <CalendarCard id={item.id} name={item.name} year={item.date_semester} create_date={item.create_at.slice(0, 10)} recently_edited={item.update_at.slice(0, 10)} />
                     </div>
                 ))
             }
-        </div>
-         )
+        </Container>
+    )
 }
 
 export default ActiveList;

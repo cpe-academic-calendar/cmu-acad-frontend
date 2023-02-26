@@ -1,5 +1,4 @@
-import React from 'react';
-// import { Card, End, Start } from './CalendarCard.styled'
+import React, { createContext, useEffect, useRef } from 'react';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -9,24 +8,28 @@ import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
 import DuplicatePopUp from './DuplicatePopUp';
 import ExportPopUp from './ExportPopUp';
+import { useCalendarCollect } from './CollectItem';
 
 type Props = {
+    id: number;
     name: string;
-    year: string;
+    year: number;
     create_date: string;
     recently_edited: string;
 }
+
+export const CalendarContext = createContext<number[]>([])
 
 const CalendarCard: React.FC<Props> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
     const [popupOverlay, setPopupOverlay] = useState<String>('')
+    const { userId, setId } = useCalendarCollect()
+
     const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
-    const popDuplicateOverlay = (state: Boolean) => {
-        setDuplicateOverlay(state);
-    };
+    
     let render_option = null;
 
     //choose which option
@@ -61,25 +64,57 @@ const CalendarCard: React.FC<Props> = (data) => {
     }
 
     duplicateOverlay ? (
-        render_option = <CalendarCardOption 
-                            duplicateHandle={duplicateHandle}
-                            exportHandle={exportHandle} 
-                            archiveHandle={archiveHandle} 
-                            deleteHandle={deleteHandle} 
-                        />
+        render_option = <CalendarCardOption item={data} />
     ) : (render_option = null)
 
+    const handleDropDownFocus = (state: Boolean) => {
+        setDuplicateOverlay(!state)
+    }
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutSide, true)
+    }, [])
+    const handleCheck = async (id: number, e: boolean) => {
+        if (e == true) {
+            setId(id)
+            selectCalendarClicked(!selectCalendar)
+        } else {
+            const index = userId.indexOf(id)
+            userId.splice(index)
+            const arr = [...userId]
+            for(let i=0;i< arr.length;i++){
+                setId(arr[i])
+            }
+            selectCalendarClicked(false)
+            
+        }
+    }
+
+    // console.log(userId)
+
+    const refOne = useRef<HTMLDivElement | null>(null)
+
+    const handleClickOutSide = (e: any) => {
+        if (refOne.current != null) {
+            if (!refOne.current?.contains(e.target)) {
+                setDuplicateOverlay(false)
+            }
+        }
+    }
+    
+    
+
     return (
-        <div>
+        <CalendarContext.Provider value={userId}>
             <Card>
                 <Start>
                     {
                         selectCalendar ?
-                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                            <div className='check' onClick={() => handleCheck(data.id, false)}>
                                 <CheckCircleIcon />
                             </div>
                             :
-                            <div className='check' onClick={() => selectCalendarClicked(!selectCalendar)}>
+                            <div className='check' onClick={() => handleCheck(data.id, true)}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
                     }
@@ -94,16 +129,17 @@ const CalendarCard: React.FC<Props> = (data) => {
                     <h4>{data.recently_edited}</h4>
                     <div className='block'>
                         <div className='static'>
-                            <MoreVertIcon onClick={() => popDuplicateOverlay(!duplicateOverlay)} />
+                            <button>
+                                <MoreVertIcon onClick={() => handleDropDownFocus(duplicateOverlay)} />
+                            </button>
                         </div>
-                        <div className='absolute mt-20'>
+                        <div className='absolute mt-20' ref={refOne}>
                             {render_option}
                         </div>
                     </div>
                 </End>
             </Card>
-            {render_popup}
-        </div>
+        </CalendarContext.Provider >
 
     )
 }
