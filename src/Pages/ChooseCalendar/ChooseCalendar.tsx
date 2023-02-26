@@ -7,16 +7,12 @@ import ActiveList from "./Components/ActiveList";
 import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
-import DuplicatePopUp from "./Components/DuplicatePopUp";
-import ExportPopUp from "./Components/ExportPopUp";
-import { OptionContext } from "./Components/CalendarCardOption";
 
 function ChooseCalendar() {
     const [calendarSort, setCalendarSort] = useState<String>('Active')
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
 
-    const {optionSelected, setOptionSelected} = useContext(OptionContext);
     const setSort = (state: String) => {
         setCalendarSort(state);
     }
