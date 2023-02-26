@@ -1,18 +1,5 @@
 import styled from "styled-components";
-import {
-  add,
-  endOfMonth,
-  endOfWeek,
-  isBefore,
-  startOfMonth,
-  startOfWeek,
-} from "date-fns";
-import sub from "date-fns/sub";
-import { unstable_useForkRef } from "@mui/utils";
 import moment from "moment";
-import "./styles.css";
-import { LabelHeader, MonthComponent } from "./Draft.styled";
-// import { CalendarContainer } from "react-datepicker";
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -46,7 +33,7 @@ function createCalendar(props: any, monthnum: any) {
   }
   const label = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
   return (
-    <div>
+    <CalendarContainer>
       <MonthComponent>{month}</MonthComponent>
       <LabelHeader>
         {label.map((day, index) => (
@@ -68,11 +55,11 @@ function createCalendar(props: any, monthnum: any) {
           </div>
         ))}
       </div>
-    </div>
+    </CalendarContainer>
   );
 }
 
-export default function Draft() {
+export default function YearCalendar() {
   const months = [
     "มกราคม",
     "กุมภาพันธ์",
@@ -89,3 +76,46 @@ export default function Draft() {
   ];
   return <div>{calendarYear(months)}</div>;
 }
+
+//styled
+const DraftContainer = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+margin: 149px 50px 14px 250px;
+grid-gap: 100px 10px;
+`;
+
+const CalendarContainer = styled.div`
+  .calendar .day{
+    position: relative;
+    width: calc(70% / 7);
+    height: 44px;
+    display: inline-block;
+    background-color: white;
+    padding: 0;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    z-index: 1;
+    text-align: center;
+  }
+
+.week {
+    display: inline-block;
+    width: calc(70% / 7);
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+`;
+
+const Calendar = styled.div``;
+
+const CalendarMonth = styled.div``;
+
+const LabelHeader = styled.div`
+  width: (100%/7);
+`;
+
+const MonthComponent = styled.div`
+  color: #F57F17;
+`;

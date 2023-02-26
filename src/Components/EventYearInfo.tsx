@@ -1,6 +1,45 @@
+import React, { useState } from "react";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import styled from "styled-components";
 
-export const PopUpContainer = styled.div`
+interface eventProps{
+  closeEventInfoHandle: () => void
+}
+
+const EventYearInfo
+: React.FC<eventProps> = ( {closeEventInfoHandle} ) => {
+  const [event,setEvent] = useState<string>('ไม่มีกิจกรรม')
+  const data = {
+      name: ""
+  }
+
+  return (
+    <PopUpContainer>
+      <PopUP>
+        <DayInfo>
+          <Header>
+            <HeaderInfo>พุธ</HeaderInfo>
+          </Header>
+          <Day>13</Day>
+          <Month>เม.ย.</Month>
+          <EventDes>{data.name === '' 
+          ? <h5>ไม่มีกิจกรรม</h5>
+          : data.name
+        }</EventDes>
+        </DayInfo>
+        <CloseButton onClick={closeEventInfoHandle}>
+          <CloseRoundedIcon />
+        </CloseButton>
+      </PopUP>
+    </PopUpContainer>
+  );
+};
+
+export default EventYearInfo
+;
+
+const PopUpContainer = styled.div`
+  position: fixed;
   margin-left: 200px;
   margin-top: 200px;
   width: 263px;
@@ -12,23 +51,23 @@ export const PopUpContainer = styled.div`
   justify-content: space-between ;
 `;
 
-export const PopUP = styled.div`
+const PopUP = styled.div`
     display: flex;
     margin-left: 100px;
 `
 
-export const DayInfo = styled.div`
+const DayInfo = styled.div`
   display: flex-box;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 16px;
 `;
 
-export const Header = styled.div`
+const Header = styled.div`
     display: flex;
     margin-left: 20px;
 `
-export const HeaderInfo = styled.div`
+const HeaderInfo = styled.div`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -39,7 +78,7 @@ export const HeaderInfo = styled.div`
   color: #000000;
 `;
 
-export const CloseButton = styled.button`
+const CloseButton = styled.button`
     margin-right: 15px ;
     margin-bottom:86px ;
     margin-top: 15px;
@@ -47,7 +86,7 @@ export const CloseButton = styled.button`
     color: #F57F17;
 `
 
-export const Day = styled.div`
+const Day = styled.div`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
@@ -58,7 +97,7 @@ export const Day = styled.div`
 
   color: #f57f17;
 `;
-export const Month = styled.div`
+const Month = styled.div`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 300;
@@ -69,7 +108,7 @@ export const Month = styled.div`
 
   color: rgba(0, 0, 0, 0.5);
 `;
-export const EventInfo = styled.div`
+const EventDes = styled.div`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 300;

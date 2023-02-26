@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState }from "react";
 import styled from "styled-components";
 
 type buttonProps = {
@@ -56,5 +56,4 @@ const Modal = styled.div`
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
 `
-
 export default CalendarCardOption;

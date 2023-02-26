@@ -1,0 +1,252 @@
+//import * from "../../../Components/Events.styled";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { useContext, useState } from "react";
+import styled from "styled-components";
+import GlobalContext from "./Context/GlobalContext";
+// import CheckIcon from '@mui/icons-material/Check';
+
+interface calendarEventProps{
+  title: string;
+}
+
+export default function EventModal() {
+
+  const { setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+  const closedEventHandle = () => {
+    setShowAddEventModal(false);
+  };
+
+  //state of input that are in this modal
+  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.title : ''); //Event_name
+  const [duration, setDuration] = useState(1);  //duration
+  const [eventType, setEventType] = useState(selectedEditEvent? selectedEditEvent.type : 'กิจกรรม') //type
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    const calendarEvent = {
+      title: eventName,
+      duration,
+      type: eventType,
+      day: daySelected,
+      id: selectedEditEvent ? selectedEditEvent.id : Date.now(),
+    }
+    if(selectedEditEvent){
+      if(calendarEvent.title === ''){
+        dispatchCalEvents({type:'delete', payload: calendarEvent})
+      }
+      else{
+        dispatchCalEvents({type:'update', payload: calendarEvent})
+      }
+    }
+    else{
+      if(calendarEvent.title === ''){
+        setShowAddEventModal(false);
+      }else{
+        dispatchCalEvents({type:'push', payload: calendarEvent})
+      }
+    }
+    // if (selectedEditEvent) {
+    //   dispatchCalEvents({ type: "delete", payload: calendarEvent });
+    // } else {
+    //   dispatchCalEvents({ type: "push", payload: calendarEvent });
+    // }
+    setSelectedEditEvent(null)
+    setDaySelected(0)
+    setShowAddEventModal(false)
+  }
+
+  return (
+    <Container>
+            <EventContainer>
+        <div className="shadow-xl">
+          {/* tab */}
+          <Header>
+            {
+              selectedEditEvent? 
+              <TitileHeader>แก้ไขกิจกรรม</TitileHeader>
+              :
+              <TitileHeader>เพิ่มชื่อกิจกรรม</TitileHeader>
+            }
+            <HeaderButton>
+              <button onClick={closedEventHandle}>
+                <CloseRoundedIcon />
+              </button>
+            </HeaderButton>
+          </Header>
+
+          {/* Input */}
+          <SettingEvent>
+            <SettingDate>
+                <InputName
+                  type="text"
+                  name="eventName"
+                  placeholder="เพิ่มชื่อ"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  required
+                />
+                  <DurationInput
+                    type="number"
+                    name="duration"
+                    placeholder="ระยะเวลา"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.valueAsNumber)}
+                  />
+                  <div>
+                    <p>วัน</p>
+                  </div>
+            </SettingDate>
+            <SettingSection>
+              <TextStatus>สถานะ...</TextStatus>
+            </SettingSection>
+            <SettingDate>
+                <ColorOption value={eventType} onChange={(e) => setEventType(e.target.value)}>
+                  <option value="กิจกรรม">กิจกรรม</option>
+                  <option value="วันหยุด">วันหยุด</option>
+                  <option value="วันสอบ">วันสอบ</option>
+                </ColorOption>
+            </SettingDate>
+            <AddEventButton>
+              {
+                selectedEditEvent?
+              <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
+                แก้ไข
+              </SaveButton>
+              :
+              <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
+                บันทึก
+              </SaveButton>
+
+              }
+            </AddEventButton>
+          </SettingEvent>
+        </div>
+      </EventContainer>
+
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  position: fixed;
+  display: flex;
+  width: 100%;
+  margin-top: 36vh;
+  justify-content: center;
+`
+
+const ColorSelect = styled.div`
+  display: flex;
+  margin: 2px;
+`
+
+const EventContainer = styled.div`
+  position: fixed;
+  display: flex;
+  border-radius: 10px 10px 10px 10px;
+  background-color: white;
+`;
+
+const Header = styled.div`
+  border-radius: 10px 10px 0px 0px;
+  background-color: #f57f17;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px 0 10px;
+  margin-bottom: 18px;
+`;
+
+const TitileHeader = styled.div`
+  padding-top: 10px;
+  padding-bottom: 9px;
+  padding-left: 5px;
+  color: white;
+`;
+const HeaderButton = styled.div`
+  margin-right: 9px;
+  padding-top: 9px;
+  padding-bottom: 5px;
+  color: white;
+`;
+
+const SettingEvent = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin: 18px;
+  border-radius: 15px;
+`;
+
+const SettingDate = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AddEventButton = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+`;
+
+
+const SettingSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  margin-top: 8px;
+`;
+
+const InputName = styled.input`
+  color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #aaaaaa;
+  width: 50%;
+  height: 33px;
+  padding: 5px;
+  font-size: 16px;
+  line-height: 19px;
+  background: #fcfcfc;
+  border-radius: 20px;
+  margin: 4px;
+`;
+
+const DurationInput = styled.input`
+  line-height: 19px;
+  color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #aaaaaa;
+  width: 50%;
+  padding: 5px;
+  background: #fcfcfc;
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-right: 4px;
+`;
+
+const TextStatus = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+`;
+
+const ColorOption = styled.select`
+  color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #aaaaaa;
+  width: 50%;
+  padding: 5px;
+  line-height: 19px;
+  background: #fcfcfc;
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin: 4px;
+`;
+
+const SaveButton = styled.button`
+  justify-content: end;
+  padding: 10px;
+  width: 98px;
+  height: 35px;
+  background: #f57f17;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 12px;
+`;

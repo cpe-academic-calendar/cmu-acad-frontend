@@ -1,34 +1,27 @@
 import * as React from "react";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-
-import {
-  NavButton,
-  NavBarSt,
-  ButtonSave,
-  BackButton,
-} from "../SettingCalendar/SearchBar.styled";
 import { DraftComponent, InsertFile } from "./DraftYear.styled";
-import Draft from "../../Components/Draft";
+import Draft from "../CalendarEdit/Components/YearCalendar";
 
 
 class DraftYear extends React.Component {
   render(){
     return (
       <div>
-        <NavBarSt>
+        <div>
           <InsertFile>
             <InsertDriveFileOutlinedIcon />
           </InsertFile>
-          <NavButton>
-            <BackButton>
+          <div>
+            <div>
               {" "}
               Back
-              <ButtonSave>Save Changes</ButtonSave>
-            </BackButton>
+              <div>Save Changes</div>
+            </div>
             <CalendarTodayOutlinedIcon />
-          </NavButton>
-        </NavBarSt>
+          </div>
+        </div>
         <DraftComponent>
         <Draft />
         </DraftComponent>
