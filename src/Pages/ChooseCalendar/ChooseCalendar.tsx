@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useState, useContext } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -11,13 +7,9 @@ import ActiveList from "./Components/ActiveList";
 import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
-<<<<<<< HEAD
 import DuplicatePopUp from "./Components/DuplicatePopUp";
-import ExportPopUp from "./Components/ExportPopUp";
-=======
 import axios from 'axios'
 import { CalendarPath } from "./Components/path";
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
 
 
 interface data {
@@ -131,19 +123,6 @@ function ChooseCalendar(props: any) {
                                 </div>
                         }
                     </div>
-<<<<<<< HEAD
-            </TableCardHeader>
-        {render_list}
-        </Container>
-        {
-            newCalendar?
-            new_calendar = <AddCalendar handleClosePopup={newCalendarHandle} />
-            :
-            new_calendar = null
-        }
-        
-        <NewCalendarButton onClick={()=>newCalendarHandle()}>+</NewCalendarButton>  
-=======
                 </TableCardHeader>
                 {render_list}
             </Container>
@@ -154,7 +133,6 @@ function ChooseCalendar(props: any) {
                     new_calendar = null
             }
             <NewCalendarButton onClick={() => newCalendarHandle()}>+</NewCalendarButton>
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
         </>
     );
 }

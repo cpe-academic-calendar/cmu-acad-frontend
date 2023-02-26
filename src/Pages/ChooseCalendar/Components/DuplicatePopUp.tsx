@@ -15,6 +15,7 @@ const DuplicatePopUp = (props: any): JSX.Element => {
         setPopup(false)
     }
     console.log(popup)
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         await setYear(props.data.item.year)

@@ -23,7 +23,6 @@ const Container = styled.div`
 `
 
 const ActiveList = (calendar: CalendarProps) => {
-    console.log(calendar.data)
     return (
         <Container>
             { calendar.data?.map((item) => (

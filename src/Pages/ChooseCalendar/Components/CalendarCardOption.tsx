@@ -12,10 +12,9 @@ const CalendarCardOption = (props: any): JSX.Element => {
     const handleDuplicate = () => {
         setDuplicate(true)
     }
-
+    console.log(props.item.id)
     const handleArchive = async ()=> {
-        await setArchive(true)
-        await axios.put(`${CalendarPath.archiveCalendar}/${props.item.id}`,
+        await axios.put(`${CalendarPath.archiveCalendar}${props.item.id}`,
             {
                 calendar_status: "Archive"
         })
@@ -26,10 +25,23 @@ const CalendarCardOption = (props: any): JSX.Element => {
                 window.location.reload();
             })
     }
-    console.log(CalendarPath.delete)
+
+    const handleRestore = async ()=> {
+        await axios.put(`${CalendarPath.archiveCalendar}${props.item.id}`,
+            {
+                calendar_status: "Active"
+        })
+            .then((response) => {
+                setResponse(response.data)
+                console.log(response.data)
+                alert("Active calendar success")
+                window.location.reload();
+            })
+    }
+
     const handleDelete = async () => {
         console.log("delete")
-        await setDeleteCalendar(true)
+        setDeleteCalendar(true)
         await axios.delete(CalendarPath.delete + props.item.id)
             .then((response) => {
                 setResponse(response.data)
@@ -89,6 +101,9 @@ const CalendarCardOption = (props: any): JSX.Element => {
 >>>>>>> c7c9bfa (feat: set global axios and some fix components)
                 </div>
                 <div className="hover:bg-gray-200">
+                    <button onClick={handleRestore}>กู้คืน</button>
+                </div>
+                <div className="hover:bg-gray-200">
                     <button className='delete ' onClick={handleDelete}>ลบ</button>
                 </div>
             </DraftOption>
@@ -96,9 +111,6 @@ const CalendarCardOption = (props: any): JSX.Element => {
         {render_popup}
     </>);
 }
-
-const Duplicate = styled.div`
-`
 
 const DraftOption = styled.div`
     align-items: center;

@@ -2,8 +2,10 @@ import React from "react";
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 // import { Container, Logo, CalendarSearch, NavBarSt, Welcome, DropDown } from "./NavBar.styled";
 import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 
 const NavBar: React.FC = () => {
+
     return (
         <NavBarSt>
             <Container>
@@ -16,7 +18,7 @@ const NavBar: React.FC = () => {
                             <h3>lorem ipsum</h3>
                         </span>
                     </Welcome>
-                    <h1><KeyboardArrowDownOutlinedIcon /></h1>
+                    <a href="https://oauth.cmu.ac.th/v2/Authorize.aspx?response_type=code&client_id=MgtZS8S3J9cAhGAUGhbdX9qFHR2mCySSG7pNHbW8&redirect_uri=http://localhost:4000/auth&scope=cmuitaccount.basicinfo&cmuitaccount.personal_id&state=xyz" ><h1><KeyboardArrowDownOutlinedIcon /></h1></a>
                 </DropDown>
             </Container>
         </NavBarSt>

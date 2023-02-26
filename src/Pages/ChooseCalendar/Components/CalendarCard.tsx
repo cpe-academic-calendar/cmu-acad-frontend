@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-// import { Card, End, Start } from './CalendarCard.styled'
+import React, { createContext, useEffect, useRef } from 'react';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -7,12 +6,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
-<<<<<<< HEAD
 import DuplicatePopUp from './DuplicatePopUp';
 import ExportPopUp from './ExportPopUp';
-=======
 import { useCalendarCollect } from './CollectItem';
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
 
 type Props = {
     id: number;
@@ -22,19 +18,18 @@ type Props = {
     recently_edited: string;
 }
 
+export const CalendarContext = createContext<number[]>([])
+
 const CalendarCard: React.FC<Props> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
-<<<<<<< HEAD
     const [popupOverlay, setPopupOverlay] = useState<String>('')
-=======
     const { userId, setId } = useCalendarCollect()
 
->>>>>>> c7c9bfa (feat: set global axios and some fix components)
     const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
-
+    
     let render_option = null;
 
     //choose which option
@@ -72,11 +67,6 @@ const CalendarCard: React.FC<Props> = (data) => {
         render_option = <CalendarCardOption item={data} />
     ) : (render_option = null)
 
-    const selectItem = async (id: number) => {
-        await setId(id)
-        await selectCalendarClicked(!selectCalendar)
-        console.log(userId)
-    }
     const handleDropDownFocus = (state: Boolean) => {
         setDuplicateOverlay(!state)
     }
@@ -84,6 +74,23 @@ const CalendarCard: React.FC<Props> = (data) => {
     useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)
     }, [])
+    const handleCheck = async (id: number, e: boolean) => {
+        if (e == true) {
+            setId(id)
+            selectCalendarClicked(!selectCalendar)
+        } else {
+            const index = userId.indexOf(id)
+            userId.splice(index)
+            const arr = [...userId]
+            for(let i=0;i< arr.length;i++){
+                setId(arr[i])
+            }
+            selectCalendarClicked(false)
+            
+        }
+    }
+
+    // console.log(userId)
 
     const refOne = useRef<HTMLDivElement | null>(null)
 
@@ -94,18 +101,20 @@ const CalendarCard: React.FC<Props> = (data) => {
             }
         }
     }
+    
+    
 
     return (
-        <div>
+        <CalendarContext.Provider value={userId}>
             <Card>
                 <Start>
                     {
                         selectCalendar ?
-                            <div className='check' onClick={() => selectItem(data.id)}>
+                            <div className='check' onClick={() => handleCheck(data.id, false)}>
                                 <CheckCircleIcon />
                             </div>
                             :
-                            <div className='check' onClick={() => selectItem(data.id)}>
+                            <div className='check' onClick={() => handleCheck(data.id, true)}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
                     }
@@ -130,8 +139,7 @@ const CalendarCard: React.FC<Props> = (data) => {
                     </div>
                 </End>
             </Card>
-            {render_popup}
-        </div>
+        </CalendarContext.Provider >
 
     )
 }
