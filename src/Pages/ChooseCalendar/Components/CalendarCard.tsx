@@ -9,18 +9,12 @@ import CalendarCardOption from './CalendarCardOption';
 import DuplicatePopUp from './DuplicatePopUp';
 import ExportPopUp from './ExportPopUp';
 import { useCalendarCollect } from './CollectItem';
-
-type Props = {
-    id: number;
-    name: string;
-    year: number;
-    create_date: string;
-    recently_edited: string;
-}
+import dayjs from 'dayjs';
+import calendarProps from './calendarProps'
 
 export const CalendarContext = createContext<number[]>([])
 
-const CalendarCard: React.FC<Props> = (data) => {
+const CalendarCard: React.FC<calendarProps> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
     const [popupOverlay, setPopupOverlay] = useState<String>('')
@@ -125,8 +119,8 @@ const CalendarCard: React.FC<Props> = (data) => {
                     </div>
                 </Start>
                 <End>
-                    <h4>{data.create_date}</h4>
-                    <h4>{data.recently_edited}</h4>
+                    <h4>{dayjs(data.create_at).format()}</h4>
+                    <h4>{dayjs(data.update_at).format()}</h4>
                     <div className='block'>
                         <div className='static'>
                             <button>

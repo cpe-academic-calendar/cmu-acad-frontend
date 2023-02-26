@@ -10,22 +10,16 @@ import AddCalendar from "./Components/AddCalendar";
 import DuplicatePopUp from "./Components/DuplicatePopUp";
 import axios from 'axios'
 import { CalendarPath } from "./Components/path";
+import calendarProps from "./Components/calendarProps";
 
 
-interface data {
-    id: number,
-    name: string;
-    date_semester: number;
-    create_at: string;
-    update_at: string;
-}
 
 
 function ChooseCalendar(props: any) {
     const [calendarSort, setCalendarSort] = useState<String>('Active')
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
-    const [item, setItem] = useState<data[]>([]);
+    const [item, setItem] = useState<calendarProps[]>([]);
 
     console.log(setItem)
 
