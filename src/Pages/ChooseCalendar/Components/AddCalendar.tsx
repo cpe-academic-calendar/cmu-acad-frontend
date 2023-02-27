@@ -11,43 +11,52 @@ type ButtonProps = {
 };
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
+    var buddhistEra = require('dayjs/plugin/buddhistEra')
 
-    const [selectMonth, setSelectMonth] = useState(0)
-    const [value, setValue] = useState(new Date())
+    const [selectMonth, setSelectMonth] = useState(0) //เดือน
+    const [startSemister, setStartSemister] = useState(new Date())
     const [name, setName] = useState('')
-    const [startSemester, setStartSemester] = useState(0)
-    // const [year, setYear] = useState<number>(0);
+    const [startSemester, setStartSemester] = useState(new Date)
     const [response, setResponse] = useState()
     const navigate = useNavigate();
+    const year = dayjs(String(startSemester)).format('YYYY')
+
+    console.log(startSemister)
+    console.log(year)
+    const data = {
+        name: name,
+        starts_semester: startSemister,
+        year: year,
+        calendar_status: "Active",
+    }
+    console.log(data)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         await axios.post('http://localhost:4000/calendar/create', {
-            name: name,
-            starts_semester: value,
-            year: startSemester,
-            calendar_status: "Active",
+            // name: name,
+            // starts_semester: startSemister,
+            // year: year,
+            // calendar_status: "Active",
+            data
         })
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data)
-                navigate('/', { replace: true })
+                console.log(response.data.starts_semester)
                 alert("create calendar success")
+                // navigate(`/calendar-edit/${response.data.id}`, { state: response.data.id })
+                navigate(`/calendar-edit/`, { state: response.data.id })
                 window.location.reload();
             })
             .catch(function (error) {
                 console.log(error);
             });
     }
-    
-
-    console.log(startSemester)
 
     const onSelect = (e: any) => {
-        const date = value.getDate()
-        const year = startSemester - 543
+        const date = startSemister.getDate()
         setSelectMonth(e.target.value)
-        setValue(new Date(year, Number(selectMonth), date))
+        setStartSemister(new Date(Number(year), Number(selectMonth), date))
     }
 
     return (
@@ -67,13 +76,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             </CloseButton>
                         </div>
                         <AddForm onSubmit={handleSubmit}>
+                            <div >
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e :any) => setStartSemester(e.target.value)} />
+                            </div>
                             <div  className="mb-3">
                                 <FormInput type="text" id="name" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" onChange={(e) => setName(e.target.value)} />
                             </div>
                             <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
-                            <div >
-                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e) => setStartSemester(Number(e.target.value))} />
-                            </div>
                             <div className="flex-col justify-center ">
                                 <div className="flex w-full justify-center gap-8">
                                     <div className="w-full">
@@ -94,7 +103,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                                         </MonthInput>
                                     </div>
                                     <div className="w-full">
-                                        <DatePicker className="w-full" onChange={setValue} value={value} locale='th' />
+                                        <DatePicker className="w-full" onChange={(e: any)=> {setStartSemister(e)}} value={startSemister} locale='th' />
                                     </div>
                                 </div>
                                 <div className="grid justify-center mt-4">
@@ -108,6 +117,8 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         </Modal>
     )
 };
+
+//styled
 
 const SubmitLayout = styled.div`
 

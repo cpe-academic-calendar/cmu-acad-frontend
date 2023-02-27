@@ -8,9 +8,10 @@ import GlobalContext from './Context/GlobalContext';
 
 interface handleProps{
     onFileClickHandle: () => void;
+    name: string;
 }
 
-const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle} ) => {
+const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
 
     const { currentView, setCurrentView } = useContext(GlobalContext);
 
@@ -31,7 +32,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle} ) => {
                 <option value="year">ปี</option>
             </select>
         </Items>
-        <p>Calendar Name</p>
+        <p>{name}</p>
         <p>1/65 มิถุนายน 2565</p>
     </Nav>
     );

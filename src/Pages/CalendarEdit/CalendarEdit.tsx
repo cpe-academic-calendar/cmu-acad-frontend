@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 //Other files
 import { getMonth } from './Components/util'
@@ -9,11 +9,43 @@ import MonthCalendar from './Components/MonthCalendar';
 import EventModal from './Components/EventModal';
 import GlobalContext from './Components/Context/GlobalContext';
 import YearCalendar from './Components/YearCalendar';
+import axios from 'axios'
+import { useLocation } from 'react-router-dom';
+import dayjs from 'dayjs';
+
+interface dataProps {
+    data: {
+        name: string;
+        start_semester: Date;
+        year: number;
+        calendar_status: string;
+        create_at: Date;
+        update_at: Date;
+        delete_at: Date;
+    }
+}
 
 const CalendarEdit = () => {
+
+    const [calendarName, setCalendarName] = React.useState('');
     const [tempMonth, setTemptMonth] = React.useState(getMonth());
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { showAddEventModal, currentView, setCurrentView } = React.useContext(GlobalContext);
+    const { showAddEventModal, currentView, setCurrentView, monthIndex } = React.useContext(GlobalContext);
+
+    const calendarId = useLocation();
+    // console.log(dayjs(res.data.start_semester).month())
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
+            (res : dataProps) => {
+                    setCalendarName(res.data.name)
+                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+                    // console.log(dayjs(res.data.start_semester).month())
+                    // console.log(res.data.start_semester)
+                }
+        )
+    },[])
+
 
     let render_view = null;
 
@@ -43,7 +75,7 @@ const CalendarEdit = () => {
         <React.Fragment>
             <Col>
             {showAddEventModal && <EventModal />}
-                <CalendarHeader onFileClickHandle={onFileClickHandle} />
+                <CalendarHeader onFileClickHandle={onFileClickHandle} name={calendarName} />
             {fileOption?
                 <FileOption>
                     <div className='item'>
