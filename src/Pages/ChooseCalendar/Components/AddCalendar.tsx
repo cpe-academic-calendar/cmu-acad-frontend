@@ -11,40 +11,31 @@ type ButtonProps = {
 };
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
-    var buddhistEra = require('dayjs/plugin/buddhistEra')
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน
     const [startSemister, setStartSemister] = useState(new Date())
     const [name, setName] = useState('')
-    const [startSemester, setStartSemester] = useState(new Date)
+    const [startSemester, setStartSemester] = useState(new Date())
+    const [semester_year,setSemesterYear] = useState(0)
+    const [value,setValue] = useState(new Date())
     const [response, setResponse] = useState()
     const navigate = useNavigate();
-    const year = dayjs(String(startSemester)).format('YYYY')
 
-    console.log(startSemister)
-    console.log(year)
     const data = {
         name: name,
-        starts_semester: startSemister,
-        year: year,
+        start_semester: value,
+        year: startSemester,
         calendar_status: "Active",
     }
-    console.log(data)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
-        await axios.post('http://localhost:4000/calendar/create', {
-            // name: name,
-            // starts_semester: startSemister,
-            // year: year,
-            // calendar_status: "Active",
-            data
-        })
+        await axios.post('http://localhost:4000/calendar/create', 
+            data)
             .then((response) => {
                 setResponse(response.data)
                 console.log(response.data.starts_semester)
                 alert("create calendar success")
-                // navigate(`/calendar-edit/${response.data.id}`, { state: response.data.id })
                 navigate(`/calendar-edit/`, { state: response.data.id })
                 window.location.reload();
             })
@@ -54,10 +45,16 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     }
 
     const onSelect = (e: any) => {
-        const date = startSemister.getDate()
-        setSelectMonth(e.target.value)
-        setStartSemister(new Date(Number(year), Number(selectMonth), date))
+        // const day = new Date(e).setFullYear(Number(year)-543)
+        const day = new Date(e).setFullYear(semester_year-543)
+       setValue(new Date(day))
     }
+
+    const handleChooseYear = async (e: any) => {
+        setSemesterYear((e.target.value)-543)
+        setValue(new Date(new Date().setFullYear((e.target.value)-543)))
+    }
+
 
     return (
         <Modal>
@@ -77,7 +74,9 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                         </div>
                         <AddForm onSubmit={handleSubmit}>
                             <div >
-                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={(e :any) => setStartSemester(e.target.value)} />
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={
+                                    handleChooseYear
+                                }/>
                             </div>
                             <div  className="mb-3">
                                 <FormInput type="text" id="name" name="name" className="border rounded-full mb-3 p-2 " placeholder="ชื่อปฏิทิน" onChange={(e) => setName(e.target.value)} />
@@ -86,24 +85,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             <div className="flex-col justify-center ">
                                 <div className="flex w-full justify-center gap-8">
                                     <div className="w-full">
-                                        <MonthInput className="border rounded-lg" onChange={onSelect}>
-                                            <option value="0">เดือน</option>
-                                            <option value="01">มกราคม</option>
-                                            <option value="02">กุมภาพันธ์</option>
-                                            <option value="03">มีนาคม</option>
-                                            <option value="04">เมษายน</option>
-                                            <option value="05">พฤษภาคม</option>
-                                            <option value="06">มิถุนายน</option>
-                                            <option value="07">กรกฎาคม</option>
-                                            <option value="08">สิงหาคม</option>
-                                            <option value="09">กันยายน</option>
-                                            <option value="10">ตุลาคม</option>
-                                            <option value="11">พฤศจิกายน</option>
-                                            <option value="12">ธันวาคม </option>
-                                        </MonthInput>
-                                    </div>
-                                    <div className="w-full">
-                                        <DatePicker className="w-full" onChange={(e: any)=> {setStartSemister(e)}} value={startSemister} locale='th' />
+                                        <DatePicker className="w-full" onChange={onSelect} value={value}  locale='th' />
                                     </div>
                                 </div>
                                 <div className="grid justify-center mt-4">

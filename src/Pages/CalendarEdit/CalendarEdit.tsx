@@ -34,11 +34,12 @@ const CalendarEdit = () => {
 
     const calendarId = useLocation();
     // console.log(dayjs(res.data.start_semester).month())
-
+    console.log(calendarId.state)
     useEffect(() => {
         axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
-            (res : dataProps) => {
+            (res) => {
                     setCalendarName(res.data.name)
+                    console.log(res.data)
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
                     // console.log(dayjs(res.data.start_semester).month())
                     // console.log(res.data.start_semester)
