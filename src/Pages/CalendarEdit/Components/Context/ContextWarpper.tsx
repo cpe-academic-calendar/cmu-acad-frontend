@@ -13,10 +13,17 @@ interface Action {
     payload: Payload;
 }
 
+// interface eventProps {
+//     id: number;
+//     event_name: string;
+//     started_date: string;
+//     type: string;
+// }
+
 function savedEventReducer(state: any[], {type, payload}: Action) {
     switch (type){
         case 'push':
-            return[...state, payload]
+            return [...state, payload]
         case "update":
             return state.map((evt) =>
                 evt.id === payload.id ? payload : evt
@@ -48,6 +55,7 @@ export const ContextWrapper = (props: any) => {
 
     useEffect(()=> {
         localStorage.setItem('savedEvents', JSON.stringify(savedEvents));
+        // localStorage.removeItem("savedEvents")
     }, [savedEvents])
 
     const value = {

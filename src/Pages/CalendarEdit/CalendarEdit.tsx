@@ -30,7 +30,7 @@ const CalendarEdit = () => {
     const [calendarName, setCalendarName] = React.useState('');
     const [tempMonth, setTemptMonth] = React.useState(getMonth());
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { showAddEventModal, currentView, setCurrentView, monthIndex } = React.useContext(GlobalContext);
+    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
 
     const calendarId = useLocation();
     // console.log(dayjs(res.data.start_semester).month())
