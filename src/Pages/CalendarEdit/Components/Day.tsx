@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import React, { useContext, useEffect, useState } from 'react';
 import GlobalContext from './Context/GlobalContext';
 import EventInfo from './EventInfo';
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 
 interface DateFromDayjs{
     day: dayjs.Dayjs;
@@ -10,15 +11,10 @@ interface DateFromDayjs{
 
 const Day:React.FC<DateFromDayjs> = ({day}) => {
 
-  let dayClassName = 'work-day'
-  if(day.format('d') === '0' || day.format('d') === '6'  ){
-    dayClassName = 'holioday'
-  }
-
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
 
-  const { setDaySelected,  setShowAddEventModal, savedEvents, setSelectedEditEvent } = useContext(GlobalContext);
+  const { daySelected, setDaySelected, setShowAddEventModal, savedEvents, setSelectedEditEvent, dayDropped, setDayDropped, dispatchCalEvents } = useContext(GlobalContext);
 
   useEffect((()=> {
     const events = savedEvents.filter((evt) => 
@@ -29,13 +25,15 @@ const Day:React.FC<DateFromDayjs> = ({day}) => {
 
 
   const addEventHandle = () => {
-    setDaySelected(day);
-    setShowAddEventModal(true);
+      setDaySelected(day)
+      setShowAddEventModal(true);
 }
 
   const closeEventInfoHandle = () => {
-   setEventInfo(false)
+    setEventInfo(false)
   }
+
+  {console.log(daySelected)}
 
   const editEventHandle = (evt: any) => {
     setDaySelected(day)
@@ -44,38 +42,118 @@ const Day:React.FC<DateFromDayjs> = ({day}) => {
     setEventInfo(false)
   }
 
+  //Drag and drop function
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    if(!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
+
+    // let add,
+    // events = dayEvents;
+
+    // if(source.droppableId === 'uploaded'){
+    //     add = active[source.index]
+    //     active.splice(source.index, 1) //remove one item from that place
+    // }else if(source.droppableId === 'front_view'){
+    //     add = front_view[source.index]
+    //     front_view.splice(source.index, 1)
+    // }else if(source.droppableId === 'side_view'){
+    //     add = side_view[source.index]
+    //     side_view.splice(source.index, 1)
+    // }else if(source.droppableId === 'back_view'){
+    //     add = back_view[source.index]
+    //     back_view.splice(source.index, 1)
+    // }
+
+    // if(destination.droppableId === 'uploaded'){
+    //     active.splice(destination.index, 0, add)
+    // }else if(destination.droppableId === 'front_view'){
+    //     front_view.splice(destination.index, 0, add)
+    // }else if(destination.droppableId === 'side_view'){
+    //     side_view.splice(destination.index, 0, add)
+    // }else if(destination.droppableId === 'back_view'){
+    //     back_view.splice(destination.index, 0, add)
+    // }
+
+    // setUplodedImaes(active);
+    // setFrontView(front_view);
+    // setSideView(side_view);
+    // setBackView(back_view);
+    
+};
+
   return (
-    <DayContainer onClick={addEventHandle}>
-        <LiteralDay>
-          {day.format("D")}
-            { day.format('D') === "1" && (
-              <div>
-                {day.format("MMM")}
-              </div>
-            )}
-          </LiteralDay>
-          {dayEvents.map((evt, idx) => 
-            <div key={idx}>
-              {evt.type === 'กิจกรรม' &&                 
-              <EventsEvent onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsEvent> }
+      <DayContainer onClick={addEventHandle}>
+        <DragDropContext onDragEnd={onDragEnd} >
+          <LiteralDay>
+              {day.format("D")}
+                { day.format('D') === "1" && (
+                  <div>
+                    {day.format("MMM")}
+                  </div>
+                )}
+              </LiteralDay>
+          <Droppable droppableId={`${daySelected}`}>
+            {
+              (provided, snapshot) => (
+                <div {...provided.droppableProps} ref={provided.innerRef} >
+                  {dayEvents.map((evt, idx) => {
+                    return (
+                      <Draggable key={evt.id} draggableId={String(evt.id)} index={idx}>
+                        {
+                          (provided) => (
+                            <div key={idx} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                              {evt.type === 'กิจกรรม' &&                 
+                              <EventsEvent onClick={() => {setEventInfo(true)}}>
+                                <p>{evt.title}</p>
+                              </EventsEvent> }
+      
+                              {evt.type === 'วันหยุด' &&                 
+                              <EventsHoliday onClick={() => setEventInfo(true)}>
+                                <p>{evt.title}</p>
+                              </EventsHoliday> }
 
-              {evt.type === 'วันหยุด' &&                 
-              <EventsHoliday onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsHoliday> }
+                              {evt.type === 'วันสอบ' &&                 
+                              <EventsExam onClick={() => setEventInfo(true)}>
+                                <p>{evt.title}</p>
+                              </EventsExam> }
+                              
+                              {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
+                                editEventHandle(evt)
+                              }} />}
+                            </div>
+                          )
+                        }
+                      </Draggable>
+                    )
+                  })}
+                </div>
+              )
+            }
+          </Droppable>
+        </DragDropContext>
+              {/* {dayEvents.map((evt, idx) => 
+                <div key={idx}>
+                  {evt.type === 'กิจกรรม' &&                 
+                  <EventsEvent onClick={() => {setEventInfo(true) }}>
+                    <p>{evt.title}</p>
+                  </EventsEvent> }
 
-              {evt.type === 'วันสอบ' &&                 
-              <EventsExam onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsExam> }
-              
-              {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
-                editEventHandle(evt)
-              }} />}
-            </div>)}
-    </DayContainer>
+                  {evt.type === 'วันหยุด' &&                 
+                  <EventsHoliday onClick={() => setEventInfo(true)}>
+                    <p>{evt.title}</p>
+                  </EventsHoliday> }
+
+                  {evt.type === 'วันสอบ' &&                 
+                  <EventsExam onClick={() => setEventInfo(true)}>
+                    <p>{evt.title}</p>
+                  </EventsExam> }
+                  
+                  {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
+                    editEventHandle(evt)
+                  }} />}
+                </div>)} */}
+        </DayContainer>
   )}
 
 const LiteralDay = styled.div`

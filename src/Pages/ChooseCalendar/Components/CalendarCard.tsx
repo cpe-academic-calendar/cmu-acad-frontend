@@ -115,12 +115,12 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content">
                         <h4>{data.name}</h4>
-                        <p>{data.year}</p>
+                        <p>{dayjs(data.year).format("BBBB")}</p>
                     </div>
                 </Start>
                 <End>
-                    <h4>{dayjs(data.create_at).format()}</h4>
-                    <h4>{dayjs(data.update_at).format()}</h4>
+                    <h4>{dayjs(data.create_at).format("DD MMMM BBBB")}</h4>
+                    <h4>{dayjs(data.update_at).format("DD MMMM BBBB")}</h4>
                     <div className='block'>
                         <div className='static'>
                             <button>

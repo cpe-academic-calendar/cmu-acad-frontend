@@ -42,7 +42,7 @@ const CalendarEdit = () => {
                     console.log(res.data)
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
                     // console.log(dayjs(res.data.start_semester).month())
-                    // console.log(res.data.start_semester)
+                    console.log(res.data.start_semester)
                 }
         )
     },[])
