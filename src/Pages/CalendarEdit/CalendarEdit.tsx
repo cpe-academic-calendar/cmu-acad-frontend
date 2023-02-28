@@ -31,6 +31,7 @@ const CalendarEdit = () => {
     const [calendarName, setCalendarName] = React.useState('');
     const [tempMonth, setTemptMonth] = React.useState(getMonth(0));
     const [fileOption, setFileOption] = React.useState<boolean>(false);
+<<<<<<< HEAD
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
@@ -48,6 +49,9 @@ const CalendarEdit = () => {
                 }
             }
         }
+=======
+    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
+>>>>>>> feat: autoGenerate added
 
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
