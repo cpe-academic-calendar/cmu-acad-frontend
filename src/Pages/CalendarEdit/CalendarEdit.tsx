@@ -39,9 +39,9 @@ const CalendarEdit = () => {
         axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
             (res : dataProps) => {
                     setCalendarName(res.data.name)
-                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+                    // setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
                     // console.log(dayjs(res.data.start_semester).month())
-                    // console.log(res.data.start_semester)
+                    console.log(res.data.start_semester)
                 }
         )
     },[])

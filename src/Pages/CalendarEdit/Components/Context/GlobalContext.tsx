@@ -26,6 +26,8 @@ interface contextType {
     setSelectedEditEvent: (props: any) => void;
     currentView: string;
     setCurrentView: (props: string) => void;
+    dayDropped: number;
+    setDayDropped: (day: any) => void;
 
 }
 
@@ -41,7 +43,9 @@ const GlobalContext = React.createContext<contextType>({
     selectedEditEvent: null,
     setSelectedEditEvent: (props) => {},
     currentView: '',
-    setCurrentView: (props) => null
+    setCurrentView: (props) => null,
+    dayDropped: 0,
+    setDayDropped: (day) => {}
 
 })
 
