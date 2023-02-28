@@ -18,6 +18,11 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
 
+<<<<<<< HEAD
+=======
+  // setDayEvents([...dayEvents, data])
+  // console.log(dayEvents);
+>>>>>>> 14e28f7977dca22cf3cac3b6f2354cb78ecce08d
   const {
     daySelected,
     setDaySelected,
@@ -29,6 +34,7 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
     dispatchCalEvents,
   } = useContext(GlobalContext);
 
+<<<<<<< HEAD
         const data = [
           {
             id:1,
@@ -54,6 +60,33 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
             }
         });
           }, []);
+=======
+  useEffect(() => {
+    const data = [
+      {
+        id:1,
+        title: "hello",
+        day: "2023-02-28T10:05:35.608Z",
+        duration: 1,
+        type: "กิจกรรม",
+      },
+      {
+        id:2,
+        title: "hello",
+        day: "2023-02-29T10:05:35.608Z",
+        duration: 1,
+        type: "วันหยุด",
+      },
+    ];
+  
+    data.map((evt, idx) => {
+      dispatchCalEvents({type:'push', payload: evt});
+      // setDaySelected(evt.day)
+      // if(dayjs(evt.day).format("DD-MM-YY") === dayjs(daySelected).format("DD-MM-YY")){
+      // }
+    });
+  }, []);
+>>>>>>> 14e28f7977dca22cf3cac3b6f2354cb78ecce08d
 
   useEffect(() => {
     const events =
