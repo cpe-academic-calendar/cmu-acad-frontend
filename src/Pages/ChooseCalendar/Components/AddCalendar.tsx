@@ -1,16 +1,19 @@
-import React, { useEffect, useInsertionEffect, useState } from "react"
+import React, { useContext, useEffect, useInsertionEffect, useState } from "react"
 import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
 import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import GlobalContext from "../../CalendarEdit/Components/Context/GlobalContext";
 
 type ButtonProps = {
     handleClosePopup: () => void;
 };
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
+
+    const { daySelected, setDaySelected, dispatchCalEvents } = useContext(GlobalContext);
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน
     const [startSemister, setStartSemister] = useState(new Date())
@@ -34,7 +37,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             data)
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data.starts_semester)
+                console.log(response.data.start_semester)
                 alert("create calendar success")
                 navigate(`/calendar-edit/`, { state: response.data.id })
                 window.location.reload();

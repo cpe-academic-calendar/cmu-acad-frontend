@@ -1,13 +1,43 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
+import GlobalContext from "./Context/GlobalContext";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
 }
 
 const MonthCalendar:React.FC<DateFromDayjs> = ({ month }) => {
+
+    const {setDaySelected, daySelected, dispatchCalEvents } = useContext(GlobalContext);
+
+    const data = [
+        {
+          id:1,
+          title: "hello",
+          day: "2023-02-28T10:05:35.608Z",
+          duration: 1,
+          type: "กิจกรรม",
+        },
+        {
+          id:2,
+          title: "hello",
+          day: "2023-02-29T10:05:35.608Z",
+          duration: 1,
+          type: "วันหยุด",
+        },
+      ]
+      
+      useEffect(() => {
+        data.map((evt, idx) => {
+          setDaySelected(evt.day)
+          if(dayjs(evt.day).format("DD-MM-YY") === dayjs(daySelected).format("DD-MM-YY")){
+            dispatchCalEvents({type:'push', payload: evt});
+          }
+      });
+        }, []);
+        
     return ( <>
         <Header>
                 <DayItems>
