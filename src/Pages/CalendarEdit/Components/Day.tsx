@@ -72,8 +72,6 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
     setEventInfo(false);
   };
 
-  {console.log(daySelected)}
-
   const editEventHandle = (evt: any) => {
     setDaySelected(day);
     setSelectedEditEvent(evt);
@@ -92,46 +90,6 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
     //   dragged_date = daySelected;
 
   };
-
-  //Drag and drop function
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    if(!destination) return;
-    if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
-
-    // let add,
-    // events = dayEvents;
-
-    // if(source.droppableId === 'uploaded'){
-    //     add = active[source.index]
-    //     active.splice(source.index, 1) //remove one item from that place
-    // }else if(source.droppableId === 'front_view'){
-    //     add = front_view[source.index]
-    //     front_view.splice(source.index, 1)
-    // }else if(source.droppableId === 'side_view'){
-    //     add = side_view[source.index]
-    //     side_view.splice(source.index, 1)
-    // }else if(source.droppableId === 'back_view'){
-    //     add = back_view[source.index]
-    //     back_view.splice(source.index, 1)
-    // }
-
-    // if(destination.droppableId === 'uploaded'){
-    //     active.splice(destination.index, 0, add)
-    // }else if(destination.droppableId === 'front_view'){
-    //     front_view.splice(destination.index, 0, add)
-    // }else if(destination.droppableId === 'side_view'){
-    //     side_view.splice(destination.index, 0, add)
-    // }else if(destination.droppableId === 'back_view'){
-    //     back_view.splice(destination.index, 0, add)
-    // }
-
-    // setUplodedImaes(active);
-    // setFrontView(front_view);
-    // setSideView(side_view);
-    // setBackView(back_view);
-    
-};
 
   return (
     <DayContainer onClick={addEventHandle}>
