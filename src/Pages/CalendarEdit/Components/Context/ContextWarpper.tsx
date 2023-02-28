@@ -42,6 +42,7 @@ export const ContextWrapper = (props: any) => {
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
+    const [dayDropped, setDayDropped] = useState<any>(null)
     // const []
     const [savedEvents, dispatchCalEvents] = useReducer( savedEventReducer, [], initEvents)
 
@@ -61,7 +62,9 @@ export const ContextWrapper = (props: any) => {
         dispatchCalEvents,
         savedEvents,
         currentView,
-        setCurrentView
+        setCurrentView,
+        dayDropped,
+        setDayDropped
     };
 
     return (
