@@ -10,7 +10,7 @@ const SideBar:React.FC = () => {
 
     let event_render = savedEvents.map((props, idx) => {
         return (
-            <EventCard key={idx} name={props.title} date={props.day} type={props.type} />
+            <EventCard key={idx} name={props.event_name} date={props.start_date} type={props.type} />
         )
     })
 

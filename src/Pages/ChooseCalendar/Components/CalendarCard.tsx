@@ -11,6 +11,7 @@ import ExportPopUp from './ExportPopUp';
 import { useCalendarCollect } from './CollectItem';
 import dayjs from 'dayjs';
 import calendarProps from './calendarProps'
+import { useNavigate } from 'react-router-dom';
 
 export const CalendarContext = createContext<number[]>([])
 
@@ -19,7 +20,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
     const [popupOverlay, setPopupOverlay] = useState<String>('')
     const { userId, setId } = useCalendarCollect()
-
+    const navigate = useNavigate()
     const selectCalendarClicked = (state: Boolean) => {
         setSelectCalendar(state);
     };
@@ -96,11 +97,14 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
         }
     }
     
+    const handleCardClick = () => {
+        navigate(`calendar-edit/${data.id}`)
+    }
     
 
     return (
         <CalendarContext.Provider value={userId}>
-            <Card>
+            <Card onClick={handleCardClick}> 
                 <Start>
                     {
                         selectCalendar ?

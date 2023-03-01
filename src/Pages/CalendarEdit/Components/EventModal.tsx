@@ -27,14 +27,14 @@ export default function EventModal() {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const calendarEvent = {
-      title: eventName,
+      event_name: eventName,
       duration,
       type: eventType,
-      day: daySelected,
+      start_date: daySelected,
       id: selectedEditEvent ? selectedEditEvent.id : Date.now(),
     }
     if(selectedEditEvent){
-      if(calendarEvent.title === ''){
+      if(calendarEvent.event_name === ''){
         setErrorMessage(true)
       // }
       // else if(calendarEvent.title === '' && showAddEventModal === false){
@@ -49,7 +49,7 @@ export default function EventModal() {
       }
     }
     else{
-      if(calendarEvent.title === ''){
+      if(calendarEvent.event_name === ''){
         setErrorMessage(true);
       }else{
         dispatchCalEvents({type:'push', payload: calendarEvent})

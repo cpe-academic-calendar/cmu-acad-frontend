@@ -10,8 +10,8 @@ import EventModal from './Components/EventModal';
 import GlobalContext from './Components/Context/GlobalContext';
 import YearCalendar from './Components/YearCalendar';
 import axios from 'axios'
-import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
 
 interface dataProps {
     data: {
@@ -32,19 +32,14 @@ const CalendarEdit = () => {
     const [fileOption, setFileOption] = React.useState<boolean>(false);
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
 
-    const calendarId = useLocation();
     // console.log(dayjs(res.data.start_semester).month())
-    console.log(calendarId.state)
+    const calendarId = useParams()
     useEffect(() => {
         axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
             (res) => {
                     setCalendarName(res.data.name)
-<<<<<<< HEAD
                     console.log(res.data)
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
-=======
-                    // setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
->>>>>>> 6e02561 (fix: ChooseCalendar)
                     // console.log(dayjs(res.data.start_semester).month())
                     console.log(res.data.start_semester)
                 }

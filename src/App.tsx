@@ -36,7 +36,7 @@ function App() {
           <Route path="/yearview" element={<Draft />}/>
           <Route path="/activity" element={<Activity />} />
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
-          <Route path="/calendar-edit" element={<CalendarWarp/>} />
+          <Route path="/calendar-edit/:id" element={<CalendarWarp/>} />
         </ Routes>
       </ BrowserRouter>
     </div>
