@@ -44,9 +44,9 @@ const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEve
         <InfoLayout>
           <TitleHeader>
             {render_color}
-            <Title>{event.title}</Title>
+            <Title>{event.event_name}</Title>
           </TitleHeader>
-          <Duration>{<p>{dayjs(event.day).format('D MMMM BBBB')}</p>}</Duration>
+          <Duration>{<p>{dayjs(event.start_date).format('D MMMM BBBB')}</p>}</Duration>
           <Status>
             สถานะ:
             <StatusType>{event.type}</StatusType>
