@@ -39,7 +39,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                 setResponse(response.data)
                 console.log(response.data.start_semester)
                 alert("create calendar success")
-                navigate(`/calendar-edit/`, { state: response.data.id })
+                navigate(`/calendar-edit/${response.data.id}`)
                 window.location.reload();
             })
             .catch(function (error) {

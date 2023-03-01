@@ -69,8 +69,18 @@ const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEve
 
 export default EventInfo;
 
+// const Container = styled.div`
+//   position: fixed;
+//   display: flex;
+//   width: 100%;
+//   margin-top: 0vh;
+//   justify-content: center;
+// `
+
 const InfoContainer = styled.div`
   position: fixed;
+  margin-top: 0;
+  z-index: 1;
   width: 384px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);

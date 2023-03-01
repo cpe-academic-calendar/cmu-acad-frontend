@@ -30,7 +30,7 @@ const CalendarEdit = () => {
     const [tempMonth, setTemptMonth] = React.useState(getMonth());
     const [fileOption, setFileOption] = React.useState<boolean>(false);
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
-    const [data, setData] = React.useState([])
+    const [data, setData] = React.useState<any[]>([])
     const calendarId = useParams()
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
@@ -53,7 +53,7 @@ const CalendarEdit = () => {
             render_view = 
         <Row>
             <div className='calendar'>
-                    <MonthCalendar month={tempMonth} />
+                <MonthCalendar month={tempMonth} events={data} />
             </div>
             <div className='sidebar'>
                 <SideBar />
@@ -105,6 +105,9 @@ const Row = styled.div`
     grid-template-columns: 7fr auto;
     .calendar{
         margin-right: 253px;
+    }
+    .sidebar{
+        z-index: -1;
     }
 `
 
