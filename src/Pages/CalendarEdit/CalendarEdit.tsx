@@ -11,9 +11,14 @@ import GlobalContext from '../../GlobalContext/GlobalContext';
 import EditCalendarContext from './Components/Context/EditCalendarContext';
 import YearCalendar from './Components/YearCalendar';
 import axios from 'axios'
+<<<<<<< HEAD
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import ExportPopUp from '../../Components/ExportPopUp';
+=======
+import { useLocation, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+>>>>>>> fix: ChooseCalender re-direct and CalendarEdit
 interface dataProps {
     data: {
         name: string;
@@ -51,16 +56,25 @@ const CalendarEdit = () => {
         }
 =======
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
+<<<<<<< HEAD
 >>>>>>> feat: autoGenerate added
 
+=======
+    const [data, setData] = React.useState([])
+    const calendarId = useParams()
+>>>>>>> fix: ChooseCalender re-direct and CalendarEdit
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
         axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)
+<<<<<<< HEAD
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
                     // setTemptMonth(getMonth(res.data.start_semester))
+=======
+                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+>>>>>>> fix: ChooseCalender re-direct and CalendarEdit
                     // console.log(dayjs(res.data.start_semester).month())
                 }
         )

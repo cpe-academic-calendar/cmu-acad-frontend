@@ -95,9 +95,6 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     if(!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
 
-    // let add,
-    //   dropped_date = dayDropped,
-    //   dragged_date = daySelected;
 
   };
 
@@ -131,19 +128,19 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
                               setEventInfo(true);
                             }}
                           >
-                            <p>{evt.title}</p>
+                            <p>{evt.event_name}</p>
                           </EventsEvent>
                         )}
 
                         {evt.type === "วันหยุด" && (
                           <EventsHoliday onClick={() => setEventInfo(true)}>
-                            <p>{evt.title}</p>
+                            <p>{evt.event_name}</p>
                           </EventsHoliday>
                         )}
 
                         {evt.type === "วันสอบ" && (
                           <EventsExam onClick={() => setEventInfo(true)}>
-                            <p>{evt.title}</p>
+                            <p>{evt.event_name}</p>
                           </EventsExam>
                         )}
 
