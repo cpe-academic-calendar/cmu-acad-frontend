@@ -16,15 +16,45 @@ interface DateFromDayjs {
   day: dayjs.Dayjs;
 }
 
+interface eventProps {
+  events:{
+    id: number;
+    event_name: string;
+    start_date: any;
+    end_date: any;
+  }[]
+}
+
 const Day: React.FC<DateFromDayjs> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const [data,setData] = useState<any[]>([])
+  const [data,setData] = useState<eventProps[]>([])
   const calendarId = useParams()
+
+  // const data = [
+  //   {
+  //     id:1,
+  //     event_name: "hello",
+  //     start_date: "2023-02-28T10:05:35.608Z",
+  //     duration: 1,
+  //     type: "กิจกรรม",
+  //   },
+  //   {
+  //     id:2,
+  //     event_name: "hello",
+  //     start_date: "2023-02-29T10:05:35.608Z",
+  //     duration: 1,
+  //     type: "วันหยุด",
+  //   },
+  //   {
+  //     id:3,
+  //     event_name: "วันสอบ1",
+  //     start_date: "2023-02-26T10:05:35.608Z",
+  //     duration: 1,
+  //     type: "วันสอบ",
+  //   },
+  // ]
   
-
-
-
   const {
     daySelected,
     setDaySelected,
@@ -36,48 +66,34 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
     dispatchCalEvents,
   } = useContext(GlobalContext);
 
-        // const data = [
-        //   {
-        //     id:1,
-        //     event_name: "hello",
-        //     start_date: "2023-02-28T10:05:35.608Z",
-        //     duration: 1,
-        //     type: "กิจกรรม",
-        //   },
-        //   {
-        //     id:2,
-        //     event_name: "hello",
-        //     start_date: "2023-02-29T10:05:35.608Z",
-        //     duration: 1,
-        //     type: "วันหยุด",
-        //   },
-        // ]
-        
-        useEffect(() => {
-          const getData = () => {
-            axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`).then(
-            (res) => {setData(res.data)})  
-          }
-          getData()
-          console.log(data)
+
+
+        useEffect (() => {
+            const fetchData = async () => {
+              axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`)
+              .then(
+              (res) => {setData(res.data)})    
+            }
+          fetchData()
+
           data.map((props)=>{
-            props.events.map((evt:any) => {
-              // console.log(evt.events)
-              if( dayjs(evt.events).format("DD-MM-YY") === day.format("DD-MM-YY")){
-              dispatchCalEvents({type:'push', payload: evt});}
+            props.events.map((events) => {
+              if( dayjs(events.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
+                setDaySelected(events.start_date)
+              dispatchCalEvents({type:'push', payload: events.start_date});
+            }
             })
           })
-          // data.map((idx)=>{
-          //   if( dayjs(idx.events.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
-          //     dispatchCalEvents({type:'push', payload: idx});
+          
+          // data.map((props)=>{
+          //     if( dayjs(props.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
+          //       setDaySelected(props.start_date)
+          //     dispatchCalEvents({type:'push', payload: props});
           //   }
-          //   console.log(idx.events.start_date)
           // })
-          
-          
+
           // data.forEach((evt,idx) => 
           // {
-            
           //   if( dayjs(evt.events[0].start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
           //     dispatchCalEvents({type:'push', payload: evt});
           //   }
@@ -192,6 +208,7 @@ const LiteralDay = styled.div`
 
 const DayContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   height: 100%;
   padding: 14px 14px;
