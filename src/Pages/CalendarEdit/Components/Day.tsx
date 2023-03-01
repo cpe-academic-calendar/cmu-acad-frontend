@@ -92,9 +92,10 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   //Drag and drop function
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
+    setDaySelected(result.source)
+    setDayDropped(result.destination)
     if(!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
-
 
   };
 
