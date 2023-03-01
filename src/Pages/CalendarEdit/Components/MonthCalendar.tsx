@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useContext, useEffect, useState } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
@@ -6,20 +5,13 @@ import Day from "./Day";
 import GlobalContext from "./Context/EditCalendarContext";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
-=======
-import React, { useContext, useEffect } from "react";
-import dayjs from 'dayjs'
-import styled from "styled-components";
-import Day from "./Day";
-import GlobalContext from "./Context/GlobalContext";
->>>>>>> fix: auto-generated
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
     events: any[];
 }
 
-<<<<<<< HEAD
+
 const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
     const [event, setEvent] = useState<any[]>([])
     const calendarId = useParams()
@@ -37,36 +29,8 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
     }, [calendarId])
 
     console.log(event)
-=======
-const MonthCalendar:React.FC<DateFromDayjs> = ({ month }) => {
 
     const {setDaySelected, daySelected, dispatchCalEvents } = useContext(GlobalContext);
-
-    const data = [
-        {
-          id:1,
-          title: "hello",
-          day: "2023-02-28T10:05:35.608Z",
-          duration: 1,
-          type: "กิจกรรม",
-        },
-        {
-          id:2,
-          title: "hello",
-          day: "2023-02-29T10:05:35.608Z",
-          duration: 1,
-          type: "วันหยุด",
-        },
-      ]
-      
-      useEffect(() => {
-        data.map((evt, idx) => {
-          setDaySelected(evt.day)
-          if(dayjs(evt.day).format("DD-MM-YY") === dayjs(daySelected).format("DD-MM-YY")){
-            dispatchCalEvents({type:'push', payload: evt});
-          }
-      });
-        }, []);
         
     return ( <>
         <Header>
@@ -94,34 +58,6 @@ const MonthCalendar:React.FC<DateFromDayjs> = ({ month }) => {
                     <p>12</p>
                 </DayItems>
                 <DayItems>วันเสาร์</DayItems>
->>>>>>> fix: auto-generated
-
-    return (<>
-        <Header>
-            <DayItems>
-                <p>วันอาทิตย์</p>
-            </DayItems>
-            <DayItems>
-                <p> วันจันทร์</p>
-                <p>12</p>
-            </DayItems>
-            <DayItems>
-                <p>วันอังคาร</p>
-                <p>12</p>
-            </DayItems>
-            <DayItems>
-                <p>วันพุธ</p>
-                <p>12</p>
-            </DayItems>
-            <DayItems>
-                <p>วันพฤหัส</p>
-                <p>12</p>
-            </DayItems>
-            <DayItems>
-                <p>วันศุกร์</p>
-                <p>12</p>
-            </DayItems>
-            <DayItems>วันเสาร์</DayItems>
         </Header>
         <Container>
             {

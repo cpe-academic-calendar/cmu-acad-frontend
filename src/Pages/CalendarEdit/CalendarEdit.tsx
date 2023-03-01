@@ -57,10 +57,14 @@ const CalendarEdit = () => {
 =======
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> feat: autoGenerate added
 
 =======
     const [data, setData] = React.useState([])
+=======
+    const [data, setData] = React.useState<any[]>([])
+>>>>>>> fix: CalendarEdit
     const calendarId = useParams()
 >>>>>>> fix: ChooseCalender re-direct and CalendarEdit
     // console.log(dayjs(res.data.start_semester).month())
