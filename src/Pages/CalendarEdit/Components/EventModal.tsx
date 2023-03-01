@@ -18,7 +18,7 @@ export default function EventModal() {
   };
 
   //state of input that are in this modal
-  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.title : ''); //Event_name
+  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.event_name : ''); //Event_name
   const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
@@ -35,10 +35,7 @@ export default function EventModal() {
     }
     if(selectedEditEvent){
       if(calendarEvent.event_name === ''){
-        setErrorMessage(true)
-      // }
-      // else if(calendarEvent.title === '' && showAddEventModal === false){
-      //   setErrorMessage(true)
+        setErrorMessage(true);
       }
       else{
         dispatchCalEvents({type:'update', payload: calendarEvent})
@@ -58,11 +55,6 @@ export default function EventModal() {
         setShowAddEventModal(false);
       }
     }
-    // if (selectedEditEvent) {
-    //   dispatchCalEvents({ type: "delete", payload: calendarEvent });
-    // } else {
-    //   dispatchCalEvents({ type: "push", payload: calendarEvent });
-    // }
   }
 
   return (
