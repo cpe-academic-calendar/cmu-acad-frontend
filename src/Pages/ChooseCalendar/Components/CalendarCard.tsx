@@ -104,7 +104,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
 
     return (
         <CalendarContext.Provider value={userId}>
-            <Card onClick={handleCardClick}> 
+            <Card> 
                 <Start>
                     {
                         selectCalendar ?
@@ -117,15 +117,16 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                             </div>
                     }
                     <CalendarTodayOutlinedIcon className='icon' />
-                    <div className="content">
+                    <div className="content" onClick={handleCardClick}>
                         <h4>{data.name}</h4>
                         <p>{dayjs(data.year).format("BBBB")}</p>
                     </div>
                 </Start>
-                <End>
+                <End onClick={handleCardClick}>
                     <h4>{dayjs(data.create_at).format("DD MMMM BBBB")}</h4>
                     <h4>{dayjs(data.update_at).format("DD MMMM BBBB")}</h4>
-                    <div className='block'>
+                </End>
+                <div className='block'>
                         <div className='static'>
                             <button>
                                 <MoreVertIcon onClick={() => handleDropDownFocus(duplicateOverlay)} />
@@ -135,7 +136,6 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                             {render_option}
                         </div>
                     </div>
-                </End>
             </Card>
         </CalendarContext.Provider >
 
