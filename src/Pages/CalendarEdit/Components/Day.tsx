@@ -9,6 +9,8 @@ import {
   Draggable,
   DropResult,
 } from "react-beautiful-dnd";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 interface DateFromDayjs {
   day: dayjs.Dayjs;
@@ -17,6 +19,11 @@ interface DateFromDayjs {
 const Day: React.FC<DateFromDayjs> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
+  const [data,setData] = useState<any[]>([])
+  const calendarId = useParams()
+  
+
+
 
   const {
     daySelected,
@@ -29,30 +36,52 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
     dispatchCalEvents,
   } = useContext(GlobalContext);
 
-        const data = [
-          {
-            id:1,
-            event_name: "hello",
-            start_date: "2023-02-28T10:05:35.608Z",
-            duration: 1,
-            type: "กิจกรรม",
-          },
-          {
-            id:2,
-            event_name: "hello",
-            start_date: "2023-02-29T10:05:35.608Z",
-            duration: 1,
-            type: "วันหยุด",
-          },
-        ]
+        // const data = [
+        //   {
+        //     id:1,
+        //     event_name: "hello",
+        //     start_date: "2023-02-28T10:05:35.608Z",
+        //     duration: 1,
+        //     type: "กิจกรรม",
+        //   },
+        //   {
+        //     id:2,
+        //     event_name: "hello",
+        //     start_date: "2023-02-29T10:05:35.608Z",
+        //     duration: 1,
+        //     type: "วันหยุด",
+        //   },
+        // ]
         
         useEffect(() => {
-          data.forEach((evt) => 
-          {
-            if( dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
-              dispatchCalEvents({type:'push', payload: evt});
-            }
-          });
+          const getData = () => {
+            axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`).then(
+            (res) => {setData(res.data)})  
+          }
+          getData()
+          console.log(data)
+          data.map((props)=>{
+            props.events.map((evt:any) => {
+              // console.log(evt.events)
+              if( dayjs(evt.events).format("DD-MM-YY") === day.format("DD-MM-YY")){
+              dispatchCalEvents({type:'push', payload: evt});}
+            })
+          })
+          // data.map((idx)=>{
+          //   if( dayjs(idx.events.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
+          //     dispatchCalEvents({type:'push', payload: idx});
+          //   }
+          //   console.log(idx.events.start_date)
+          // })
+          
+          
+          // data.forEach((evt,idx) => 
+          // {
+            
+          //   if( dayjs(evt.events[0].start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
+          //     dispatchCalEvents({type:'push', payload: evt});
+          //   }
+          // });
           }, []);
 
   useEffect(() => {
@@ -82,9 +111,10 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
   //Drag and drop function
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
+    setDaySelected(result.source)
+    setDayDropped(result.destination)
     if(!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
-
 
   };
 
