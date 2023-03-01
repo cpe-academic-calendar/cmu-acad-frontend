@@ -72,7 +72,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
 
     return (
         <CalendarContext.Provider value={userId}>
-            <Card onClick={handleCardClick}> 
+            <Card> 
                 <Start>
                     {
                         selectCalendar ?

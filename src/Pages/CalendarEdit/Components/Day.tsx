@@ -91,11 +91,40 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
 
   //Drag and drop function
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    setDaySelected(result.source)
-    setDayDropped(result.destination)
-    if(!destination) return;
-    if (destination.droppableId === source.droppableId && destination.index === source.index ) return;
+    // const { source, destination } = result;
+    // setDaySelected(result.source)
+    // setDayDropped(result.destination)
+    // if( !destination ) return;
+    // if( destination.droppableId === source.droppableId && destination.index === source.index ) return;
+
+    const onDragEnd = (result: any) => {
+      const { source, destination } = result;
+      if(!destination) return;
+      if (source.draggableId === source.droppableId && source.draggableId) return;
+
+      let add,
+      source_event = dayEvents, des_event = dayDropped;
+      
+      if(destination.droppableId === `${dayDropped}`){
+        des_event.splice(destination.index, 0, add)
+      }
+
+      // dispatchCalEvents({type:'update', payload:})
+
+    
+      // if (sourceId === destinationId) {
+      //   const dropTarget = dropTargets.find((dt) => dt.id === sourceId);
+      //   const [removedEvent] = dropTarget.events.splice(sourceIndex, 1);
+      //   dropTarget.events.splice(destinationIndex, 0, removedEvent);
+      //   setDropTargets([...dropTargets]);
+      // } else {
+      //   const sourceDropTarget = dropTargets.find((dt) => dt.id === sourceId);
+      //   const destinationDropTarget = dropTargets.find((dt) => dt.id === destinationId);
+      //   const [removedEvent] = sourceDropTarget.events.splice(sourceIndex, 1);
+      //   destinationDropTarget.events.splice(destinationIndex, 0, removedEvent);
+      //   setDropTargets([...dropTargets]);
+      // }
+    };
 
   };
 
@@ -127,6 +156,7 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
                           <EventsEvent
                             onClick={() => {
                               setEventInfo(true);
+                              setShowAddEventModal(false);
                             }}
                           >
                             <p>{evt.event_name}</p>
@@ -134,17 +164,23 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
                         )}
 
                         {evt.type === "วันหยุด" && (
-                          <EventsHoliday onClick={() => setEventInfo(true)}>
+                          <EventsHoliday onClick={() => {
+                            setEventInfo(true)
+                            setShowAddEventModal(false);
+                          }}
+                          >
                             <p>{evt.event_name}</p>
                           </EventsHoliday>
                         )}
 
                         {evt.type === "วันสอบ" && (
-                          <EventsExam onClick={() => setEventInfo(true)}>
+                          <EventsExam onClick={() => {
+                            setEventInfo(true)
+                            setShowAddEventModal(false);
+                          }}>
                             <p>{evt.event_name}</p>
                           </EventsExam>
                         )}
-
                         {eventInfo && (
                           <EventInfo
                             event={evt}
