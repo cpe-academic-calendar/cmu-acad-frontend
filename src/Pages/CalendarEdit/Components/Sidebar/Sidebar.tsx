@@ -28,7 +28,7 @@ const SideBar:React.FC = () => {
 }
 
 const Container = styled.div`
-margin-top: 54px;
+    margin-top: 54px;
     position: fixed;
     display: flex;
     top: 79;

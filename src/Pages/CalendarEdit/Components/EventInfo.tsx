@@ -78,9 +78,8 @@ export default EventInfo;
 // `
 
 const InfoContainer = styled.div`
-  position: fixed;
-  margin-top: 0;
-  z-index: 1;
+  position: absolute;
+  z-index: 2;
   width: 384px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
