@@ -26,12 +26,10 @@ interface contextType {
     setSelectedEditEvent: (props: any) => void;
     currentView: string;
     setCurrentView: (props: string) => void;
-    dayDropped: number;
-    setDayDropped: (day: any) => void;
 
 }
 
-const GlobalContext = React.createContext<contextType>({
+const EditCalendarContext = React.createContext<contextType>({
     monthIndex: 0,
     setMonthIndex: (index) => {},
     daySelected: 0,
@@ -44,9 +42,7 @@ const GlobalContext = React.createContext<contextType>({
     setSelectedEditEvent: (props) => {},
     currentView: '',
     setCurrentView: (props) => null,
-    dayDropped: 0,
-    setDayDropped: (day) => {}
 
 })
 
-export default GlobalContext;
+export default EditCalendarContext;

@@ -6,11 +6,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
-import DuplicatePopUp from './DuplicatePopUp';
-import ExportPopUp from './ExportPopUp';
-import { useCalendarCollect } from './CollectItem';
+import DuplicatePopUp from '../DuplicatePopUp';
+import ExportPopUp from '../../../../Components/ExportPopUp';
+import { useCalendarCollect } from '../CollectItem';
 import dayjs from 'dayjs';
-import calendarProps from './calendarProps'
+import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
 
 export const CalendarContext = createContext<number[]>([])
@@ -18,7 +18,6 @@ export const CalendarContext = createContext<number[]>([])
 const CalendarCard: React.FC<calendarProps> = (data) => {
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
-    const [popupOverlay, setPopupOverlay] = useState<String>('')
     const { userId, setId } = useCalendarCollect()
     const navigate = useNavigate()
     const selectCalendarClicked = (state: Boolean) => {
@@ -26,37 +25,6 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     };
     
     let render_option = null;
-
-    //choose which option
-    let render_popup = null;
-    const duplicateHandle = () => {
-        console.log(popupOverlay)
-        setPopupOverlay('duplicate');
-    }
-    const exportHandle = () => {
-        setPopupOverlay('export');
-    }
-    const archiveHandle = () => {
-        setPopupOverlay('archive');
-    }
-    const deleteHandle = () => {
-        setPopupOverlay('delete');
-    }
-
-    switch(popupOverlay){
-        case 'duplicate':
-            console.log("duplicate")
-            render_option = <DuplicatePopUp /> 
-            break;
-        case 'export':
-            render_option = <ExportPopUp />
-            break;
-        case 'archive':
-            render_option = null;
-            break;
-        case 'delete':
-            render_option = null;
-    }
 
     duplicateOverlay ? (
         render_option = <CalendarCardOption item={data} />

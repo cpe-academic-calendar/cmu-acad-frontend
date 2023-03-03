@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
-import NavBar from "../../Components/NavBar";
+import NavBar from "./Components/NavBar/NavBar";
 import ActiveList from "./Components/ActiveList";
 import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
-import DuplicatePopUp from "./Components/DuplicatePopUp";
 import axios from 'axios'
 import { CalendarPath } from "./Components/path";
 import calendarProps from "./Components/calendarProps";
+import GlobalContext from "../../GlobalContext/GlobalContext";
+import ExportPopUp from "../../Components/ExportPopUp";
 
 
 
 
 function ChooseCalendar(props: any) {
-    const [calendarSort, setCalendarSort] = useState<String>('Active')
+    const { calendarSort, setCalendarSort, exportModal } = useContext(GlobalContext);
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
     const [item, setItem] = useState<calendarProps[]>([]);
@@ -35,10 +36,6 @@ function ChooseCalendar(props: any) {
         fetchData()
     }, [])
     console.log(item)
-
-    const setSort = (state: String) => {
-        setCalendarSort(state);
-    }
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);
@@ -62,10 +59,10 @@ function ChooseCalendar(props: any) {
             render_list = <ActiveList data={item} />
             sort_button =
                 <CalendarSortButton>
-                    <div className="select" onClick={() => setSort("Active")}>
+                    <div className="select" onClick={() => setCalendarSort("Active")}>
                         <p>ปฏิทินทั้งหมด</p>
                     </div>
-                    <div className="items" onClick={() => setSort("Archive")}>
+                    <div className="items" onClick={() => setCalendarSort("Archive")}>
                         <p>ที่จัดเก็บ</p>
                     </div>
                 </CalendarSortButton>
@@ -74,10 +71,10 @@ function ChooseCalendar(props: any) {
             render_list = <ArchiveList />
             sort_button = <>
                 <CalendarSortButton>
-                    <div className="items" onClick={() => setSort("Active")}>
+                    <div className="items" onClick={() => setCalendarSort("Active")}>
                         <p>ปฏิทินทั้งหมด</p>
                     </div>
-                    <div className="select" onClick={() => setSort("Archive")}>
+                    <div className="select" onClick={() => setCalendarSort("Archive")}>
                         <p>ที่จัดเก็บ</p>
                         <div className="selected" />
                     </div>
@@ -86,7 +83,12 @@ function ChooseCalendar(props: any) {
             break;
     }
     return (
-        <>
+        <div>
+            {
+                exportModal?
+                    <ExportPopUp />:
+                null
+            }
             <NavBar />
             <Container>
                 {sort_button}
@@ -127,7 +129,7 @@ function ChooseCalendar(props: any) {
                     new_calendar = null
             }
             <NewCalendarButton onClick={() => newCalendarHandle()}>+</NewCalendarButton>
-        </>
+        </div>
     );
 }
 
@@ -212,5 +214,23 @@ const CalendarSortButton = styled.div`
     }
 `
 
+const ProfileOption = styled.div`
+    position: fixed;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    z-index: 998;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    color: #111;
+    margin-top: 48px;
+    .item{
+        padding: 20px 30px;
+        &:hover{
+            cursor: pointer;
+            background-color: var(--hover);
+        }
+    }
+`
 
 export default ChooseCalendar;

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
-import GlobalContext from "./Context/GlobalContext";
+import GlobalContext from "./Context/EditCalendarContext";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
@@ -10,8 +10,6 @@ interface DateFromDayjs {
 }
 
 const MonthCalendar:React.FC<DateFromDayjs> = ({ month, events }) => {
-
-    const {setDaySelected, daySelected, dispatchCalEvents } = useContext(GlobalContext);
         
     return ( <>
         <Header>
