@@ -89,95 +89,56 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setEventInfo(false);
   };
 
-  //Drag and drop function
-    const onDragEnd = (result: any) => {
-      // const { source, destination } = result;
-      // console.log(result)
-      // setDayDropped(destination);
-      // if(!destination) return;
-      // if (source.draggableId === source.droppableId && source.draggableId) return;
-
-      // let add,
-      // source_event = dayEvents, des_event = dayDropped;
-      
-      // if(destination.droppableId === `${dayDropped}`){
-      //   des_event.splice(destination.index, 0, add)
-      // }
-
-      // dispatchCalEvents({type:'update', payload: des_event})
-
-  };
-
+  function handleDragStart(event: any) {// This method runs when the dragging starts
+    console.log("Started")
+  }
+  
+  function handleDrag(event: any) {
+    // This method runs when the component is being dragged
+    console.log("Dragging...")
+  }
+  
+  function handleDragEnd(event: any) {
+    // This method runs when the dragging stops
+    console.log("Ended")
+  }
+  
   return (
     <DayContainer>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <LiteralDay onClick={addEventHandle}>
-          {day.format("D")}
-          {day.format("D") === "1" && <div>{day.format("MMM")}</div>}
-        </LiteralDay>
-        <Droppable droppableId={`${dayDropped}`}>
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {dayEvents.map((evt, idx) => {
-                return (
-                  <Draggable
-                    key={evt.id}
-                    draggableId={String(evt.id)}
-                    index={idx}
-                  >
-                    {(provided) => (
-                      <div
-                        key={idx}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {evt.type === "กิจกรรม" && (
-                          <EventsEvent
-                            onClick={() => {
-                              setEventInfo(true);
-                            }}
-                          >
-                            <p>{evt.event_name}</p>
-                          </EventsEvent>
-                        )}
+    <LiteralDay onClick={addEventHandle}>
+      {day.format("D")}
+        { day.format('D') === "1" && (
+          <div>
+            {day.format("MMM")}
+          </div>
+        )}
+      </LiteralDay>
+      {dayEvents.map((evt, idx) => 
+        <div key={idx}>
+          {evt.type === 'กิจกรรม' &&                 
+          <EventsEvent draggable
+          onDragStart={handleDragStart}
+          onDrag={handleDrag}
+          onDragEnd={handleDragEnd}
+          onClick={() => setEventInfo(true)}>
+            <p>{evt.event_name}</p>
+          </EventsEvent> }
 
-                        {evt.type === "วันหยุด" && (
-                          <EventsHoliday onClick={() => {
-                            setEventInfo(true)
-                          }}
-                          >
-                            <p>{evt.event_name}</p>
-                          </EventsHoliday>
-                        )}
+          {evt.type === 'วันหยุด' &&                 
+          <EventsHoliday onClick={() => setEventInfo(true)}>
+            <p>{evt.event_name}</p>
+          </EventsHoliday> }
 
-                        {evt.type === "วันสอบ" && (
-                          <EventsExam onClick={() => {
-                            setEventInfo(true)
-                          }}>
-                            <p>{evt.event_name}</p>
-                          </EventsExam>
-                        )}
-                        {eventInfo && (
-                          <EventInfo
-                            event={evt}
-                            closeEventInfoHandle={closeEventInfoHandle}
-                            editEventHandle={() => {
-                              editEventHandle(evt);
-                            }}
-                          />
-                        )}
-
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </DayContainer>
+          {evt.type === 'วันสอบ' &&                 
+          <EventsExam onClick={() => setEventInfo(true)}>
+            <p>{evt.event_name}</p>
+          </EventsExam> }
+          
+          {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
+            editEventHandle(evt)
+          }} />}
+        </div>)}
+</DayContainer>
   );
 };
 

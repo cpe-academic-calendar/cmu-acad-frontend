@@ -48,7 +48,6 @@ export const CalendarContextWrapper = (props: any) => {
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
-    const [dayDropped, setDayDropped] = useState<any>(null)
     // const []
     const [savedEvents, dispatchCalEvents] = useReducer( savedEventReducer, [], initEvents)
 
@@ -70,8 +69,6 @@ export const CalendarContextWrapper = (props: any) => {
         savedEvents,
         currentView,
         setCurrentView,
-        dayDropped,
-        setDayDropped
     };
 
     return (
