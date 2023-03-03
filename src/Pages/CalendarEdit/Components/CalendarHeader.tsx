@@ -4,7 +4,7 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import React, { useContext } from 'react';
-import GlobalContext from './Context/GlobalContext';
+import GlobalContext from './Context/EditCalendarContext';
 
 interface handleProps{
     onFileClickHandle: () => void;
@@ -42,6 +42,7 @@ const Nav = styled.div`
     display: flex;
     position: fixed;
     align-items: center;
+    z-index: 2;
     justify-content: space-between;
     padding: 16px 16px;
     width: 100%;

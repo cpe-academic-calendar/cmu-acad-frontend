@@ -5,7 +5,7 @@ import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import GlobalContext from "../../CalendarEdit/Components/Context/GlobalContext";
+import GlobalContext from "../../CalendarEdit/Components/Context/EditCalendarContext";
 
 type ButtonProps = {
     handleClosePopup: () => void;

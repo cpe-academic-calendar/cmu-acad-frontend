@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EventCard from "./EventCard";
 import event_mockup from "../event_mockup.json"
-import GlobalContext from "../Context/GlobalContext";
+import GlobalContext from "../Context/EditCalendarContext";
 import React, {useContext} from "react";
 
 const SideBar:React.FC = () => {

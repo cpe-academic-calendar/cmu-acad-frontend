@@ -7,11 +7,13 @@ import CalendarHeader from './Components/CalendarHeader';
 import SideBar from './Components/Sidebar/Sidebar';
 import MonthCalendar from './Components/MonthCalendar';
 import EventModal from './Components/EventModal';
-import GlobalContext from './Components/Context/GlobalContext';
+import GlobalContext from '../../GlobalContext/GlobalContext';
+import EditCalendarContext from './Components/Context/EditCalendarContext';
 import YearCalendar from './Components/YearCalendar';
 import axios from 'axios'
 import { useLocation, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import ExportPopUp from '../../Components/ExportPopUp';
 interface dataProps {
     data: {
         name: string;
@@ -29,9 +31,24 @@ const CalendarEdit = () => {
     const [calendarName, setCalendarName] = React.useState('');
     const [tempMonth, setTemptMonth] = React.useState(getMonth());
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(GlobalContext);
+    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
+    const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
     const calendarId = useParams()
+    
+        React.useEffect(() => {
+            document.addEventListener("click", handleClickOutSide, true)
+        }, [])
+    
+        const refOne = React.useRef<HTMLDivElement | null>(null)
+        const handleClickOutSide = (e: any) => {
+            if (refOne.current != null) {
+                if (!refOne.current?.contains(e.target)) {
+                    setFileOption(false)
+                }
+            }
+        }
+
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
         axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
@@ -45,6 +62,12 @@ const CalendarEdit = () => {
         )
     },[])
 
+    const onFileClickHandle = () => {
+        setFileOption(true);
+    }
+    const closedFileModalHandle = () => {
+        setFileOption(false);
+    }
 
     let render_view = null;
 
@@ -61,23 +84,21 @@ const CalendarEdit = () => {
         </Row>
         break;
         case 'year':
-            render_view = <>
+            render_view = <div>
                 <YearCalendar />
-            </>
-    }
-
-    const onFileClickHandle = () => {
-        setFileOption(true);
+            </div>
     }
 
     return ( 
         <React.Fragment>
+            {exportModal && <ExportPopUp />}
             <Col>
             {showAddEventModal && <EventModal />}
                 <CalendarHeader onFileClickHandle={onFileClickHandle} name={calendarName} />
             {fileOption?
+            <div ref={refOne}>
                 <FileOption>
-                    <div className='item'>
+                    <div className='item' onClick={() => setExportModal(true)}>
                         นำออกเป็นไฟล์อื่น
                     </div>
                     <div className='item'>
@@ -86,6 +107,7 @@ const CalendarEdit = () => {
                         </a>
                     </div>
                 </FileOption>
+            </div>
                 :
                 null
             }
@@ -116,12 +138,17 @@ const FileOption = styled.div`
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    z-index: 999;
+    z-index: 998;
     border-radius: 10px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
     color: #111;
+    margin-top: 48px;
     .item{
-        padding: 10px 30px;
+        padding: 20px 30px;
+        &:hover{
+            cursor: pointer;
+            background-color: var(--hover);
+        }
     }
 `
 

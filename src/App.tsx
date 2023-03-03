@@ -11,8 +11,7 @@ import Draft from './Pages/CalendarEdit/Components/YearCalendar';
 import { Font } from './Styles/Font'
 import { Reset } from './Styles/Reset';
 import Variables from './Styles/Variables';
-import ExportPopUP from './Pages/ChooseCalendar/Components/ExportPopUp';
-import Modal from './Components/UI/Modal';
+import ExportPopUP from './Components/ExportPopUp';
 import ClendarEdit from './Pages/CalendarEdit/CalendarEdit'
 import DuplicatePopUp from './Pages/ChooseCalendar/Components/DuplicatePopUp';
 import CalendarWarp from './Pages/CalendarEdit/CalendarWarp';
@@ -32,7 +31,6 @@ function App() {
           <Route path="/event" element={<EventEdit />} />
           <Route path="/activity" element={<Activity />} />
           <Route path="/export_popup" element={<ExportPopUP/>} />
-          <Route path="/modal" element={<Modal />} />
           <Route path="/yearview" element={<Draft />}/>
           <Route path="/activity" element={<Activity />} />
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />

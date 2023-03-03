@@ -1,11 +1,11 @@
-import { ContextWrapper } from './Components/Context/ContextWarpper';
-import AddCalendar from '../ChooseCalendar/Components/AddCalendar';
+// import { CalendarContextWrapper } from './Components/Context/CalendarContextWrapper';
+import { CalendarContextWrapper } from './Components/Context/CalendarContextWrapper';
 import CalendarEdit from './CalendarEdit';
 const CalendarWarp = () => {
     return ( 
-    <ContextWrapper>
+    <CalendarContextWrapper>
         <CalendarEdit />
-    </ContextWrapper> 
+    </CalendarContextWrapper> 
     );
 }
  

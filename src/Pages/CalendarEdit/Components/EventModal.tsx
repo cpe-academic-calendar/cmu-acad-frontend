@@ -2,7 +2,7 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import GlobalContext from "./Context/GlobalContext";
+import GlobalContext from "./Context/EditCalendarContext";
 // import CheckIcon from '@mui/icons-material/Check';
 
 interface calendarEventProps{

@@ -1,7 +1,7 @@
 import { IoSearchSharp } from "react-icons/io5"
-import { data } from "../assets/mock/holidayData"
+// import { data } from "../assets/mock/holidayData"
 
-export default function Activity() {
+export default function Activity({data}: any) {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="bg-white border-[#AAAAAA] border-[1px] drop-shadow-[10px_0px_20px_rgba(0,0,0,0.25)] w-[330px] h-[721px] rounded-[15px]">
@@ -16,7 +16,7 @@ export default function Activity() {
                         <IoSearchSharp />
                     </div>
                 </div>
-                {data.map((item) => (
+                {/* {data.map((item) => (
                 <div className="flex ml-[19px] mt-[12px]">
                     <div className="flex items-center bg-white w-[291px] min-h-[50px] max-h-[71px] rounded-[10px] drop-shadow-[0px_2px_5px_rgba(0,0,0,0.25)]">
                         <div>
@@ -32,7 +32,7 @@ export default function Activity() {
                         </div>
                     </div>
                 </div>    
-                ))}
+                ))} */}
             </div>
         </div>       
     )

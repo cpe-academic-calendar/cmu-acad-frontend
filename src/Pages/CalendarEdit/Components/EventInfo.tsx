@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import GlobalContext from "./Context/GlobalContext";
+import GlobalContext from "./Context/EditCalendarContext";
 import dayjs from "dayjs";
 
 // interface eventType {

@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
-import GlobalContext from "./GlobalContext";
+import EditCalendarContext from "./EditCalendarContext";
 import dayjs from "dayjs";
-import { getMonth } from '../util'
 
 interface Payload {
     id: number;
@@ -43,13 +42,12 @@ function initEvents(){
 }
 
 
-export const ContextWrapper = (props: any) => {
+export const CalendarContextWrapper = (props: any) => {
     const [monthIndex, setMonthIndex] = useState<number>(dayjs().month());
     const [daySelected, setDaySelected] = useState<any>(null);
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
-    const [dayDropped, setDayDropped] = useState<any>(null)
     // const []
     const [savedEvents, dispatchCalEvents] = useReducer( savedEventReducer, [], initEvents)
 
@@ -71,12 +69,10 @@ export const ContextWrapper = (props: any) => {
         savedEvents,
         currentView,
         setCurrentView,
-        dayDropped,
-        setDayDropped
     };
 
     return (
-    <GlobalContext.Provider value={value}>
+    <EditCalendarContext.Provider value={value}>
         {props.children}
-    </GlobalContext.Provider> );
+    </EditCalendarContext.Provider> );
 }

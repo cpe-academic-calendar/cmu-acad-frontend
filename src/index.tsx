@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { ContextWrapper } from './Pages/CalendarEdit/Components/Context/ContextWarpper';
+import { ContextWarpper } from './GlobalContext/ContextWarpper';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  // <ContextWrapper>
+  <ContextWarpper>
     <App />
-  // </ContextWrapper>
+  </ContextWarpper>
   //</React.StrictMode>
 );
