@@ -33,33 +33,33 @@ interface eventProps {
 const Day: React.FC<DateFromDayjs> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const [data, setData] = useState<eventProps[]>([]);
+  // const [data, setData] = useState<eventProps[]>([]);
   // const [dayDropped, setDayDropped] = useState<any>();
   const calendarId = useParams();
 
-  // const data = [
-  //   {
-  //     id:1,
-  //     event_name: "hello",
-  //     start_date: "2023-02-28T10:05:35.608Z",
-  //     duration: 1,
-  //     type: "กิจกรรม",
-  //   },
-  //   {
-  //     id:2,
-  //     event_name: "hello",
-  //     start_date: "2023-02-29T10:05:35.608Z",
-  //     duration: 1,
-  //     type: "วันหยุด",
-  //   },
-  //   {
-  //     id:3,
-  //     event_name: "วันสอบ1",
-  //     start_date: "2023-02-26T10:05:35.608Z",
-  //     duration: 1,
-  //     type: "วันสอบ",
-  //   },
-  // ]
+  const data = [
+    {
+      id:1,
+      event_name: "hello",
+      start_date: "2023-02-28T10:05:35.608Z",
+      duration: 1,
+      type: "กิจกรรม",
+    },
+    {
+      id:2,
+      event_name: "hello",
+      start_date: "2023-02-29T10:05:35.608Z",
+      duration: 1,
+      type: "วันหยุด",
+    },
+    {
+      id:3,
+      event_name: "วันสอบ1",
+      start_date: "2023-02-26T10:05:35.608Z",
+      duration: 1,
+      type: "วันสอบ",
+    },
+  ]
 
   const {
     daySelected,
@@ -80,27 +80,13 @@ const Day: React.FC<DateFromDayjs> = ({ day }) => {
   //     }
   //   fetchData()
 
-  //   data.map((props)=>{
-  //     props.events.map((events) => {
-  //       if( dayjs(events.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
-  //         setDaySelected(events.start_date)
-  //         dispatchCalEvents({type:'push', payload: events.start_date});
-  //     }
-  //     })
-  //   })
-  //   // data.map((props)=>{
-  //   //     if( dayjs(props.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
-  //   //       setDaySelected(props.start_date)
-  //   //     dispatchCalEvents({type:'push', payload: props});
-  //   //   }
-  //   // })
+    // data.map((props)=>{
+    //     if( dayjs(props.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
+    //       setDaySelected(props.start_date)
+    //     dispatchCalEvents({type:'push', payload: props});
+    //   }
+    // })
 
-  //   data.forEach((evt,idx) =>
-  //   {
-  //     if( dayjs(evt.events[0].start_date).format("DD-MM-YY") === day.format("DD-MM-YY")){
-  //       dispatchCalEvents({type:'push', payload: evt});
-  //     }
-  //   });
   // }, []);
 
   useEffect(() => {
