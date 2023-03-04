@@ -62,7 +62,7 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
           dispatchCalEvents({ type: 'push', payload: ed })
         } 
       })
-    },[])
+    },[event])
   
 
 

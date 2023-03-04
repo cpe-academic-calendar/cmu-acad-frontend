@@ -49,13 +49,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const onSelect = (e: any) => {
         // const day = new Date(e).setFullYear(Number(year)-543)
-        const day = new Date(e).setFullYear(semester_year-543)
+        const day = new Date(e).setFullYear(semester_year)
        setValue(new Date(day))
     }
 
     const handleChooseYear = async (e: any) => {
-        setSemesterYear((e.target.value)-543)
-        setValue(new Date(new Date().setFullYear((e.target.value)-543)))
+        setSemesterYear((e.target.value))
+        setValue(new Date(new Date().setFullYear((e.target.value))))
     }
 
 
