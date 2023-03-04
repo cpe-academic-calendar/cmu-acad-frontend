@@ -29,7 +29,7 @@ interface dataProps {
 const CalendarEdit = () => {
 
     const [calendarName, setCalendarName] = React.useState('');
-    const [tempMonth, setTemptMonth] = React.useState(getMonth());
+    const [tempMonth, setTemptMonth] = React.useState(getMonth(0));
     const [fileOption, setFileOption] = React.useState<boolean>(false);
     const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
@@ -41,8 +41,8 @@ const CalendarEdit = () => {
                     setCalendarName(res.data.name)
                     console.log(res.data)
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+                    // setTemptMonth(getMonth(res.data.start_semester))
                     // console.log(dayjs(res.data.start_semester).month())
-                    console.log(res.data.start_semester)
                 }
         )
     },[])
