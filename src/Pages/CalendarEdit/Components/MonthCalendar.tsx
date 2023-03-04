@@ -26,6 +26,7 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         setDaySelected,
         setShowAddEventModal,
         savedEvents,
+        selectedEditEvent,
         setSelectedEditEvent,
         dispatchCalEvents,
         selectedEvent,
@@ -48,29 +49,48 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
 
     console.log(event)
 
+    //   const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
+    //   const [selectedEditEventDate, setSelectedEventDate] = React.useState(selectedEditEvent.start_date);
+    //   const [eventName, setEventName] = React.useState(selectedEditEvent? selectedEditEvent.event_name : ''); //Event_name
+    //   const [duration, setDuration] = React.useState(1);  //duration
+
     const onDragEnd = (result: DropResult) => {
-        // chat gpt version
-        const { destination, source, draggableId } = result;
-        if (destination !== null && destination !== undefined) {
-          const newSavedEvents = savedEvents.map((event) => {
-            if (event.id === draggableId) {
-              return {
-                event_name: selectedEvent.event_name,
-                id: selectedEvent.id,
-                start_date: dayjs(destination.droppableId).toDate(),
-                type: selectedEvent.type,
-                duration: selectedEvent.duration
-              };
-            } else {
-              return event;
-            }
-          });
+        // const { destination, source } = result;
+        // if (destination !== null && destination !== undefined) {
+        //     const calendarEvent = {
+        //         event_name: eventName,
+        //         duration,
+        //         start_date: daySelected,
+        //         id: selectedEditEvent ? selectedEditEvent.id : Number(Date.now()),
+        //       }
+            // dispatchCalEvents({ type: "update", payload: newSavedEvents });
+        // if (destination !== null && destination !== undefined) {
+        //   const newSavedEvents = savedEvents.map((event) => {
+        //     if (event.id === draggableId) {
+        //       return {
+        //         event_name: selectedEvent.event_name,
+        //         id: selectedEvent.id,
+        //         start_date: dayjs(destination.droppableId).toDate(),
+        //         type: selectedEvent.type,
+        //         duration: selectedEvent.duration
+        //       };
+        //     } else {
+        //       return event;
+        //     }
+        //   });
         // dispatchCalEvents({ type: "update", payload: newSavedEvents });
-        }
+        // console.log(selectedEvent)
+        // }
       };
     
       const onDragStart = (start: DragStart, provided: any) => {
-        setSelectedEditEvent(provided.draggableProps);
+        // setDraggedComponent(start.draggableId);
+        // savedEvents.map((event) => {
+        //     if(event.id === draggedComponent){
+        //         setSelectedEditEvent(event)
+        //     }
+        // })
+        // console.log(start.draggableId)
       }
         
     return ( <>
