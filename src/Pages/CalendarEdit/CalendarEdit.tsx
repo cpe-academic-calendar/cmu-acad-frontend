@@ -55,7 +55,7 @@ const CalendarEdit = () => {
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)
-                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
                     // setTemptMonth(getMonth(res.data.start_semester))
                     // console.log(dayjs(res.data.start_semester).month())
                 }
