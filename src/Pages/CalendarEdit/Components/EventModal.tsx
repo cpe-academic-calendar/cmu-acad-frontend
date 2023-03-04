@@ -11,7 +11,7 @@ interface calendarEventProps{
 
 export default function EventModal() {
 
-  const { showAddEventModal, setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+  const { showAddEventModal, dispatchCalEvents, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)
@@ -31,7 +31,7 @@ export default function EventModal() {
       duration,
       type: eventType,
       start_date: daySelected,
-      id: selectedEditEvent ? selectedEditEvent.id : Date.now(),
+      id: selectedEditEvent ? selectedEditEvent.id : Number(Date.now()),
     }
     if(selectedEditEvent){
       if(calendarEvent.event_name === ''){

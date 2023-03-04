@@ -129,7 +129,6 @@ const Row = styled.div`
         margin-right: 253px;
     }
     .sidebar{
-        z-index: -1;
     }
 `
 

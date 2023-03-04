@@ -22,7 +22,9 @@ const SideBar:React.FC = () => {
                     กำหนดการสำคัญ
                 </div>
             </Row>
-            {event_render}
+            {/* <EventWrap> */}
+                {event_render}
+            {/* </EventWrap> */}
         </Container>
     </div> );
 }
@@ -44,6 +46,7 @@ const Container = styled.div`
     background: #FFFFFF;
     /* Stroke */
     border-left: 1px solid #E7E7E7;
+    border-top: 1px solid #E7E7E7;
 `
 
 const Row = styled.div`
@@ -53,5 +56,9 @@ const Row = styled.div`
         color: var(--primary-color);
     }
 `
+
+// const EventWrap = styled.div`
+//     overflow: scroll;
+// `
 
 export default SideBar;
