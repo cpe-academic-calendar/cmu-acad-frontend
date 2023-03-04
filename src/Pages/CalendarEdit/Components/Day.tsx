@@ -55,13 +55,13 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
 
 
     useEffect(()=>{
+      console.log(event)
         event.map((ed: any) => {
         if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
           setDaySelected(ed.start_date)
           dispatchCalEvents({ type: 'push', payload: ed })
         } 
       })
-  
     },[])
   
 
