@@ -3,6 +3,10 @@ import dayjs from "dayjs";
 
 interface Payload {
     id: number;
+    // start_date: any;
+    // end_date?:any;
+    // type:string;
+    // duration: number;
 }
 
 // An interface for our actions
@@ -10,8 +14,6 @@ interface Action {
     type: string;
     payload: Payload;
 }
-
-
 
 interface contextType {
     monthIndex: number;
@@ -22,10 +24,13 @@ interface contextType {
     setShowAddEventModal: (modal: boolean) => void;
     dispatchCalEvents: React.Dispatch<Action>;
     savedEvents: any[];
+    // setSavedEvents: (event: any) => void;
     selectedEditEvent: any;
     setSelectedEditEvent: (props: any) => void;
     currentView: string;
     setCurrentView: (props: string) => void;
+    selectedEvent: any;
+    setSelectedEvent: (props: any) => void;
 
 }
 
@@ -38,10 +43,13 @@ const EditCalendarContext = React.createContext<contextType>({
     setShowAddEventModal: () => {},
     dispatchCalEvents: ({type, payload}) => {},
     savedEvents: [],
+    // setSavedEvents: (event) => {},
     selectedEditEvent: null,
     setSelectedEditEvent: (props) => {},
     currentView: '',
     setCurrentView: (props) => null,
+    selectedEvent: null, 
+    setSelectedEvent: (props) => null
 
 })
 

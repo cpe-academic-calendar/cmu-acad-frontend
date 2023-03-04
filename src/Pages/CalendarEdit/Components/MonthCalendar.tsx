@@ -5,6 +5,14 @@ import Day from "./Day";
 import GlobalContext from "./Context/EditCalendarContext";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
+import {
+    DragDropContext,
+    Droppable,
+    Draggable,
+    DropResult,
+    DragStart
+  } from "react-beautiful-dnd";
+import EditCalendarContext from "./Context/EditCalendarContext";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
@@ -13,6 +21,16 @@ interface DateFromDayjs {
 
 
 const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
+    const {
+        daySelected,
+        setDaySelected,
+        setShowAddEventModal,
+        savedEvents,
+        setSelectedEditEvent,
+        dispatchCalEvents,
+        selectedEvent,
+        setSelectedEvent,
+      } = useContext(EditCalendarContext);
     const [event, setEvent] = useState<any[]>([])
     const calendarId = useParams()
     console.log(calendarId)
@@ -30,7 +48,30 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
 
     console.log(event)
 
-    const {setDaySelected, daySelected, dispatchCalEvents } = useContext(GlobalContext);
+    const onDragEnd = (result: DropResult) => {
+        // chat gpt version
+        const { destination, source, draggableId } = result;
+        if (destination !== null && destination !== undefined) {
+          const newSavedEvents = savedEvents.map((event) => {
+            if (event.id === draggableId) {
+              return {
+                event_name: selectedEvent.event_name,
+                id: selectedEvent.id,
+                start_date: dayjs(destination.droppableId).toDate(),
+                type: selectedEvent.type,
+                duration: selectedEvent.duration
+              };
+            } else {
+              return event;
+            }
+          });
+        // dispatchCalEvents({ type: "update", payload: newSavedEvents });
+        }
+      };
+    
+      const onDragStart = (start: DragStart, provided: any) => {
+        setSelectedEditEvent(provided.draggableProps);
+      }
         
     return ( <>
         <Header>
@@ -59,20 +100,27 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
                 </DayItems>
                 <DayItems>วันเสาร์</DayItems>
         </Header>
-        <Container>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+            <Container>
             {
                 month.map((row, i) => (
                     <Calendar key={i}>
-                        {row.map((day, idx) => (
-                            <div>
-                                <Day day={day} event={event} key={idx} />
-                            </div>
+                        {row.map((day, idx)=> (
+                            <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
+                                {(provided, snapshot) => (
+                                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                                        <Day day={day} event={event} key={idx} />
+                                    </div>
+                                )}
+                            </Droppable>
+                                    
                         ))}
                     </Calendar>
                 ))
             }
-        </Container>
-    </>);
+            </Container>
+        </DragDropContext>
+    </> );
 }
 
 const Calendar = styled.div`
