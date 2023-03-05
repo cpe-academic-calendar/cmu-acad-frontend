@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
-import GlobalContext from "./Context/EditCalendarContext";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
 import {
@@ -116,7 +115,6 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
                                     </div>
                                 )}
                             </Droppable>
-                                    
                         ))}
                     </Calendar>
                 ))
