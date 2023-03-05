@@ -19,7 +19,7 @@ interface eventProps {
   event: any;
 }
 
-const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEventHandle, deleteEventHandle } ) => {
+const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEventHandle }) => {
 
   const { showAddEventModal, setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
 
@@ -27,10 +27,14 @@ const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEve
     id: event.id,
   }
 
-  // const deleteEventHandle = () => {
-  //   setShowAddEventModal(false);
-  //   dispatchCalEvents({type:'delete', payload: event})
-  // }
+  const deleteEventHandle = () => {
+    dispatchCalEvents({ type: 'delete', payload: event })
+    axios.delete(`http://localhost:4000/event/delete/${deleteEvent.id}`).then(
+      (res)=>{
+        return res.data
+      })
+    setShowAddEventModal(false);
+  }
 
   let render_color = null;
   switch (event.type) {
