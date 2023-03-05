@@ -76,12 +76,12 @@ const CalendarEdit = () => {
 
     return ( 
         <React.Fragment>
-            {exportModal && <ExportPopUp />}
+            {/* {exportModal && <ExportPopUp />} */}
             <Col>
             {showAddEventModal && <EventModal />}
                 <CalendarHeader onFileClickHandle={onFileClickHandle} name={calendarName} />
             {fileOption?
-            <div ref={refOne}>
+            <div>
                 <FileOption>
                     <div className='item' onClick={() => setExportModal(true)}>
                         นำออกเป็นไฟล์อื่น
