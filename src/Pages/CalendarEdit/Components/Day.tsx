@@ -101,9 +101,6 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   };
 
   return (
-    // <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
-    //   {(provided, snapshot) => (
-    //     <div {...provided.droppableProps} ref={provided.innerRef}>
           <DayContainer>
             <LiteralDay onClick={addEventHandle}>
               {day.format("D")}
@@ -148,9 +145,6 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
               />
             )}
           </DayContainer>
-    //     </div>
-    //   )}
-    // </Droppable>
   );
 };
 
