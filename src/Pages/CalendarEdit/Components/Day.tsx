@@ -32,7 +32,6 @@ interface DayProps {
 const Day: React.FC<DayProps> = ({ day, event }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const [dayDropped, setDayDropped] = useState<any>(null);
   const calendarId = useParams();
   const {
     daySelected,
@@ -43,31 +42,25 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     dispatchCalEvents,
   } = useContext(GlobalContext);
 
- 
-    // const data = [
-    //   {
-    //     "id": 1,
-    //     "event_name": "สงกรานต์",
-    //     "start_date": "2023-04-13",
-    //     "type": "วันหยุด"
-    //   }
-    // ]
+
+  useEffect(() => {
 
 
-    useEffect(()=>{
-      console.log(event)
-        event.map((ed: any) => {
-        if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-          setDaySelected(ed.start_date)
-          dispatchCalEvents({ type: 'push', payload: ed })
-        } 
-      })
-    },[event])
-  
+    event.map((ed: any) => {
+      if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+        setDaySelected(ed.start_date)
+        dispatchCalEvents({ type: 'push', payload: ed })
+      }
+    })
+
+
+
+
+  }, [event])
 
 
   useEffect(() => {
-    const events  = savedEvents.filter(
+    const events = savedEvents.filter(
       (evt) => dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     )
     setDayEvents(events)
@@ -103,7 +96,7 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     console.log("Ended")
   }
   return (
-    <DayContainer>
+    <DayContainer >
       <LiteralDay onClick={addEventHandle}>
         {day.format("D")}
         {day.format('D') === "1" && (
@@ -116,21 +109,22 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
         <div key={idx}>
           {evt.type === 'กิจกรรม' &&
             <EventsEvent draggable
+              className="truncate"
               onDragStart={handleDragStart}
               onDrag={handleDrag}
               onDragEnd={handleDragEnd}
               onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
+              <p >{evt.event_name}</p>
             </EventsEvent>}
 
           {evt.type === 'วันหยุด' &&
             <EventsHoliday onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
+              <p >{evt.event_name}</p>
             </EventsHoliday>}
 
           {evt.type === 'วันสอบ' &&
             <EventsExam onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
+              <p >{evt.event_name}</p>
             </EventsExam>}
 
           {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {

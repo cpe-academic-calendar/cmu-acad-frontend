@@ -1,11 +1,13 @@
 //import * from "../../../Components/Events.styled";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import axios from "axios";
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import GlobalContext from "./Context/EditCalendarContext";
 // import CheckIcon from '@mui/icons-material/Check';
 
-interface calendarEventProps{
+interface calendarEventProps {
   title: string;
 }
 
@@ -18,56 +20,81 @@ export default function EventModal() {
   };
 
   //state of input that are in this modal
-  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.event_name : ''); //Event_name
+  const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
   const [duration, setDuration] = useState(1);  //duration
-  const [eventType, setEventType] = useState(selectedEditEvent? selectedEditEvent.type : 'กิจกรรม') //type
+  const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
+  const calendarId = useParams()
 
+
+  console.log(new Date(daySelected))
+  console.log(calendarId.id)
+  console.log(selectedEditEvent)
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+
     event.preventDefault()
+    
     const calendarEvent = {
       event_name: eventName,
-      duration,
       type: eventType,
       start_date: daySelected,
-      id: selectedEditEvent ? selectedEditEvent.id : Date.now(),
+      id: selectedEditEvent.id,
     }
-    if(selectedEditEvent){
-      if(calendarEvent.event_name === ''){
+    
+    const createEvent = {
+      event_name: eventName,
+      type: eventType,
+      calendar: calendarId.id,
+      start_date: new Date(daySelected),
+
+    }
+
+
+    if (selectedEditEvent) {
+      if (calendarEvent.event_name === '') {
         setErrorMessage(true);
       }
-      else{
-        dispatchCalEvents({type:'update', payload: calendarEvent})
+      else {
+        dispatchCalEvents({ type: 'update', payload: calendarEvent })
+        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+          calendarEvent
+        ).then((res: any) => {
+          console.log(res.data)
+        })
         setErrorMessage(false);
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
       }
     }
-    else{
-      if(calendarEvent.event_name === ''){
+    else {
+      if (calendarEvent.event_name === '') {
         setErrorMessage(true);
-      }else{
-        dispatchCalEvents({type:'push', payload: calendarEvent})
+      } else {
+        console.log(createEvent)
+        axios.post(`http://localhost:4000/event/create`,createEvent)
+          .then((res)=>{
+              dispatchCalEvents({ type: 'push', payload: res.data })
+          })
+        // axios.post(`http://localhost:4000/event/create`,createEvent)
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
       }
     }
   }
-
   return (
     <Container>
-            <EventContainer>
+      <EventContainer>
         <div className="shadow-xl">
           {/* tab */}
           <Header>
             {
-              selectedEditEvent? 
-              <TitileHeader>แก้ไขกิจกรรม</TitileHeader>
-              :
-              <TitileHeader>เพิ่มชื่อกิจกรรม</TitileHeader>
+              selectedEditEvent ?
+                <TitileHeader>แก้ไขกิจกรรม</TitileHeader>
+                :
+                <TitileHeader>เพิ่มชื่อกิจกรรม</TitileHeader>
             }
             <HeaderButton>
               <button onClick={closedEventHandle}>
@@ -78,50 +105,50 @@ export default function EventModal() {
 
           {/* Input */}
           <SettingEvent>
-          <div className="col">
-            <SettingDate>
+            <div className="col">
+              <SettingDate>
                 <DurationInput
-                    type="text"
-                    name="eventName"
-                    placeholder="เพิ่มชื่อ"
-                    value={eventName}
-                    onChange={(e) => setEventName(e.target.value)}
-                    required
-                  />
-                  {errorMessage? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel>:null}
-              
-              <DurationInput
-                      type="number"
-                      name="duration"
-                      placeholder="ระยะเวลา"
-                      value={duration}
-                      onChange={(e) => setDuration(e.target.valueAsNumber)}
-                    />
-                    <div>
-                      <p>วัน</p>
-            </div>
-            </SettingDate>
+                  type="text"
+                  name="eventName"
+                  placeholder="เพิ่มชื่อ"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  required
+                />
+                {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
+
+                <DurationInput
+                  type="number"
+                  name="duration"
+                  placeholder="ระยะเวลา"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.valueAsNumber)}
+                />
+                <div>
+                  <p>วัน</p>
+                </div>
+              </SettingDate>
             </div>
             <SettingSection>
               <TextStatus>สถานะ...</TextStatus>
             </SettingSection>
             <SettingDate>
-                <ColorOption value={eventType} onChange={(e) => setEventType(e.target.value)}>
-                  <option value="กิจกรรม">กิจกรรม</option>
-                  <option value="วันหยุด">วันหยุด</option>
-                  <option value="วันสอบ">วันสอบ</option>
-                </ColorOption>
+              <ColorOption value={eventType} onChange={(e) => setEventType(e.target.value)}>
+                <option value="กิจกรรม">กิจกรรม</option>
+                <option value="วันหยุด">วันหยุด</option>
+                <option value="วันสอบ">วันสอบ</option>
+              </ColorOption>
             </SettingDate>
             <AddEventButton>
               {
-                selectedEditEvent?
-              <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
-                แก้ไข
-              </SaveButton>
-              :
-              <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
-                บันทึก
-              </SaveButton>
+                selectedEditEvent ?
+                  <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
+                    แก้ไข
+                  </SaveButton>
+                  :
+                  <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
+                    บันทึก
+                  </SaveButton>
 
               }
             </AddEventButton>

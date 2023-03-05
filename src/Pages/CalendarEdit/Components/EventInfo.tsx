@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import GlobalContext from "./Context/EditCalendarContext";
 import dayjs from "dayjs";
+import axios from "axios";
 
 // interface eventType {
 //   name: string;
@@ -17,53 +18,61 @@ interface eventProps {
   event: any;
 }
 
-const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEventHandle } ) => {
+const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEventHandle }) => {
 
-  const { dispatchCalEvents, setShowAddEventModal } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+
+  const deleteEvent = {
+    id: event.id,
+  }
 
   const deleteEventHandle = () => {
-    dispatchCalEvents({type:'delete', payload: event})
+    dispatchCalEvents({ type: 'delete', payload: event })
+    axios.delete(`http://localhost:4000/event/delete/${deleteEvent.id}`).then(
+      (res)=>{
+        return res.data
+      })
     setShowAddEventModal(false);
   }
 
   let render_color = null;
-  switch(event.type){
-    case'กิจกรรม':
+  switch (event.type) {
+    case 'กิจกรรม':
       render_color = <BoxEventColor />
       break;
-    case'วันหยุด':
+    case 'วันหยุด':
       render_color = <BoxHolidayColor />
       break;
-    case'วันสอบ':
+    case 'วันสอบ':
       render_color = <BoxExamColor />
       break;
   }
 
   return (
-      <InfoContainer>
-        <InfoLayout>
-          <TitleHeader>
-            {render_color}
-            <Title>{event.event_name}</Title>
-          </TitleHeader>
-          <Duration>{<p>{dayjs(event.start_date).format('D MMMM BBBB')}</p>}</Duration>
-          <Status>
-            สถานะ:
-            <StatusType>{event.type}</StatusType>
-          </Status>
-        </InfoLayout>
-        <ButtonContainer>
-          <button onClick={editEventHandle}>
-            <EditOutlinedIcon />
-          </button>
-          <button onClick={deleteEventHandle}>
-            <DeleteOutlineOutlinedIcon />
-          </button>
-          <button onClick={closeEventInfoHandle}>
-            <CloseOutlinedIcon />
-          </button>
-        </ButtonContainer>
-      </InfoContainer>
+    <InfoContainer>
+      <InfoLayout>
+        <TitleHeader>
+          {render_color}
+          <Title className="truncate">{event.event_name}</Title>
+        </TitleHeader>
+        <Duration>{<p>{dayjs(event.start_date).format('D MMMM BBBB')}</p>}</Duration>
+        <Status>
+          สถานะ:
+          <StatusType>{event.type}</StatusType>
+        </Status>
+      </InfoLayout>
+      <ButtonContainer>
+        <button onClick={editEventHandle}>
+          <EditOutlinedIcon />
+        </button>
+        <button onClick={deleteEventHandle}>
+          <DeleteOutlineOutlinedIcon />
+        </button>
+        <button onClick={closeEventInfoHandle}>
+          <CloseOutlinedIcon />
+        </button>
+      </ButtonContainer>
+    </InfoContainer>
   );
 };
 

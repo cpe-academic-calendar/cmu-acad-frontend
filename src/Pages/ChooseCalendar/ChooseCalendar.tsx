@@ -35,7 +35,6 @@ function ChooseCalendar(props: any) {
         };
         fetchData()
     }, [])
-    console.log(item)
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);
