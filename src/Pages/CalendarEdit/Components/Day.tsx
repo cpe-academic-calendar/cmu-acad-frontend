@@ -49,31 +49,25 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setSelectedEvent,
   } = useContext(EditCalendarContext);
 
- 
-    // const data = [
-    //   {
-    //     "id": 1,
-    //     "event_name": "สงกรานต์",
-    //     "start_date": "2023-04-13",
-    //     "type": "วันหยุด"
-    //   }
-    // ]
+
+  useEffect(() => {
 
 
-    useEffect(()=>{
-      console.log(event)
-        event.map((ed: any) => {
-        if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-          setDaySelected(ed.start_date)
-          dispatchCalEvents({ type: 'push', payload: ed })
-        } 
-      })
-    },[event])
-  
+    event.map((ed: any) => {
+      if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+        setDaySelected(ed.start_date)
+        dispatchCalEvents({ type: 'push', payload: ed })
+      }
+    })
+
+
+
+
+  }, [event])
 
 
   useEffect(() => {
-    const events  = savedEvents.filter(
+    const events = savedEvents.filter(
       (evt) => dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     )
     setDayEvents(events)
@@ -96,9 +90,15 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   };
 
   const deleteEventHandle = () => {
-    dispatchCalEvents({ type: "delete", payload: selectedEvent });
-    setEventInfo(false);
-  };
+    dispatchCalEvents({ type: 'delete', payload: selectedEvent })
+    axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
+      (res)=>{
+        console.log(res.data)
+        
+      })
+      setEventInfo(false)
+    
+  }
 
   return (
           <DayContainer>
