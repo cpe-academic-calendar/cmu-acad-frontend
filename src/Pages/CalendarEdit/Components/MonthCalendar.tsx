@@ -49,14 +49,21 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
 
     console.log(event)
 
-    //   const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
+      const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
     //   const [selectedEditEventDate, setSelectedEventDate] = React.useState(selectedEditEvent.start_date);
     //   const [eventName, setEventName] = React.useState(selectedEditEvent? selectedEditEvent.event_name : ''); //Event_name
     //   const [duration, setDuration] = React.useState(1);  //duration
 
     const onDragEnd = (result: DropResult) => {
-        // const { destination, source } = result;
-        // if (destination !== null && destination !== undefined) {
+        console.log("result", result)
+        const { destination, source } = result
+    
+        if (destination !== null && destination !== undefined) {
+            setDaySelected(dayjs(destination.droppableId).format())
+            console.log("selectedEvent", selectedEvent)
+            console.log("daySelected", daySelected)
+
+        }
         //     const calendarEvent = {
         //         event_name: eventName,
         //         duration,
@@ -79,18 +86,17 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         //     }
         //   });
         // dispatchCalEvents({ type: "update", payload: newSavedEvents });
-        // console.log(selectedEvent)
         // }
       };
     
       const onDragStart = (start: DragStart, provided: any) => {
-        // setDraggedComponent(start.draggableId);
-        // savedEvents.map((event) => {
-        //     if(event.id === draggedComponent){
-        //         setSelectedEditEvent(event)
-        //     }
-        // })
-        // console.log(start.draggableId)
+        setDraggedComponent(start.draggableId);
+        savedEvents.map((event) => {
+            if(event.id === draggedComponent){
+                setSelectedEditEvent(event)
+            }
+        })
+        console.log(start.draggableId)
       }
         
     return ( <>
