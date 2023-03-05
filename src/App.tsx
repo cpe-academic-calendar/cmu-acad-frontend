@@ -15,6 +15,7 @@ import ExportPopUP from './Components/ExportPopUp';
 import ClendarEdit from './Pages/CalendarEdit/CalendarEdit'
 import DuplicatePopUp from './Pages/ChooseCalendar/Components/DuplicatePopUp';
 import CalendarWarp from './Pages/CalendarEdit/CalendarWarp';
+import LoadingModal from './Pages/Loading/LoadingModal';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/activity" element={<Activity />} />
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
           <Route path="/calendar-edit/:id" element={<CalendarWarp/>} />
+          <Route path="/loading" element={<LoadingModal/>} />
         </ Routes>
       </ BrowserRouter>
     </div>

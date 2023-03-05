@@ -12,12 +12,14 @@ import { CalendarPath } from "./Components/path";
 import calendarProps from "./Components/calendarProps";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
+import LoadingModal from "../Loading/LoadingModal";
+
 
 
 
 
 function ChooseCalendar(props: any) {
-    const { calendarSort, setCalendarSort, exportModal } = useContext(GlobalContext);
+    const { calendarSort, setCalendarSort, exportModal, loading, setLoading } = useContext(GlobalContext);
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
     const [item, setItem] = useState<calendarProps[]>([]);
@@ -45,6 +47,7 @@ function ChooseCalendar(props: any) {
         await axios.delete(`${CalendarPath.delete}/${props.item.id}`)
             .then((response: any) => {
                 console.log(response.data)
+                setLoading(false)
                 alert("delete calendar success")
                 window.location.reload();
             })
@@ -84,6 +87,9 @@ function ChooseCalendar(props: any) {
     }
     return (
         <div>
+            {
+                loading? <LoadingModal />: null
+            }
             {
                 exportModal?
                     <ExportPopUp />:

@@ -5,7 +5,8 @@ import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import GlobalContext from "../../CalendarEdit/Components/Context/EditCalendarContext";
+import EditCalendarContext from "../../CalendarEdit/Components/Context/EditCalendarContext";
+import GlobalContext from "../../../GlobalContext/GlobalContext";
 
 type ButtonProps = {
     handleClosePopup: () => void;
@@ -13,7 +14,8 @@ type ButtonProps = {
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
-    const { daySelected, setDaySelected, dispatchCalEvents } = useContext(GlobalContext);
+    const { daySelected, setDaySelected, dispatchCalEvents } = useContext(EditCalendarContext);
+    const { setLoading, loading } = useContext(GlobalContext)
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน
     const [startSemister, setStartSemister] = useState(new Date())
@@ -33,18 +35,21 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
+        setLoading(true)
         await axios.post('http://localhost:4000/calendar/create', 
             data)
             .then((response) => {
                 setResponse(response.data)
                 console.log(response.data.start_semester)
-                alert("create calendar success")
+                // alert("create calendar success")
                 navigate(`/calendar-edit/${response.data.id}`)
                 window.location.reload();
             })
             .catch(function (error) {
                 console.log(error);
-            });
+            })
+            .finally(() => {setLoading(false)})
+            
     }
 
     const onSelect = (e: any) => {
