@@ -8,7 +8,7 @@ import {
   Droppable,
   Draggable,
   DropResult,
-  DragStart
+  DragStart,
 } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -97,70 +97,62 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setEventInfo(false);
   };
 
-    const deleteEventHandle = () => {
-    dispatchCalEvents({type:'delete', payload: selectedEvent})
+  const deleteEventHandle = () => {
+    dispatchCalEvents({ type: "delete", payload: selectedEvent });
     setEventInfo(false);
-  }
-
-  // const onDragEnd = (result: DropResult) => {
-  //   const { destination, source, draggableId } = result
-  //   // ถ้า destination ไม่เป็น null ให้ setDaySelected(dayjs(destination).format())
-  //   // หลังจาก set แล้ว ก็ dispatch event นั้นได้เลย
-
-  //   console.log(result)
-  // };
-
-  // const onDragStart = (start: DragStart, provided: any) => {
-  //   setSelectedEditEvent(provided.draggableProps);
-  //   console.log(selectedEvent)
-
-  // }
+  };
 
   return (
-    <DayContainer>
-        <LiteralDay onClick={addEventHandle}>
-          {day.format("D")}
-          {day.format("D") === "1" && <div>{day.format("MMM")}</div>}
-        </LiteralDay>
-              {dayEvents.map((evt, idx) => {
-                return (
-                  <Draggable
-                    key={evt.id}
-                    draggableId={evt.id.toString()}
-                    index={idx}
-                  >
-                    {(provided) => (
-                      <div
-                        key={idx}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
+    <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
+      {(provided, snapshot) => (
+        <div {...provided.droppableProps} ref={provided.innerRef}>
+          <DayContainer>
+            <LiteralDay onClick={addEventHandle}>
+              {day.format("D")}
+              {day.format("D") === "1" && <div>{day.format("MMM")}</div>}
+            </LiteralDay>
+            {dayEvents.map((evt, idx) => {
+              return (
+                <Draggable
+                  key={evt.id}
+                  draggableId={evt.id.toString()}
+                  index={idx}
+                >
+                  {(provided) => (
+                    <div
+                      key={idx}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <EventsEvent
+                        color={evt.type}
+                        onClick={() => {
+                          setEventInfo(true);
+                          setSelectedEvent(evt);
+                        }}
                       >
-                        <EventsEvent
-                          color={evt.type}
-                          onClick={() => {
-                            setEventInfo(true);
-                            setSelectedEvent(evt);
-                          }}
-                        >
-                          <p>{evt.event_name}</p>
-                        </EventsEvent>
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-      {eventInfo && (
-        <EventInfo
-          event={selectedEvent}
-          closeEventInfoHandle={closeEventInfoHandle}
-          editEventHandle={() => {
-            editEventHandle(selectedEvent);
-          }}
-          deleteEventHandle={deleteEventHandle}
-        />
+                        <p>{evt.event_name}</p>
+                      </EventsEvent>
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
+            {eventInfo && (
+              <EventInfo
+                event={selectedEvent}
+                closeEventInfoHandle={closeEventInfoHandle}
+                editEventHandle={() => {
+                  editEventHandle(selectedEvent);
+                }}
+                deleteEventHandle={deleteEventHandle}
+              />
+            )}
+          </DayContainer>
+        </div>
       )}
-    </DayContainer>
+    </Droppable>
   );
 };
 
