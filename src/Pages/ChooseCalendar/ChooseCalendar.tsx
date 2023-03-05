@@ -13,6 +13,7 @@ import calendarProps from "./Components/calendarProps";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
 import LoadingModal from "../Loading/LoadingModal";
+import ChooseCalendarContext from "./Components/Context/ChooseCalendarContext";
 
 
 
@@ -20,6 +21,7 @@ import LoadingModal from "../Loading/LoadingModal";
 
 function ChooseCalendar(props: any) {
     const { calendarSort, setCalendarSort, exportModal, loading, setLoading } = useContext(GlobalContext);
+    const { multipleSelect } = useContext(ChooseCalendarContext)
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
     const [item, setItem] = useState<calendarProps[]>([]);
@@ -105,8 +107,8 @@ function ChooseCalendar(props: any) {
                         <p>วันที่สร้าง</p>
                         <p>แก้ไขล่าสุด</p>
                         {
-                            iconMenu ?
-                                <div className='active-icon flex'>
+                            multipleSelect?
+                                <div className=''>
                                     <div onClick={onClickhandle}>
                                         <DeleteIcon />
                                     </div>
@@ -116,10 +118,10 @@ function ChooseCalendar(props: any) {
                                 </div>
                                 :
                                 <div className='disable-icon flex'>
-                                    <div onClick={onClickhandle}>
+                                    <div>
                                         <DeleteIcon />
                                     </div>
-                                    <div onClick={onClickhandle}>
+                                    <div>
                                         <FolderIcon />
                                     </div>
                                 </div>
