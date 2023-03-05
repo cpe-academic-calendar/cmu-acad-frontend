@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useRef } from 'react';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -6,16 +6,16 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import styled from "styled-components";
 import CalendarCardOption from './CalendarCardOption';
-import DuplicatePopUp from '../DuplicatePopUp';
-import ExportPopUp from '../../../../Components/ExportPopUp';
 import { useCalendarCollect } from '../CollectItem';
 import dayjs from 'dayjs';
 import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
+import ChooseCalendarContext from '../Context/ChooseCalendarContext';
 
 export const CalendarContext = createContext<number[]>([])
 
 const CalendarCard: React.FC<calendarProps> = (data) => {
+    const { multipleSelect,setMultipeSelect } = useContext(ChooseCalendarContext);
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
     const { userId, setId } = useCalendarCollect()
@@ -49,7 +49,6 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                 setId(arr[i])
             }
             selectCalendarClicked(false)
-            
         }
     }
 
@@ -68,6 +67,8 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     const handleCardClick = () => {
         navigate(`calendar-edit/${data.id}`)
     }
+
+    console.log(multipleSelect)
     
 
     return (
@@ -76,11 +77,17 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                 <Start>
                     {
                         selectCalendar ?
-                            <div className='check' onClick={() => handleCheck(data.id, false)}>
+                            <div className='check' onClick={() => {
+                                handleCheck(data.id, false)
+                                setMultipeSelect(true)
+                            }}>
                                 <CheckCircleIcon />
                             </div>
                             :
-                            <div className='check' onClick={() => handleCheck(data.id, true)}>
+                            <div className='check' onClick={() => {
+                                handleCheck(data.id, true)
+                                setMultipeSelect(false)
+                            }}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
                     }

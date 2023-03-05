@@ -1,19 +1,24 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import GlobalContext from "./Context/EditCalendarContext";
+import React, { useContext, useEffect, useState } from "react";
+import EditCalendarContext from "./Context/EditCalendarContext";
 import EventInfo from "./EventInfo";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
+  DragStart,
 } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 interface DateFromDayjs {
   day: dayjs.Dayjs;
+}
+
+interface ColorProps {
+  color: string;
 }
 
 interface eventProps {
@@ -32,7 +37,6 @@ interface DayProps {
 const Day: React.FC<DayProps> = ({ day, event }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const [dayDropped, setDayDropped] = useState<any>(null);
   const calendarId = useParams();
   const {
     daySelected,
@@ -41,7 +45,9 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     savedEvents,
     setSelectedEditEvent,
     dispatchCalEvents,
-  } = useContext(GlobalContext);
+    selectedEvent,
+    setSelectedEvent,
+  } = useContext(EditCalendarContext);
 
  
     // const data = [
@@ -89,56 +95,68 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setEventInfo(false);
   };
 
-  function handleDragStart(event: any) {// This method runs when the dragging starts
-    console.log("Started")
-  }
+  const deleteEventHandle = () => {
+    dispatchCalEvents({ type: "delete", payload: selectedEvent });
+    setEventInfo(false);
+  };
 
-  function handleDrag(event: any) {
-    // This method runs when the component is being dragged
-    console.log("Dragging...")
-  }
-
-  function handleDragEnd(event: any) {
-    // This method runs when the dragging stops
-    console.log("Ended")
-  }
   return (
-    <DayContainer>
-      <LiteralDay onClick={addEventHandle}>
-        {day.format("D")}
-        {day.format('D') === "1" && (
-          <div>
-            {day.format("MMM")}
-          </div>
-        )}
-      </LiteralDay>
-      {dayEvents.map((evt, idx) =>
-        <div key={idx}>
-          {evt.type === 'กิจกรรม' &&
-            <EventsEvent draggable
-              onDragStart={handleDragStart}
-              onDrag={handleDrag}
-              onDragEnd={handleDragEnd}
-              onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
-            </EventsEvent>}
-
-          {evt.type === 'วันหยุด' &&
-            <EventsHoliday onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
-            </EventsHoliday>}
-
-          {evt.type === 'วันสอบ' &&
-            <EventsExam onClick={() => setEventInfo(true)}>
-              <p>{evt.event_name}</p>
-            </EventsExam>}
-
-          {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
-            editEventHandle(evt)
-          }} />}
-        </div>)}
-    </DayContainer>
+          <DayContainer>
+            <LiteralDay onClick={addEventHandle}>
+              {day.format("D")}
+              {day.format("D") === "1" && <div>{day.format("MMM")}</div>}
+            </LiteralDay>
+            {dayEvents.map((evt, idx) => {
+              return (
+                <Draggable
+                  key={evt.id}
+                  draggableId={evt.id.toString()}
+                  index={idx}
+                >
+                  {(provided) => (
+                    <div
+                      key={idx}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <EventsEvent
+                        color={evt.type}
+                        onClick={() => {
+                          setEventInfo(true);
+                          setSelectedEvent(evt);
+                        }}
+                      >
+                        <p>{evt.event_name}</p>
+                      </EventsEvent>
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
+            {eventInfo && (
+              <EventInfo
+                event={selectedEvent}
+                closeEventInfoHandle={closeEventInfoHandle}
+                editEventHandle={() => {
+                  editEventHandle(selectedEvent);
+                }}
+                deleteEventHandle={deleteEventHandle}
+              />
+            )}
+          </DayContainer>
   );
+};
+
+const handleColorType = (color: string) => {
+  switch (color) {
+    case "กิจกรรม":
+      return "var(--default-event-color)";
+    case "วันหยุด":
+      return "var(--default-holiday-color)";
+    case "วันสอบ":
+      return "var(--default-exam-color)";
+  }
 };
 
 const LiteralDay = styled.div`
@@ -164,48 +182,15 @@ const DayContainer = styled.div`
   }
 `;
 
-const EventsEvent = styled.div`
+const EventsEvent = styled.div<ColorProps>`
   padding: 0px 4px;
   z-index: 999;
   display: flex;
   justify-content: start;
   width: 100%;
   margin-bottom: 4px;
-  background-color: var(--default-event-color);
-  p {
-    color: white;
-  }
+  background-color: ${({ color }) => handleColorType(color)};
+  color: white;
 `;
-
-const EventsHoliday = styled.div`
-  padding: 0px 4px;
-  z-index: 999;
-  display: flex;
-  justify-content: start;
-  width: 100%;
-  margin-bottom: 4px;
-  background-color: var(--default-holiday-color);
-  p {
-    color: white;
-  }
-`;
-
-const EventsExam = styled.div`
-  padding: 0px 4px;
-  z-index: 999;
-  display: flex;
-  justify-content: start;
-  width: 100%;
-  margin-bottom: 4px;
-  background-color: var(--default-exam-color);
-  p {
-    color: white;
-  }
-`;
-/* width: ${({Size}) => 
-    Size === 'Small' && '25px' || 
-    Size === 'Large' && '100px' || 
-    '50px'
-  }; */
 
 export default Day;

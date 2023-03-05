@@ -46,6 +46,7 @@ const EventCard: React.FC<EventProps> = ({name, date, type}) => {
 
 const Container = styled.div`
     display: flex;
+    /* width: 100%; */
     h1{
         font-weight: 600;
     }
@@ -56,19 +57,19 @@ const Container = styled.div`
 
 const Event = styled.div`
     height: 100%;
-    width: 5%;
+    width: 6px;
     background-color:  var(--default-event-color);
     margin-right: 8px;
 `
 const Holiday = styled.div`
     height: 100%;
-    width: 5%;
+    width: 6px;
     background-color: var(--default-holiday-color);
     margin-right: 8px;
 `
 const Exam = styled.div`
     height: 100%;
-    width: 5%;
+    width: 6px;
     background-color: var(--default-exam-color);
     margin-right: 8px;
 `

@@ -14,17 +14,18 @@ import dayjs from "dayjs";
 interface eventProps {
   closeEventInfoHandle: () => void;
   editEventHandle: () => void;
+  deleteEventHandle: () => void;
   event: any;
 }
 
-const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEventHandle } ) => {
+const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEventHandle, deleteEventHandle } ) => {
 
   const { dispatchCalEvents, setShowAddEventModal } = useContext(GlobalContext);
 
-  const deleteEventHandle = () => {
-    dispatchCalEvents({type:'delete', payload: event})
-    setShowAddEventModal(false);
-  }
+  // const deleteEventHandle = () => {
+  //   setShowAddEventModal(false);
+  //   dispatchCalEvents({type:'delete', payload: event})
+  // }
 
   let render_color = null;
   switch(event.type){
@@ -79,6 +80,7 @@ export default EventInfo;
 
 const InfoContainer = styled.div`
   position: absolute;
+  /* margin-top: 48px; */
   z-index: 2;
   width: 384px;
   background: #ffffff;
