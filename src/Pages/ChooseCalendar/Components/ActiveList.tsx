@@ -26,10 +26,9 @@ const Container = styled.div`
 
 
 const ActiveList = (calendar: CalendarProps) => {
-    console.log(calendar)
     return (
         <Container>
-            { calendar.data?.map((item, idx) => (
+            { calendar.data?.map((item) => (
                     <div>
                         <CalendarCard id={item.id} name={item.name} year={item.year} start_semester={item.start_semester} create_at={item.create_at} update_at={item.update_at} />
                     </div>
