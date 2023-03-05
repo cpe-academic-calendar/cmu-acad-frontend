@@ -58,12 +58,17 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
     }
         const calendarEvent = {
             event_name: selectedEditEvent.event_name,
-            duration: selectedEditEvent.duration,
+            // duration: selectedEditEvent.duration,
             start_date: daySelected,
             id: selectedEditEvent.id,
             type: selectedEditEvent.type
             }
         dispatchCalEvents({ type: "update", payload: calendarEvent });
+        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+        calendarEvent
+      ).then((res: any) => {
+        console.log(res.data)
+      })
       };  
     const onDragStart = (start: DragStart, provided: any) => {
         setDraggedComponent(start.draggableId);

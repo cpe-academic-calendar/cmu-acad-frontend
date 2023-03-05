@@ -13,7 +13,7 @@ interface calendarEventProps {
 
 export default function EventModal() {
 
-  const { showAddEventModal, dispatchCalEvents, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+  const { showAddEventModal, dispatchCalEvents, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent,selectedEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)
@@ -25,21 +25,15 @@ export default function EventModal() {
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
   const calendarId = useParams()
-
-
-  console.log(new Date(daySelected))
-  console.log(calendarId.id)
-  console.log(selectedEditEvent)
-
+  console.log(selectedEvent)
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
 
     event.preventDefault()
-    
     const calendarEvent = {
       event_name: eventName,
       type: eventType,
       start_date: daySelected,
-      id: selectedEditEvent.id,
+      id: selectedEvent.id,
     }
     
     const createEvent = {
