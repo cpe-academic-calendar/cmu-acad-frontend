@@ -13,7 +13,7 @@ import YearCalendar from './Components/YearCalendar';
 import axios from 'axios'
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
-
+import ExportPopUp from '../../Components/ExportPopUp';
 interface dataProps {
     data: {
         name: string;
@@ -35,8 +35,23 @@ const CalendarEdit = () => {
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
     const calendarId = useParams()
+    
+        React.useEffect(() => {
+            document.addEventListener("click", handleClickOutSide, true)
+        }, [])
+    
+        const refOne = React.useRef<HTMLDivElement | null>(null)
+        const handleClickOutSide = (e: any) => {
+            if (refOne.current != null) {
+                if (!refOne.current?.contains(e.target)) {
+                    setFileOption(false)
+                }
+            }
+        }
+
+    // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
-        axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
+        axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)
@@ -52,6 +67,10 @@ const CalendarEdit = () => {
     }
     const closedFileModalHandle = () => {
         setFileOption(false);
+    }
+
+    const handleClickBack = () => {
+        localStorage.removeItem('savedEvents')
     }
 
     let render_view = null;
@@ -76,17 +95,17 @@ const CalendarEdit = () => {
 
     return ( 
         <React.Fragment>
-            {/* {exportModal && <ExportPopUp />} */}
+            {exportModal && <ExportPopUp />}
             <Col>
             {showAddEventModal && <EventModal />}
                 <CalendarHeader onFileClickHandle={onFileClickHandle} name={calendarName} />
             {fileOption?
-            <div>
+            <div ref={refOne}>
                 <FileOption>
                     <div className='item' onClick={() => setExportModal(true)}>
                         นำออกเป็นไฟล์อื่น
                     </div>
-                    <div className='item'>
+                    <div className='item' onClick={() => handleClickBack()} >
                         <a href="/">
                         กลับหน้าหลัก
                         </a>
