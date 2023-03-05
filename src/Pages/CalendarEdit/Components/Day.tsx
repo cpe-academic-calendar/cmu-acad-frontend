@@ -33,8 +33,6 @@ interface eventProps {
 const Day: React.FC<DateFromDayjs> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  // const [data, setData] = useState<eventProps[]>([]);
-  // const [dayDropped, setDayDropped] = useState<any>();
   const calendarId = useParams();
 
   const data = [
