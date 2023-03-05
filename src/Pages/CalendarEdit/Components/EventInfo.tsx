@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import GlobalContext from "./Context/GlobalContext";
+import GlobalContext from "./Context/EditCalendarContext";
 import dayjs from "dayjs";
 
 // interface eventType {
@@ -44,9 +44,9 @@ const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEve
         <InfoLayout>
           <TitleHeader>
             {render_color}
-            <Title>{event.title}</Title>
+            <Title>{event.event_name}</Title>
           </TitleHeader>
-          <Duration>{<p>{dayjs(event.day).format('D MMMM BBBB')}</p>}</Duration>
+          <Duration>{<p>{dayjs(event.start_date).format('D MMMM BBBB')}</p>}</Duration>
           <Status>
             สถานะ:
             <StatusType>{event.type}</StatusType>
@@ -69,8 +69,17 @@ const EventInfo: React.FC<eventProps> = ( { event, closeEventInfoHandle, editEve
 
 export default EventInfo;
 
+// const Container = styled.div`
+//   position: fixed;
+//   display: flex;
+//   width: 100%;
+//   margin-top: 0vh;
+//   justify-content: center;
+// `
+
 const InfoContainer = styled.div`
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   width: 384px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);

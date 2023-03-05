@@ -1,8 +1,8 @@
 //import * from "../../../Components/Events.styled";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import GlobalContext from "./Context/GlobalContext";
+import GlobalContext from "./Context/EditCalendarContext";
 // import CheckIcon from '@mui/icons-material/Check';
 
 interface calendarEventProps{
@@ -11,48 +11,50 @@ interface calendarEventProps{
 
 export default function EventModal() {
 
-  const { setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, dispatchCalEvents, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
+    setSelectedEditEvent(null)
   };
 
   //state of input that are in this modal
-  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.title : ''); //Event_name
+  const [eventName, setEventName] = useState(selectedEditEvent? selectedEditEvent.event_name : ''); //Event_name
   const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent? selectedEditEvent.type : 'กิจกรรม') //type
+  const [errorMessage, setErrorMessage] = React.useState(false);
+
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const calendarEvent = {
-      title: eventName,
+      event_name: eventName,
       duration,
       type: eventType,
-      day: daySelected,
+      start_date: daySelected,
       id: selectedEditEvent ? selectedEditEvent.id : Date.now(),
     }
     if(selectedEditEvent){
-      if(calendarEvent.title === ''){
-        dispatchCalEvents({type:'delete', payload: calendarEvent})
+      if(calendarEvent.event_name === ''){
+        setErrorMessage(true);
       }
       else{
         dispatchCalEvents({type:'update', payload: calendarEvent})
+        setErrorMessage(false);
+        setSelectedEditEvent(null);
+        setDaySelected(0);
+        setShowAddEventModal(false);
       }
     }
     else{
-      if(calendarEvent.title === ''){
-        setShowAddEventModal(false);
+      if(calendarEvent.event_name === ''){
+        setErrorMessage(true);
       }else{
         dispatchCalEvents({type:'push', payload: calendarEvent})
+        setSelectedEditEvent(null);
+        setDaySelected(0);
+        setShowAddEventModal(false);
       }
     }
-    // if (selectedEditEvent) {
-    //   dispatchCalEvents({ type: "delete", payload: calendarEvent });
-    // } else {
-    //   dispatchCalEvents({ type: "push", payload: calendarEvent });
-    // }
-    setSelectedEditEvent(null)
-    setDaySelected(0)
-    setShowAddEventModal(false)
   }
 
   return (
@@ -76,26 +78,30 @@ export default function EventModal() {
 
           {/* Input */}
           <SettingEvent>
+          <div className="col">
             <SettingDate>
-                <InputName
-                  type="text"
-                  name="eventName"
-                  placeholder="เพิ่มชื่อ"
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                  required
-                />
-                  <DurationInput
-                    type="number"
-                    name="duration"
-                    placeholder="ระยะเวลา"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.valueAsNumber)}
+                <DurationInput
+                    type="text"
+                    name="eventName"
+                    placeholder="เพิ่มชื่อ"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    required
                   />
-                  <div>
-                    <p>วัน</p>
-                  </div>
+                  {errorMessage? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel>:null}
+              
+              <DurationInput
+                      type="number"
+                      name="duration"
+                      placeholder="ระยะเวลา"
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.valueAsNumber)}
+                    />
+                    <div>
+                      <p>วัน</p>
+            </div>
             </SettingDate>
+            </div>
             <SettingSection>
               <TextStatus>สถานะ...</TextStatus>
             </SettingSection>
@@ -180,6 +186,13 @@ const SettingDate = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* .col{
+    flex-direction: column;
+  }
+  .duration{
+    display: flex;
+    align-items: center;
+  } */
 `;
 
 const AddEventButton = styled.div`
@@ -196,24 +209,24 @@ const SettingSection = styled.div`
   margin-top: 8px;
 `;
 
-const InputName = styled.input`
-  color: rgba(0, 0, 0, 0.5);
-  border: 2px solid #aaaaaa;
-  width: 50%;
-  height: 33px;
-  padding: 5px;
-  font-size: 16px;
-  line-height: 19px;
-  background: #fcfcfc;
-  border-radius: 20px;
-  margin: 4px;
-`;
+// const InputName = styled.input`
+//   color: rgba(0, 0, 0, 0.5);
+//   border: 2px solid #aaaaaa;
+//   width: 80%;
+//   height: 33px;
+//   padding: 5px;
+//   font-size: 16px;
+//   line-height: 19px;
+//   background: #fcfcfc;
+//   border-radius: 20px;
+//   margin: 4px;
+// `;
 
 const DurationInput = styled.input`
   line-height: 19px;
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
-  width: 50%;
+  width: 60%;
   padding: 5px;
   background: #fcfcfc;
   color: rgba(0, 0, 0, 0.5);
@@ -222,7 +235,6 @@ const DurationInput = styled.input`
 `;
 
 const TextStatus = styled.div`
-  font-size: 14px;
   line-height: 16px;
   color: #000000;
 `;
@@ -250,3 +262,8 @@ const SaveButton = styled.button`
   line-height: 19px;
   margin-top: 12px;
 `;
+
+const ErrorLabel = styled.span`
+  font-size: 12px;
+  color: var(--error)
+`

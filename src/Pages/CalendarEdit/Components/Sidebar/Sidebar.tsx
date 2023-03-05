@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EventCard from "./EventCard";
 import event_mockup from "../event_mockup.json"
-import GlobalContext from "../Context/GlobalContext";
+import GlobalContext from "../Context/EditCalendarContext";
 import React, {useContext} from "react";
 
 const SideBar:React.FC = () => {
@@ -10,7 +10,7 @@ const SideBar:React.FC = () => {
 
     let event_render = savedEvents.map((props, idx) => {
         return (
-            <EventCard key={idx} name={props.title} date={props.day} type={props.type} />
+            <EventCard key={idx} name={props.event_name} date={props.start_date} type={props.type} />
         )
     })
 
@@ -28,6 +28,7 @@ const SideBar:React.FC = () => {
 }
 
 const Container = styled.div`
+    margin-top: 54px;
     position: fixed;
     display: flex;
     top: 79;

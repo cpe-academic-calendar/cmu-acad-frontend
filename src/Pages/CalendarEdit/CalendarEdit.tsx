@@ -7,12 +7,13 @@ import CalendarHeader from './Components/CalendarHeader';
 import SideBar from './Components/Sidebar/Sidebar';
 import MonthCalendar from './Components/MonthCalendar';
 import EventModal from './Components/EventModal';
-import GlobalContext from './Components/Context/GlobalContext';
+import GlobalContext from '../../GlobalContext/GlobalContext';
+import EditCalendarContext from './Components/Context/EditCalendarContext';
 import YearCalendar from './Components/YearCalendar';
 import axios from 'axios'
-import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
-
+import { useParams } from 'react-router-dom';
+import ExportPopUp from '../../Components/ExportPopUp';
 interface dataProps {
     data: {
         name: string;
@@ -28,25 +29,49 @@ interface dataProps {
 const CalendarEdit = () => {
 
     const [calendarName, setCalendarName] = React.useState('');
-    const [tempMonth, setTemptMonth] = React.useState(getMonth());
+    const [tempMonth, setTemptMonth] = React.useState(getMonth(0));
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { showAddEventModal, currentView, setCurrentView, monthIndex } = React.useContext(GlobalContext);
+    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
+    const { exportModal, setExportModal } = React.useContext(GlobalContext)
+    const [data, setData] = React.useState<any[]>([])
+    const calendarId = useParams()
+    
+        React.useEffect(() => {
+            document.addEventListener("click", handleClickOutSide, true)
+        }, [])
+    
+        const refOne = React.useRef<HTMLDivElement | null>(null)
+        const handleClickOutSide = (e: any) => {
+            if (refOne.current != null) {
+                if (!refOne.current?.contains(e.target)) {
+                    setFileOption(false)
+                }
+            }
+        }
 
-    const calendarId = useLocation();
     // console.log(dayjs(res.data.start_semester).month())
-    console.log(calendarId.state)
     useEffect(() => {
-        axios.get(`http://localhost:4000/calendar/${calendarId.state}`).then(
+        axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
-                    console.log(res.data)
-                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()))
+                    setData(res.data)
+                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
+                    // setTemptMonth(getMonth(res.data.start_semester))
                     // console.log(dayjs(res.data.start_semester).month())
-                    // console.log(res.data.start_semester)
                 }
         )
     },[])
 
+    const onFileClickHandle = () => {
+        setFileOption(true);
+    }
+    const closedFileModalHandle = () => {
+        setFileOption(false);
+    }
+
+    const handleClickBack = () => {
+        localStorage.removeItem('savedEvents')
+    }
 
     let render_view = null;
 
@@ -55,7 +80,7 @@ const CalendarEdit = () => {
             render_view = 
         <Row>
             <div className='calendar'>
-                    <MonthCalendar month={tempMonth} />
+                <MonthCalendar month={tempMonth} events={data} />
             </div>
             <div className='sidebar'>
                 <SideBar />
@@ -63,31 +88,30 @@ const CalendarEdit = () => {
         </Row>
         break;
         case 'year':
-            render_view = <>
+            render_view = <div>
                 <YearCalendar />
-            </>
-    }
-
-    const onFileClickHandle = () => {
-        setFileOption(true);
+            </div>
     }
 
     return ( 
         <React.Fragment>
+            {exportModal && <ExportPopUp />}
             <Col>
             {showAddEventModal && <EventModal />}
                 <CalendarHeader onFileClickHandle={onFileClickHandle} name={calendarName} />
             {fileOption?
+            <div ref={refOne}>
                 <FileOption>
-                    <div className='item'>
+                    <div className='item' onClick={() => setExportModal(true)}>
                         นำออกเป็นไฟล์อื่น
                     </div>
-                    <div className='item'>
+                    <div className='item' onClick={() => handleClickBack()} >
                         <a href="/">
                         กลับหน้าหลัก
                         </a>
                     </div>
                 </FileOption>
+            </div>
                 :
                 null
             }
@@ -108,6 +132,9 @@ const Row = styled.div`
     .calendar{
         margin-right: 253px;
     }
+    .sidebar{
+        z-index: -1;
+    }
 `
 
 const FileOption = styled.div`
@@ -115,12 +142,17 @@ const FileOption = styled.div`
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    z-index: 999;
+    z-index: 998;
     border-radius: 10px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
     color: #111;
+    margin-top: 48px;
     .item{
-        padding: 10px 30px;
+        padding: 20px 30px;
+        &:hover{
+            cursor: pointer;
+            background-color: var(--hover);
+        }
     }
 `
 

@@ -33,29 +33,31 @@ function createCalendar(props: any, monthnum: any) {
   }
   const label = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
   return (
-    <CalendarContainer>
-      <MonthComponent>{month}</MonthComponent>
-      <LabelHeader>
-        {label.map((day, index) => (
-          <span key={index} className="week">
-            {day}
-          </span>
-        ))}
-      </LabelHeader>
-      <div className="calendar">
-        {calendar.map((week) => (
-          <div>
-            {week.map((day) => (
-              <div className="day">
-                <button className="week" onClick={ day =>
-                  alert(`${day}`)
-                }>{day.format("D").toString()}</button>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </CalendarContainer>
+    <YearView>
+      <CalendarContainer>
+        <MonthComponent>{month}</MonthComponent>
+        <LabelHeader>
+          {label.map((day, index) => (
+            <span key={index} className="week">
+              {day}
+            </span>
+          ))}
+        </LabelHeader>
+        <div className="calendar">
+          {calendar.map((week) => (
+            <div>
+              {week.map((day) => (
+                <div className="day">
+                  <button className="week" onClick={ day =>
+                    alert(`${day}`)
+                  }>{day.format("D").toString()}</button>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </CalendarContainer>
+    </YearView>
   );
 }
 
@@ -77,7 +79,11 @@ export default function YearCalendar() {
   return <div>{calendarYear(months)}</div>;
 }
 
-//styled
+const YearView = styled.div`
+   margin-top: 86px;
+   width: 100%;
+`
+
 const DraftContainer = styled.div`
 display: grid;
 grid-template-columns: 1fr 1fr 1fr 1fr;

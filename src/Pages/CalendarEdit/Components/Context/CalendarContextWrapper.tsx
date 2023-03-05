@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
-import GlobalContext from "./GlobalContext";
+import EditCalendarContext from "./EditCalendarContext";
 import dayjs from "dayjs";
-import { getMonth } from '../util'
 
 interface Payload {
     id: number;
@@ -13,10 +12,17 @@ interface Action {
     payload: Payload;
 }
 
+// interface eventProps {
+//     id: number;
+//     event_name: string;
+//     started_date: string;
+//     type: string;
+// }
+
 function savedEventReducer(state: any[], {type, payload}: Action) {
     switch (type){
         case 'push':
-            return[...state, payload]
+            return [...state, payload]
         case "update":
             return state.map((evt) =>
                 evt.id === payload.id ? payload : evt
@@ -36,7 +42,7 @@ function initEvents(){
 }
 
 
-export const ContextWrapper = (props: any) => {
+export const CalendarContextWrapper = (props: any) => {
     const [monthIndex, setMonthIndex] = useState<number>(dayjs().month());
     const [daySelected, setDaySelected] = useState<any>(null);
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
@@ -47,6 +53,7 @@ export const ContextWrapper = (props: any) => {
 
     useEffect(()=> {
         localStorage.setItem('savedEvents', JSON.stringify(savedEvents));
+        // localStorage.removeItem("savedEvents")
     }, [savedEvents])
 
     const value = {
@@ -61,11 +68,11 @@ export const ContextWrapper = (props: any) => {
         dispatchCalEvents,
         savedEvents,
         currentView,
-        setCurrentView
+        setCurrentView,
     };
 
     return (
-    <GlobalContext.Provider value={value}>
+    <EditCalendarContext.Provider value={value}>
         {props.children}
-    </GlobalContext.Provider> );
+    </EditCalendarContext.Provider> );
 }

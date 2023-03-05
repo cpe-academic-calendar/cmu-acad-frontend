@@ -1,16 +1,19 @@
-import React, { useEffect, useInsertionEffect, useState } from "react"
+import React, { useContext, useEffect, useInsertionEffect, useState } from "react"
 import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
 import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import GlobalContext from "../../CalendarEdit/Components/Context/EditCalendarContext";
 
 type ButtonProps = {
     handleClosePopup: () => void;
 };
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
+
+    const { daySelected, setDaySelected, dispatchCalEvents } = useContext(GlobalContext);
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน
     const [startSemister, setStartSemister] = useState(new Date())
@@ -34,9 +37,9 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             data)
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data.starts_semester)
+                console.log(response.data.start_semester)
                 alert("create calendar success")
-                navigate(`/calendar-edit/`, { state: response.data.id })
+                navigate(`/calendar-edit/${response.data.id}`)
                 window.location.reload();
             })
             .catch(function (error) {
@@ -46,13 +49,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const onSelect = (e: any) => {
         // const day = new Date(e).setFullYear(Number(year)-543)
-        const day = new Date(e).setFullYear(semester_year-543)
+        const day = new Date(e).setFullYear(semester_year)
        setValue(new Date(day))
     }
 
     const handleChooseYear = async (e: any) => {
-        setSemesterYear((e.target.value)-543)
-        setValue(new Date(new Date().setFullYear((e.target.value)-543)))
+        setSemesterYear((e.target.value))
+        setValue(new Date(new Date().setFullYear((e.target.value))))
     }
 
 

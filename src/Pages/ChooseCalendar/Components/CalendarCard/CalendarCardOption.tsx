@@ -1,9 +1,13 @@
-import { useState } from 'react'
-import DuplicatePopUp from './DuplicatePopUp'
+import { useContext, useState } from 'react'
+import DuplicatePopUp from '../DuplicatePopUp'
 import styled from 'styled-components'
 import axios from 'axios'
-import { CalendarPath } from './path'
+import { CalendarPath } from '../path'
+import GlobalContext from '../../../../GlobalContext/GlobalContext'
+
 const CalendarCardOption = (props: any): JSX.Element => {
+
+    const { calendarSort, setExportModal } = useContext(GlobalContext)
     const [duplicate, setDuplicate] = useState(false)
     const [deleteCalendar, setDeleteCalendar] = useState(false)
     const [response, setResponse] = useState()
@@ -15,7 +19,7 @@ const CalendarCardOption = (props: any): JSX.Element => {
     console.log(props.item.id)
     const handleArchive = async ()=> {
         await axios.put(`${CalendarPath.archiveCalendar}${props.item.id}`,
-            {
+        {
                 calendar_status: "Archive"
         })
             .then((response) => {
@@ -84,17 +88,36 @@ const CalendarCardOption = (props: any): JSX.Element => {
         </div>)
     }
     console.log(deleteCalendar)
-    return (<>
-        <Modal className='z-20'>
+
+    //option moved here
+    let render_option = null;
+
+    switch(calendarSort){
+        case'Active':
+        render_option =
             <DraftOption>
                 <div className="hover:bg-gray-200">
                     <button onClick={handleDuplicate}>ทำซ้ำ</button>
                 </div>
                 <div className="hover:bg-gray-200">
-                    <button >นำออก</button>
+                    <button onClick={() => setExportModal(true)}>นำออก</button>
                 </div>
                 <div className="hover:bg-gray-200">
                     <button onClick={handleArchive}>จัดเก็บ</button>
+                </div>
+                <div className="hover:bg-gray-200">
+                    <button className='delete ' onClick={handleDelete}>ลบ</button>
+                </div>
+            </DraftOption>
+        break;
+        case'Archive':
+        render_option =
+            <DraftOption>
+                <div className="hover:bg-gray-200">
+                    <button onClick={handleDuplicate}>ทำซ้ำ</button>
+                </div>
+                <div className="hover:bg-gray-200">
+                    <button onClick={() => setExportModal(true)}>นำออก</button>
                 </div>
                 <div className="hover:bg-gray-200">
                     <button onClick={handleRestore}>กู้คืน</button>
@@ -103,6 +126,12 @@ const CalendarCardOption = (props: any): JSX.Element => {
                     <button className='delete ' onClick={handleDelete}>ลบ</button>
                 </div>
             </DraftOption>
+        break;
+
+    }
+    return (<>
+        <Modal className='z-20'>
+            {render_option}
         </Modal>
         {render_popup}
     </>);

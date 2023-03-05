@@ -1,102 +1,168 @@
-import dayjs from 'dayjs'
-import styled from 'styled-components';
-import React, { useContext, useEffect, useState } from 'react';
-import GlobalContext from './Context/GlobalContext';
-import EventInfo from './EventInfo';
+import dayjs from "dayjs";
+import styled from "styled-components";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import GlobalContext from "./Context/EditCalendarContext";
+import EventInfo from "./EventInfo";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
-interface DateFromDayjs{
-    day: dayjs.Dayjs;
-  }
+interface DateFromDayjs {
+  day: dayjs.Dayjs;
+}
 
-const Day:React.FC<DateFromDayjs> = ({day}) => {
+interface eventProps {
+  id: number;
+  event_name: string;
+  start_date: Date;
+  end_date: Date;
+  type: string;
+}
 
-  let dayClassName = 'work-day'
-  if(day.format('d') === '0' || day.format('d') === '6'  ){
-    dayClassName = 'holioday'
-  }
+interface DayProps {
+  day: any;
+  event: any
+}
 
+const Day: React.FC<DayProps> = ({ day, event }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
+  const [dayDropped, setDayDropped] = useState<any>(null);
+  const calendarId = useParams();
+  const {
+    daySelected,
+    setDaySelected,
+    setShowAddEventModal,
+    savedEvents,
+    setSelectedEditEvent,
+    dispatchCalEvents,
+  } = useContext(GlobalContext);
 
-  const { setDaySelected,  setShowAddEventModal, savedEvents, setSelectedEditEvent } = useContext(GlobalContext);
+ 
+    // const data = [
+    //   {
+    //     "id": 1,
+    //     "event_name": "สงกรานต์",
+    //     "start_date": "2023-04-13",
+    //     "type": "วันหยุด"
+    //   }
+    // ]
 
-  useEffect((()=> {
-    const events = savedEvents.filter((evt) => 
-      dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
-    );
+
+    useEffect(()=>{
+      console.log(event)
+        event.map((ed: any) => {
+        if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+          setDaySelected(ed.start_date)
+          dispatchCalEvents({ type: 'push', payload: ed })
+        } 
+      })
+    },[event])
+  
+
+
+  useEffect(() => {
+    const events  = savedEvents.filter(
+      (evt) => dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+    )
     setDayEvents(events)
-  }), [savedEvents, day])
-
+  }, [savedEvents, day])
 
   const addEventHandle = () => {
     setDaySelected(day);
     setShowAddEventModal(true);
-}
+  };
 
   const closeEventInfoHandle = () => {
-   setEventInfo(false)
-  }
+    setEventInfo(false);
+  };
 
   const editEventHandle = (evt: any) => {
-    setDaySelected(day)
-    setSelectedEditEvent(evt)
-    setShowAddEventModal(true)
-    setEventInfo(false)
+    setDaySelected(day);
+    setSelectedEditEvent(evt);
+    setShowAddEventModal(true);
+    setEventInfo(false);
+  };
+
+  function handleDragStart(event: any) {// This method runs when the dragging starts
+    console.log("Started")
   }
 
+  function handleDrag(event: any) {
+    // This method runs when the component is being dragged
+    console.log("Dragging...")
+  }
+
+  function handleDragEnd(event: any) {
+    // This method runs when the dragging stops
+    console.log("Ended")
+  }
   return (
-    <DayContainer onClick={addEventHandle}>
-        <LiteralDay>
-          {day.format("D")}
-            { day.format('D') === "1" && (
-              <div>
-                {day.format("MMM")}
-              </div>
-            )}
-          </LiteralDay>
-          {dayEvents.map((evt, idx) => 
-            <div key={idx}>
-              {evt.type === 'กิจกรรม' &&                 
-              <EventsEvent onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsEvent> }
+    <DayContainer>
+      <LiteralDay onClick={addEventHandle}>
+        {day.format("D")}
+        {day.format('D') === "1" && (
+          <div>
+            {day.format("MMM")}
+          </div>
+        )}
+      </LiteralDay>
+      {dayEvents.map((evt, idx) =>
+        <div key={idx}>
+          {evt.type === 'กิจกรรม' &&
+            <EventsEvent draggable
+              onDragStart={handleDragStart}
+              onDrag={handleDrag}
+              onDragEnd={handleDragEnd}
+              onClick={() => setEventInfo(true)}>
+              <p>{evt.event_name}</p>
+            </EventsEvent>}
 
-              {evt.type === 'วันหยุด' &&                 
-              <EventsHoliday onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsHoliday> }
+          {evt.type === 'วันหยุด' &&
+            <EventsHoliday onClick={() => setEventInfo(true)}>
+              <p>{evt.event_name}</p>
+            </EventsHoliday>}
 
-              {evt.type === 'วันสอบ' &&                 
-              <EventsExam onClick={() => setEventInfo(true)}>
-                <p>{evt.title}</p>
-              </EventsExam> }
-              
-              {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
-                editEventHandle(evt)
-              }} />}
-            </div>)}
+          {evt.type === 'วันสอบ' &&
+            <EventsExam onClick={() => setEventInfo(true)}>
+              <p>{evt.event_name}</p>
+            </EventsExam>}
+
+          {eventInfo && <EventInfo event={evt} closeEventInfoHandle={closeEventInfoHandle} editEventHandle={() => {
+            editEventHandle(evt)
+          }} />}
+        </div>)}
     </DayContainer>
-  )}
+  );
+};
 
 const LiteralDay = styled.div`
   display: flex;
-`
+  cursor: pointer;
+`;
 
 const DayContainer = styled.div`
   display: flex;
+  z-index: 0;
+  width: 100%;
   flex-direction: column;
   height: 100%;
   padding: 14px 14px;
   border-color: var(--stroke);
   border-width: 0px 0px 1px 1px;
   border-style: solid;
-  .work-day{
-    background: #FFFFFF;
+  .work-day {
+    background: #ffffff;
   }
-  .holiday{
+  .holiday {
     background: var(--disable-color);
   }
-`
+`;
 
 const EventsEvent = styled.div`
   padding: 0px 4px;
@@ -106,10 +172,10 @@ const EventsEvent = styled.div`
   width: 100%;
   margin-bottom: 4px;
   background-color: var(--default-event-color);
-  p{
+  p {
     color: white;
   }
-`
+`;
 
 const EventsHoliday = styled.div`
   padding: 0px 4px;
@@ -119,10 +185,10 @@ const EventsHoliday = styled.div`
   width: 100%;
   margin-bottom: 4px;
   background-color: var(--default-holiday-color);
-  p{
+  p {
     color: white;
   }
-`
+`;
 
 const EventsExam = styled.div`
   padding: 0px 4px;
@@ -132,11 +198,11 @@ const EventsExam = styled.div`
   width: 100%;
   margin-bottom: 4px;
   background-color: var(--default-exam-color);
-  p{
+  p {
     color: white;
   }
-`
-  /* width: ${({Size}) => 
+`;
+/* width: ${({Size}) => 
     Size === 'Small' && '25px' || 
     Size === 'Large' && '100px' || 
     '50px'
