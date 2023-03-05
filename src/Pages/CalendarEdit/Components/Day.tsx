@@ -90,9 +90,15 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   };
 
   const deleteEventHandle = () => {
-    dispatchCalEvents({ type: "delete", payload: selectedEvent });
-    setEventInfo(false);
-  };
+    dispatchCalEvents({ type: 'delete', payload: selectedEvent })
+    axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
+      (res)=>{
+        console.log(res.data)
+        
+      })
+      setEventInfo(false)
+    
+  }
 
   return (
           <DayContainer>

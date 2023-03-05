@@ -25,15 +25,15 @@ export default function EventModal() {
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
   const calendarId = useParams()
-  console.log(selectedEvent)
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
 
     event.preventDefault()
+
     const calendarEvent = {
       event_name: eventName,
       type: eventType,
       start_date: daySelected,
-      id: selectedEvent.id,
+      id: selectedEvent?.id,
     }
     
     const createEvent = {
