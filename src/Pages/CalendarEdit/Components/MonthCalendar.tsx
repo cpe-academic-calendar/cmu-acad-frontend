@@ -60,8 +60,9 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
     
         if (destination !== null && destination !== undefined) {
             setDaySelected(dayjs(destination.droppableId).format())
-            console.log("selectedEvent", selectedEvent)
+            console.log("selectedEditEvent", selectedEditEvent)
             console.log("daySelected", daySelected)
+            console.log(draggedComponent)
 
         }
         //     const calendarEvent = {
@@ -92,11 +93,11 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
       const onDragStart = (start: DragStart, provided: any) => {
         setDraggedComponent(start.draggableId);
         savedEvents.map((event) => {
-            if(event.id === draggedComponent){
+            if(event.id === Number(draggedComponent)){
                 setSelectedEditEvent(event)
             }
         })
-        console.log(start.draggableId)
+        // console.log(start.draggableId)
       }
         
     return ( <>
