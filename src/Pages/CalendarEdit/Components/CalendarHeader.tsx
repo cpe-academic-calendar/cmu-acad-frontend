@@ -4,7 +4,9 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import React, { useContext } from 'react';
-import GlobalContext from './Context/EditCalendarContext';
+import EditCalendarContext from './Context/EditCalendarContext';
+import GlobalContext from '../../../GlobalContext/GlobalContext';
+import LoadingCompoent from '../../Loading/LoadingComponent';
 
 interface handleProps{
     onFileClickHandle: () => void;
@@ -13,7 +15,8 @@ interface handleProps{
 
 const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
 
-    const { currentView, setCurrentView } = useContext(GlobalContext);
+    const { currentView, setCurrentView } = useContext(EditCalendarContext);
+    const { loading } = useContext(GlobalContext)
 
 
     return (
@@ -31,6 +34,9 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
+            <Loading>
+                <LoadingCompoent />
+            </Loading>
         </Items>
         <p>{name}</p>
         <p>1/65 มิถุนายน 2565</p>
@@ -64,6 +70,7 @@ const Items = styled.div`
     display: flex;
     max-width: 100%;
     color: var(--primary-color);
+    align-items: center;
     .files{
         display: flex;
         align-items: center;
@@ -100,6 +107,10 @@ const FileOption = styled.div`
     .item{
         padding: 10px 30px;
     }
+`
+
+const Loading = styled.div`
+    margin-left: 8px;
 `
 
 export default CalendarHeader;

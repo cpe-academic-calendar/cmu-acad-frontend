@@ -14,7 +14,7 @@ type ButtonProps = {
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
-    const { daySelected, setDaySelected, dispatchCalEvents } = useContext(EditCalendarContext);
+    const { daySelected, setDaySelected } = useContext(EditCalendarContext);
     const { setLoading, loading } = useContext(GlobalContext)
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน

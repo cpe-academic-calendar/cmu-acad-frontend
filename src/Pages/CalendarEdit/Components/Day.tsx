@@ -7,8 +7,6 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
-  DragStart,
 } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -29,12 +27,8 @@ interface eventProps {
   type: string;
 }
 
-interface DayProps {
-  day: any;
-  event: any
-}
 
-const Day: React.FC<DayProps> = ({ day, event }) => {
+const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
   const calendarId = useParams();
@@ -44,26 +38,18 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setShowAddEventModal,
     savedEvents,
     setSelectedEditEvent,
-    dispatchCalEvents,
     selectedEvent,
     setSelectedEvent,
   } = useContext(EditCalendarContext);
 
 
   useEffect(() => {
-
-
-    event.map((ed: any) => {
-      if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+    savedEvents.map((ed: any) => {
+      if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
         setDaySelected(ed.start_date)
-        dispatchCalEvents({ type: 'push', payload: ed })
       }
     })
-
-
-
-
-  }, [event])
+  }, [savedEvents])
 
 
   useEffect(() => {
@@ -90,14 +76,19 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   };
 
   const deleteEventHandle = () => {
-    dispatchCalEvents({ type: 'delete', payload: selectedEvent })
     axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
       (res)=>{
         console.log(res.data)
-        
+        window.location.reload()
       })
       setEventInfo(false)
-    
+  }
+
+  function truncateString(str: string) {
+    if(15>str.length){
+      return str
+    }
+      return str.slice(0, 15) + "..."
   }
 
   return (
@@ -127,7 +118,11 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
                           setSelectedEvent(evt);
                         }}
                       >
-                        <p>{evt.event_name}</p>
+                      <p>
+                        {
+                          truncateString(evt.event_name)
+                        }
+                      </p>
                       </EventsEvent>
                     </div>
                   )}
@@ -184,10 +179,12 @@ const DayContainer = styled.div`
 
 const EventsEvent = styled.div<ColorProps>`
   padding: 0px 4px;
+  overflow: hidden;
   z-index: 999;
   display: flex;
   justify-content: start;
   width: 100%;
+  /* max-height: 10px; */
   margin-bottom: 4px;
   background-color: ${({ color }) => handleColorType(color)};
   color: white;

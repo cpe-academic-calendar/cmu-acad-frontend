@@ -31,7 +31,7 @@ const CalendarEdit = () => {
     const [calendarName, setCalendarName] = React.useState('');
     const [tempMonth, setTemptMonth] = React.useState(getMonth(0));
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
+    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex } = React.useContext(EditCalendarContext);
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
     const calendarId = useParams()
