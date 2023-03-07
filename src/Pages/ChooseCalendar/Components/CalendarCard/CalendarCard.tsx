@@ -65,9 +65,8 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     }
     
     const handleCardClick = () => {
-        navigate(`calendar-edit/${data.id}`)
+        navigate(`calendar-edit/${data.id}/${"month"}/`)
     }
-
     console.log(multipleSelect)
     
 

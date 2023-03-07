@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import EditCalendarContext from './Context/EditCalendarContext';
 import GlobalContext from '../../../GlobalContext/GlobalContext';
 import LoadingCompoent from '../../Loading/LoadingComponent';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 interface handleProps{
     onFileClickHandle: () => void;
@@ -15,10 +18,13 @@ interface handleProps{
 
 const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
 
-    const { currentView, setCurrentView } = useContext(EditCalendarContext);
     const { loading } = useContext(GlobalContext)
+    const calendarId = useParams()
+    const navigate = useNavigate()
 
-
+    const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
+    }
     return (
     <Nav>
         <Items>
@@ -30,7 +36,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
-            <select id="display" value={currentView} onChange={(e) => setCurrentView(e.target.value)}>
+            <select id="display" value={calendarId.view} onChange={onViewChange}>
                 <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
@@ -39,7 +45,17 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
             </Loading>
         </Items>
         <p>{name}</p>
-        <p>1/65 มิถุนายน 2565</p>
+        <RightSide>
+            <div className="icons">
+               <button>
+                    <ChevronLeftIcon />
+                </button>
+                <button>
+                    <ChevronRightIcon />
+                </button>
+            </div>
+            <p>1/65 มิถุนายน 2565</p>
+        </RightSide>
     </Nav>
     );
 }
@@ -111,6 +127,18 @@ const FileOption = styled.div`
 
 const Loading = styled.div`
     margin-left: 8px;
+`
+
+const RightSide = styled.div`
+    display: flex;
+    align-items: center;
+    .icons{
+        margin-right: 16px;
+        color: var(--primary-color);
+        .item{
+            cursor: pointer;
+        }
+    }
 `
 
 export default CalendarHeader;
