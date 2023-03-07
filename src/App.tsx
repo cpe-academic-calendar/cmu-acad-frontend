@@ -35,7 +35,11 @@ function App() {
           <Route path="/yearview" element={<Draft />}/>
           <Route path="/activity" element={<Activity />} />
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
+<<<<<<< HEAD
           <Route path="/calendar-edit/:id/:view" element={<CalendarWarp/>} />
+=======
+          <Route path="/calendar-edit/:id/:view/:month" element={<CalendarWarp/>} />
+>>>>>>> feat: useParams for edit view
           <Route path="/loading" element={<LoadingModal/>} />
         </ Routes>
       </ BrowserRouter>
