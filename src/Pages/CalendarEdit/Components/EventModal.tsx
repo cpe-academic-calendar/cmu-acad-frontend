@@ -71,7 +71,6 @@ export default function EventModal() {
           .then((res)=>{
               dispatchCalEvents({ type: 'push', payload: res.data })
           })
-        // axios.post(`http://localhost:4000/event/create`,createEvent)
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);

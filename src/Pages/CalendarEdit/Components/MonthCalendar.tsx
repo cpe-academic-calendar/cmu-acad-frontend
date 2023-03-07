@@ -10,8 +10,9 @@ import {
     Draggable,
     DropResult,
     DragStart
-  } from "react-beautiful-dnd";
+} from "react-beautiful-dnd";
 import EditCalendarContext from "./Context/EditCalendarContext";
+import StudyCountWeek from "./StudyCount";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
@@ -30,8 +31,9 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         dispatchCalEvents,
         selectedEvent,
         setSelectedEvent,
-      } = useContext(EditCalendarContext);
+    } = useContext(EditCalendarContext);
     const [event, setEvent] = useState<any[]>([])
+    const [count, setCount] = useState<any[]>([])
     const calendarId = useParams()
     console.log(calendarId)
     useEffect(() => {
@@ -39,94 +41,134 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
             try {
                 const res = await axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`)
                 setEvent(res.data[0].events);
-            }catch(error){
+            } catch (error) {
                 console.log(error)
-            }        
+            }
+        }
+        const getCount = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/calendar/studyweek/${calendarId.id}`)
+                    .then((res) => {
+                        setCount(res.data.term1)
+                    })
+            } catch (error) {
+                console.log(error)
+            }
         }
         getData()
+        getCount()
     }, [calendarId])
-
-    console.log(event)
 
     const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
 
     const onDragEnd = (result: DropResult) => {
         const { destination, source } = result
-    
-    if (destination !== null && destination !== undefined) {
-        setDaySelected(dayjs(destination.droppableId).format())
-    }
+
+        if (destination !== null && destination !== undefined) {
+            setDaySelected(dayjs(destination.droppableId).format())
+        }
         const calendarEvent = {
             event_name: selectedEditEvent.event_name,
             // duration: selectedEditEvent.duration,
             start_date: daySelected,
             id: selectedEditEvent.id,
             type: selectedEditEvent.type
-            }
+        }
         dispatchCalEvents({ type: "update", payload: calendarEvent });
         axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
-        calendarEvent
-      ).then((res: any) => {
-        console.log(res.data)
-      })
-      };  
+            calendarEvent
+        ).then((res: any) => {
+            console.log(res.data)
+        })
+    };
+
+    const HeaderComponent = () => {
+        return (<Header>
+            <DayItems>
+                <p>วันอาทิตย์</p>
+            </DayItems>
+            <DayItems>
+                <p> วันจันทร์</p>
+                <p>{count[0].monday}</p>
+            </DayItems>
+            <DayItems>
+                <p>วันอังคาร</p>
+                <p>{count[0].tuesday}</p>
+            </DayItems>
+            <DayItems>
+                <p>วันพุธ</p>
+                <p>{count[0].wednesday}</p>
+            </DayItems>
+            <DayItems>
+                <p>วันพฤหัส</p>
+                <p>{count[0].thursday}</p>
+            </DayItems>
+            <DayItems>
+                <p>วันศุกร์</p>
+                <p>{count[0].friday}</p>
+            </DayItems>
+            <DayItems>วันเสาร์</DayItems>
+        </Header>
+        )
+    }
     const onDragStart = (start: DragStart, provided: any) => {
         setDraggedComponent(start.draggableId);
         savedEvents.map((event) => {
-            if(event.id === Number(draggedComponent)){
+            if (event.id === Number(draggedComponent)) {
                 setSelectedEditEvent(event)
             }
         })
         // console.log(start.draggableId)
-      }
-        
-    return ( <>
-        <Header>
+    }
+
+    return (<>
+        {/* <Header>
                 <DayItems>
                     <p>วันอาทิตย์</p>
                 </DayItems>
                 <DayItems>
                     <p> วันจันทร์</p>
-                    <p>12</p>
+                    <p>{count}</p>
                 </DayItems>
                 <DayItems>
                     <p>วันอังคาร</p>
-                    <p>12</p>
+                    <p>{count}</p>
                 </DayItems>
                 <DayItems>
                     <p>วันพุธ</p>
-                    <p>12</p>
+                    <p>{count}</p>
                 </DayItems>
                 <DayItems>
                     <p>วันพฤหัส</p>
-                    <p>12</p>
+                    <p>{count}</p>
                 </DayItems>
                 <DayItems>
                     <p>วันศุกร์</p>
-                    <p>12</p>
+                    <p>{count}</p>
                 </DayItems>
                 <DayItems>วันเสาร์</DayItems>
-        </Header>
+        </Header> */}
+        {/* <HeaderComponent /> */}
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Container>
-            {
-                month.map((row, i) => (
-                    <Calendar key={i}>
-                        {row.map((day, idx)=> (
-                            <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
-                                {(provided, snapshot) => (
-                                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                                        <Day day={day} event={event} key={idx} />
-                                    </div>
-                                )}
-                            </Droppable>
-                        ))}
-                    </Calendar>
-                ))
-            }
+                {
+                    month.map((row, i) => (
+                        <Calendar key={i}>
+                            {row.map((day, idx) => (
+                                <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
+                                    {(provided, snapshot) => (
+                                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                                            <Day day={day} event={event} key={idx} />
+                                        </div>
+                                    )}
+                                </Droppable>
+                            ))}
+                        </Calendar>
+                    ))
+                }
             </Container>
         </DragDropContext>
-    </> );
+    </>);
 }
 
 const Calendar = styled.div`
