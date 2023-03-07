@@ -105,7 +105,7 @@ function ChooseCalendar(props: any) {
                     <div className="end">
                         <p>วันที่สร้าง</p>
                         <p>แก้ไขล่าสุด</p>
-                        {
+                        {/* {
                             multipleSelect?
                                 <div className=''>
                                     <div onClick={onClickhandle}>
@@ -124,7 +124,7 @@ function ChooseCalendar(props: any) {
                                         <FolderIcon />
                                     </div>
                                 </div>
-                        }
+                        } */}
                     </div>
                 </TableCardHeader>
                 {render_list}

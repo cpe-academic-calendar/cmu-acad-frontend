@@ -4,6 +4,8 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditCalendarContext from "./Context/EditCalendarContext";
+import { handleColorType } from "../../../Functions/handleColorType";
+import changeToThai from "../../../Functions/changeToThai";
 import dayjs from "dayjs";
 import axios from "axios";
 
@@ -31,19 +33,25 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
     id: selectedEvent.id,
   }
 
+  let render_delete_edit_button = null
 
-  // let render_color = null;
-  // switch (event.type) {
-  //   case 'กิจกรรม':
-  //     render_color = 
-  //     break;
-  //   case 'วันหยุด':
-  //     render_color = <BoxHolidayColor />
-  //     break;
-  //   case 'วันสอบ':
-  //     render_color = <BoxExamColor />
-  //     break;
-  // }
+  const checkEvent = (input: string) => {
+    if(input=="วันเปิดภาคเรียน") return;
+    else if(input=="วันปิดภาคเรียน") return;
+    else{
+      render_delete_edit_button = 
+      <>
+        <button onClick={editEventHandle}>
+                <EditOutlinedIcon />
+        </button>
+        <button onClick={deleteEventHandle}>
+          <DeleteOutlineOutlinedIcon />
+        </button>
+      </>
+    }
+  }
+
+  checkEvent(event.type);
 
   return (
     <InfoContainer>
@@ -54,18 +62,17 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
               <Title>{event.event_name}</Title>
           </TitleHeader>
           <ButtonContainer>
-            <button onClick={editEventHandle}>
-              <EditOutlinedIcon />
-            </button>
-            <button onClick={deleteEventHandle}>
-              <DeleteOutlineOutlinedIcon />
-            </button>
+              {render_delete_edit_button}
             <button onClick={closeEventInfoHandle}>
               <CloseOutlinedIcon />
             </button>
           </ButtonContainer>
         </InfoHeader>
-        <Duration>{<p>{dayjs(event.start_date).format('D MMMM BBBB')}</p>}</Duration>
+        <Duration>
+        <p>{dayjs(event.start_date).format('D')}</p>
+        <p>{changeToThai(dayjs(event.start_date).format('MMMM'))}</p>
+        <p>{dayjs(event.start_date).format('BBBB')}</p>
+        </Duration>
         <Status>
           สถานะ:
           <StatusType>{event.type}</StatusType>
@@ -77,17 +84,6 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
 };
 
 export default EventInfo;
-
-const handleColorType = (color: string) => {
-  switch (color) {
-    case "กิจกรรม":
-      return "var(--default-event-color)";
-    case "วันหยุด":
-      return "var(--default-holiday-color)";
-    case "วันสอบ":
-      return "var(--default-exam-color)";
-  }
-};
 
 const InfoContainer = styled.div`
   position: absolute;
@@ -158,15 +154,14 @@ const Title = styled.div`
 `;
 
 const Duration = styled.div`
+  display: flex;
   margin-top: 5px;
-  font-family: "Roboto";
-  font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;
-
-  /* Text/ Text50 */
-
+  p{
+    margin-right: 4px;
+  }
   color: rgba(0, 0, 0, 0.5);
 `;
 

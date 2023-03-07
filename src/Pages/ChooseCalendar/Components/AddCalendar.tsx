@@ -41,7 +41,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                 setResponse(response.data)
                 console.log(response.data)
                 // alert("create calendar success")
-                navigate(`/calendar-edit/${response.data.id}/month/${dayjs(value).month()+1}/${dayjs(startSemester).format("YYYY")}`)
+                navigate(`/calendar-edit/${response.data.id}/month`)
                 window.location.reload();
             })
             .catch(function (error) {

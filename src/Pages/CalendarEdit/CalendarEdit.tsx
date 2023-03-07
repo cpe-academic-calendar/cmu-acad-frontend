@@ -35,9 +35,9 @@ const CalendarEdit = () => {
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
     const { id, month, view } = useParams()
-    const paramResult = useParams()
+    // const paramResult = useParams()
 
-    console.log(paramResult);
+    // console.log(paramResult);
     
         React.useEffect(() => {
             document.addEventListener("click", handleClickOutSide, true)

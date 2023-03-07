@@ -15,16 +15,14 @@ const SideBar:React.FC = () => {
     })
 
     return ( <div>
-        <Container>
-            <Row>
-                <div className="header">
-                    <CalendarMonthIcon />
-                    กำหนดการสำคัญ
-                </div>
-            </Row>
-            {/* <EventWrap> */}
+        <Container className="overflow-scroll">
+        <Row>
+            <div className="header">
+                <CalendarMonthIcon />
+                กำหนดการสำคัญ
+            </div>
+        </Row>
                 {event_render}
-            {/* </EventWrap> */}
         </Container>
     </div> );
 }
@@ -37,7 +35,8 @@ const Container = styled.div`
     right: 0;
     flex-direction: column;
     align-items: flex-start;
-    padding: 22px 14px;
+    padding-left:14px;
+    padding-bottom: 48px;
     gap: 24px;
     width: 253px;
     height: 938px;
@@ -51,14 +50,16 @@ const Container = styled.div`
 
 const Row = styled.div`
     display: flex;
+    padding-bottom: 48px;
+    background-color: wheat;
     .header{
+        position: fixed;
         font-weight: 600;
         color: var(--primary-color);
+        background-color: white;
+        margin-top: 22px;
     }
 `
 
-// const EventWrap = styled.div`
-//     overflow: scroll;
-// `
 
 export default SideBar;

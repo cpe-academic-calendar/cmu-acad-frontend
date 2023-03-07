@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
 import ChooseCalendarContext from '../Context/ChooseCalendarContext';
+import changeToThai from '../../../../Functions/changeToThai';
 
 const CalendarCard: React.FC<calendarProps> = (data) => {
     const { multipleSelect, setMultipeSelect } = useContext(ChooseCalendarContext);
@@ -64,7 +65,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     }
     
     const handleCardClick = () => {
-        navigate(`calendar-edit/${data.id}/${"month"}/${dayjs(data.start_semester).month()}/${dayjs(data.start_semester).year()}`)
+        navigate(`calendar-edit/${data.id}/${"month"}`)
     }
     console.log(multipleSelect)
     console.log(data.year)
@@ -90,12 +91,12 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content" onClick={handleCardClick}>
                         <h4>{data.name}</h4>
-                        <p>{data.year}</p>
+                        <p>ปีการศึกษา {data.year}</p>
                     </div>
                 </Start>
                 <End onClick={handleCardClick}>
-                    <h4>{dayjs(data.create_at).format("DD MMMM BBBB")}</h4>
-                    <h4>{dayjs(data.update_at).format("DD MMMM BBBB")}</h4>
+                    <h4>{dayjs(data.create_at).format("D")}  {changeToThai(dayjs(data.create_at).format("MMMM"))}  {dayjs(data.create_at).format("BBBB")}</h4>
+                    <h4>{dayjs(data.update_at).format("D")}  {changeToThai(dayjs(data.update_at).format("MMMM"))}  {dayjs(data.update_at).format("BBBB")}</h4>
                 </End>
                 <div className='block'>
                         <div className='static'>

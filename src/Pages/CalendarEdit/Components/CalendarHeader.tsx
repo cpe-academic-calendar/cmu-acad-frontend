@@ -25,31 +25,9 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
     const calendarId = useParams()
     const navigate = useNavigate()
 
-    const backMonthHandle = () => {
-        let newMonth = Number(calendarId.month)-1
-        if( newMonth < 1 ){
-            newMonth = 12
-            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)-1}`)
-        }
-        else{
-            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
-        }
-    }
-
-    const nextMonthHandle = () => {
-        let newMonth = Number(calendarId.month)+1
-        if( newMonth > 12 ){
-            newMonth = 1
-            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)+1}`)
-        }
-        else{
-            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
-        }
-    }
-
     const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setView(e.target.value)
-        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}/${calendarId.month}/${calendarId.year}`)
+        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
     }
 
     return (
@@ -73,15 +51,8 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
         </Items>
         <p>{name}</p>
         <RightSide>
-            <div className="icons">
-               <button onClick={backMonthHandle}>
-                    <ChevronLeftIcon />
-                </button>
-                <button onClick={nextMonthHandle}>
-                    <ChevronRightIcon />
-                </button>
-            </div>
-            <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p>
+            {/* <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p> */}
+            <p>1/65 เดือน ปี</p>
         </RightSide>
     </Nav>
     );
