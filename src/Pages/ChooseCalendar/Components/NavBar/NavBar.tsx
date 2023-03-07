@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 
 const NavBar: React.FC = () => {
     const [profileOption, setProfileOption] = React.useState(false);
+    const [search, setSearch] = React.useState('');
 
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)
@@ -25,7 +26,7 @@ const NavBar: React.FC = () => {
         <NavBarSt>
             <Container>
                 <Logo src="\Assets\Logo.png" />
-                <CalendarSearch placeholder="Search" />
+                <CalendarSearch placeholder="Search" value={search} onChange={(e) => {setSearch(e.target.value)}} />
                 <DropDown>
                     <Welcome>
                         <span>

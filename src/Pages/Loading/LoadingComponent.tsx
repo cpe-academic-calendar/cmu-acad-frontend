@@ -1,10 +1,15 @@
 import React, { useContext } from "react";
 import GlobalContext from "../../GlobalContext/GlobalContext";
+import styled from "styled-components";
 
 const LoadingCompoent = () => {
     const { loading } = useContext(GlobalContext)
     return ( <div>
         {loading ? (
+          <LoadDiv>
+            <div className="text">
+              กำลังโหลด...
+            </div>
             <div>
               <div role="status">
                 <svg
@@ -26,9 +31,19 @@ const LoadingCompoent = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
+          </LoadDiv>
+
           ) : null}
     
     </div> );
 }
  
 export default LoadingCompoent;
+
+const LoadDiv = styled.div`
+  display: flex;
+  align-items: center;
+  .text{
+    margin-right: 8px;
+  }
+`

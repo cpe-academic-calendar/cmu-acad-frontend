@@ -10,6 +10,8 @@ import LoadingCompoent from '../../Loading/LoadingComponent';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { compose } from '@mui/system';
 
 interface handleProps{
     onFileClickHandle: () => void;
@@ -18,13 +20,38 @@ interface handleProps{
 
 const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
 
+    const [view, setView] = useState('month');
     const { loading } = useContext(GlobalContext)
     const calendarId = useParams()
     const navigate = useNavigate()
 
-    const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
+    const backMonthHandle = () => {
+        let newMonth = Number(calendarId.month)-1
+        if( newMonth < 1 ){
+            newMonth = 12
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)-1}`)
+        }
+        else{
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
+        }
     }
+
+    const nextMonthHandle = () => {
+        let newMonth = Number(calendarId.month)+1
+        if( newMonth > 12 ){
+            newMonth = 1
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)+1}`)
+        }
+        else{
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
+        }
+    }
+
+    const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setView(e.target.value)
+        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}/${calendarId.month}/${calendarId.year}`)
+    }
+
     return (
     <Nav>
         <Items>
@@ -47,14 +74,14 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
         <p>{name}</p>
         <RightSide>
             <div className="icons">
-               <button>
+               <button onClick={backMonthHandle}>
                     <ChevronLeftIcon />
                 </button>
-                <button>
+                <button onClick={nextMonthHandle}>
                     <ChevronRightIcon />
                 </button>
             </div>
-            <p>1/65 มิถุนายน 2565</p>
+            <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p>
         </RightSide>
     </Nav>
     );

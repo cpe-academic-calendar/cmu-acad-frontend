@@ -11,12 +11,9 @@ import dayjs from 'dayjs';
 import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
 import ChooseCalendarContext from '../Context/ChooseCalendarContext';
-import GlobalContext from '../../../../GlobalContext/GlobalContext';
-
-export const CalendarContext = createContext<number[]>([])
 
 const CalendarCard: React.FC<calendarProps> = (data) => {
-    const { multipleSelect,setMultipeSelect } = useContext(ChooseCalendarContext);
+    const { multipleSelect, setMultipeSelect } = useContext(ChooseCalendarContext);
     // const { currentMonth } = useContext(GlobalContext)
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
     const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false);
@@ -67,27 +64,25 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     }
     
     const handleCardClick = () => {
-        navigate(`calendar-edit/${data.id}/${"month"}/${dayjs(data.start_semester).month()}`)
+        navigate(`calendar-edit/${data.id}/${"month"}/${dayjs(data.start_semester).month()}/${dayjs(data.start_semester).year()}`)
     }
     console.log(multipleSelect)
+    console.log(data.year)
     
 
     return (
-        <CalendarContext.Provider value={userId}>
             <Card> 
                 <Start>
                     {
                         selectCalendar ?
                             <div className='check' onClick={() => {
                                 handleCheck(data.id, false)
-                                setMultipeSelect(true)
                             }}>
                                 <CheckCircleIcon />
                             </div>
                             :
                             <div className='check' onClick={() => {
                                 handleCheck(data.id, true)
-                                setMultipeSelect(false)
                             }}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
@@ -95,7 +90,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content" onClick={handleCardClick}>
                         <h4>{data.name}</h4>
-                        <p>{dayjs(data.year).format("BBBB")}</p>
+                        <p>{data.year}</p>
                     </div>
                 </Start>
                 <End onClick={handleCardClick}>
@@ -113,12 +108,11 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                         </div>
                     </div>
             </Card>
-        </CalendarContext.Provider >
-
     )
 }
 
 const Card = styled.div`
+    cursor: pointer;
     padding-left: 16vh;
     padding-right: 16vh;
     align-items: center;

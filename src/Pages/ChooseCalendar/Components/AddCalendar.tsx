@@ -24,14 +24,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const [value,setValue] = useState(new Date())
     const [response, setResponse] = useState()
     const navigate = useNavigate();
-    const calendarId = useParams();
 
     const data = {
         name: name,
         start_semester: value,
         year: startSemester,
         calendar_status: "Active",
-    }
+    }   
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
@@ -40,9 +39,9 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             data)
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data.start_semester)
+                console.log(response.data)
                 // alert("create calendar success")
-                navigate(`/calendar-edit/${response.data.id}/month/${dayjs(response.data.start_semister).month()}`)
+                navigate(`/calendar-edit/${response.data.id}/month/${dayjs(value).month()+1}/${dayjs(startSemester).format("YYYY")}`)
                 window.location.reload();
             })
             .catch(function (error) {

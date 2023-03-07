@@ -7,6 +7,10 @@ interface EventProps {
     type: string;
 }
 
+interface ColorProps {
+    color: string;
+  }
+
 var buddhistEra = require('dayjs/plugin/buddhistEra')
 // var updateLocale = require('dayjs/plugin/updateLocale')
 dayjs.extend(buddhistEra)
@@ -19,22 +23,9 @@ dayjs.extend(buddhistEra)
 // })
 
 const EventCard: React.FC<EventProps> = ({name, date, type}) => {
-    let event_type = type;
-    let render_rectangle = null;
-    switch(event_type){
-        case 'กิจกรรม' :
-            render_rectangle = <Event />
-            break;
-        case 'วันหยุด' :
-            render_rectangle = <Holiday />
-            break;
-        case 'วันสอบ' :
-            render_rectangle = <Exam />
-            break;
-    }
     return ( 
     <Container>
-        {render_rectangle}
+        <Event color={type}/>
         <div className="content">
             <h1>{name}</h1>
             {/* <p>date</p> */}
@@ -44,9 +35,24 @@ const EventCard: React.FC<EventProps> = ({name, date, type}) => {
     </Container> );
 }
 
+const handleColorType = (color: string) => {
+    switch (color) {
+      case "กิจกรรม":
+        return "var(--default-event-color)";
+      case "วันหยุด":
+        return "var(--default-holiday-color)";
+      case "วันสอบ":
+        return "var(--default-exam-color)";
+      case "วันเปิดภาคเรียน":
+        return "var(--primary-color)";
+      case "วันปิดภาคเรียน":
+        return "var(--primary-color)";
+    }
+  };
+
 const Container = styled.div`
     display: flex;
-    /* width: 100%; */
+    width: 100%;
     h1{
         font-weight: 600;
     }
@@ -55,22 +61,10 @@ const Container = styled.div`
     }
 `
 
-const Event = styled.div`
+const Event = styled.div<ColorProps>`
     height: 100%;
-    width: 6px;
-    background-color:  var(--default-event-color);
-    margin-right: 8px;
-`
-const Holiday = styled.div`
-    height: 100%;
-    width: 6px;
-    background-color: var(--default-holiday-color);
-    margin-right: 8px;
-`
-const Exam = styled.div`
-    height: 100%;
-    width: 6px;
-    background-color: var(--default-exam-color);
+    width: 5px;
+    background-color: ${({ color }) => handleColorType(color)};
     margin-right: 8px;
 `
  

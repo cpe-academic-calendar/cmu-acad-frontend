@@ -1,14 +1,13 @@
 import React from "react";
 
 interface contextType {
-    multipleSelect: boolean,
-    setMultipeSelect: (state: boolean) => void;
+    multipleSelect: any[],
+    setMultipeSelect: (state: any) => void;
 }
 
 const ChooseCalendarContext = React.createContext<contextType> ({
-    multipleSelect: false,
+    multipleSelect: [],
     setMultipeSelect: () => {}
-
 })
  
 export default ChooseCalendarContext;

@@ -11,6 +11,7 @@ import {
   } from "react-beautiful-dnd";
 import EditCalendarContext from "./Context/EditCalendarContext";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
+import { useParams } from "react-router-dom";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
@@ -33,15 +34,14 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         savedEvents,
         selectedEditEvent,
         setSelectedEditEvent,
+        setMonthIndex,
+        monthIndex
       } = useContext(EditCalendarContext);
     const { setLoading } = useContext(GlobalContext)
     const selectedEditEventRef = React.useRef<any>(null);
     const daySelectedRef = React.useRef<any>();
+    const calendarId = useParams()
     // console.log(event)
-
-    //selectedEditEvent คนละตัวกับ useState ใน useContext
-
-
 
     const onDragEnd = (result: DropResult) => {
     const { destination, source } = result
