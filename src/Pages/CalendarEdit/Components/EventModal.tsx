@@ -50,7 +50,7 @@ export default function EventModal() {
         setErrorMessage(true);
       }
       else {
-        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
           calendarEvent
         ).then((res: any) => {
           window.location.reload()
@@ -67,11 +67,10 @@ export default function EventModal() {
         setErrorMessage(true);
       } else {
         // console.log(createEvent)
-        axios.post(`http://localhost:4000/event/create`,createEvent)
+        axios.post(`https://cmu-acad-backend-production.up.railway.app/event/create`,createEvent)
           .then((res)=>{
             window.location.reload()
           })
-        // axios.post(`http://localhost:4000/event/create`,createEvent)
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);

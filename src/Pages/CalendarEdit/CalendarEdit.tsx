@@ -39,6 +39,7 @@ const CalendarEdit = () => {
         React.useEffect(() => {
             document.addEventListener("click", handleClickOutSide, true)
         }, [])
+
     
         const refOne = React.useRef<HTMLDivElement | null>(null)
         const handleClickOutSide = (e: any) => {
@@ -51,11 +52,12 @@ const CalendarEdit = () => {
 
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
-        axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
+        axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/${calendarId.id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)
                     setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
+                    // setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
                     // setTemptMonth(getMonth(res.data.start_semester))
                     // console.log(dayjs(res.data.start_semester).month())
                 }

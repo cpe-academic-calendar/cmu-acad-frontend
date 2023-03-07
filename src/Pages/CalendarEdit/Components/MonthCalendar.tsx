@@ -68,7 +68,7 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         // console.log(daySelectedRef.current)
         // console.log(calendarEvent)
         
-        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
         calendarEvent
       ).then((res: any) => {
         setLoading(false)

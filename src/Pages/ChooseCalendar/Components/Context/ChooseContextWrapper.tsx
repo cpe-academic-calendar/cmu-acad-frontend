@@ -3,10 +3,13 @@ import ChooseCalendarContext from "./ChooseCalendarContext";
 
 const ChooseContextWrapper = (props: any) => {
     const [multipleSelect, setMultipeSelect] = useState(false);
+    const [startSemisterMonth, setStartSemisterMonth] = useState<any>();
 
     const value = {
         multipleSelect,
-        setMultipeSelect
+        setMultipeSelect,
+        startSemisterMonth,
+        setStartSemisterMonth,
     }
 
     return ( 

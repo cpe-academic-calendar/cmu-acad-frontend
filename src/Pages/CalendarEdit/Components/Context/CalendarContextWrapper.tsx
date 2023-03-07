@@ -31,6 +31,7 @@ export const CalendarContextWrapper = (props: any) => {
     const [currentView, setCurrentView] = React.useState<string>('month');
     const [savedEvents, setSavedEvents] = useState<any[]>([])
     const [selectedEvent, setSelectedEvent] = useState<any>(); //Just one event that want to look info
+    const [currentMonth, setCurrentMonth] = useState<number>(0);
     // const [savedEvents, dispatchCalEvents] = useReducer(
     //     savedEventReducer,
     //     [] as CalendarEvent[]
@@ -42,7 +43,7 @@ export const CalendarContextWrapper = (props: any) => {
         const getData = async () => {
             setLoading(true)
             try {
-                const res = await axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`)
+                const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
                 setLoading(false)
                 setSavedEvents(res.data[0].events);
             }catch(error){
@@ -66,7 +67,9 @@ export const CalendarContextWrapper = (props: any) => {
         currentView,
         setCurrentView,
         selectedEvent, 
-        setSelectedEvent
+        setSelectedEvent,
+        currentMonth,
+        setCurrentMonth
       };
 
     return (

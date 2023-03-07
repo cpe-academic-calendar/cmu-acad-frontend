@@ -11,13 +11,15 @@ import dayjs from 'dayjs';
 import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
 import ChooseCalendarContext from '../Context/ChooseCalendarContext';
+import GlobalContext from '../../../../GlobalContext/GlobalContext';
 
 export const CalendarContext = createContext<number[]>([])
 
 const CalendarCard: React.FC<calendarProps> = (data) => {
     const { multipleSelect,setMultipeSelect } = useContext(ChooseCalendarContext);
+    // const { currentMonth } = useContext(GlobalContext)
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
-    const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
+    const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false);
     const { userId, setId } = useCalendarCollect()
     const navigate = useNavigate()
     const selectCalendarClicked = (state: Boolean) => {
@@ -65,7 +67,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     }
     
     const handleCardClick = () => {
-        navigate(`calendar-edit/${data.id}/${"month"}/`)
+        navigate(`calendar-edit/${data.id}/${"month"}/${dayjs(data.start_semester).month()}`)
     }
     console.log(multipleSelect)
     

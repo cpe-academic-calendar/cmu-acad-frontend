@@ -3,9 +3,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
 import DatePicker from "react-date-picker";
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import EditCalendarContext from "../../CalendarEdit/Components/Context/EditCalendarContext";
+import ChooseCalendarContext from "./Context/ChooseCalendarContext";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
 
 type ButtonProps = {
@@ -14,8 +14,7 @@ type ButtonProps = {
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
-    const { daySelected, setDaySelected } = useContext(EditCalendarContext);
-    const { setLoading, loading } = useContext(GlobalContext)
+    const { setLoading, loading, setCurrentMonth } = useContext(GlobalContext)
 
     const [selectMonth, setSelectMonth] = useState(0) //เดือน
     const [startSemister, setStartSemister] = useState(new Date())
@@ -25,6 +24,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const [value,setValue] = useState(new Date())
     const [response, setResponse] = useState()
     const navigate = useNavigate();
+    const calendarId = useParams();
 
     const data = {
         name: name,
@@ -36,20 +36,21 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
-        await axios.post('http://localhost:4000/calendar/create', 
+        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create', 
             data)
             .then((response) => {
                 setResponse(response.data)
                 console.log(response.data.start_semester)
                 // alert("create calendar success")
-                navigate(`/calendar-edit/${response.data.id}`)
+                navigate(`/calendar-edit/${response.data.id}/month/${dayjs(response.data.start_semister).month()}`)
                 window.location.reload();
             })
             .catch(function (error) {
                 console.log(error);
             })
-            .finally(() => {setLoading(false)})
-            
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     const onSelect = (e: any) => {
