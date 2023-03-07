@@ -79,7 +79,7 @@ const Day: React.FC<any> = ({ day }) => {
   };
 
   const deleteEventHandle = () => {
-    axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
+    axios.delete(`https://cmu-acad-backend-production.up.railway.app/event/delete/${selectedEvent.id}`).then(
       (res)=>{
         console.log(res.data)
         window.location.reload()

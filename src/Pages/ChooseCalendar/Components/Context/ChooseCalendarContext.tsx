@@ -8,6 +8,7 @@ interface contextType {
 const ChooseCalendarContext = React.createContext<contextType> ({
     multipleSelect: [],
     setMultipeSelect: () => {}
+
 })
  
 export default ChooseCalendarContext;

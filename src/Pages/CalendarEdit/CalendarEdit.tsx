@@ -41,7 +41,8 @@ const CalendarEdit = () => {
     
         React.useEffect(() => {
             document.addEventListener("click", handleClickOutSide, true)
-        },)
+        }, [])
+
     
         const refOne = React.useRef<HTMLDivElement | null>(null)
         const handleClickOutSide = (e: any) => {
