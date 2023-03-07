@@ -18,14 +18,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const [semester_year, setSemesterYear] = useState(0)
     const [value, setValue] = useState(new Date("2023-06-19"))
     const navigate = useNavigate();
-    const calendarId = useParams();
 
     const data = {
         name: name,
         start_semester: value,
         year: value,
         calendar_status: "Active",
-    }
+    }   
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();

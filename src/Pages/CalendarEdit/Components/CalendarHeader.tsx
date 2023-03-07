@@ -25,6 +25,28 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
     const calendarId = useParams()
     const navigate = useNavigate()
 
+    const backMonthHandle = () => {
+        let newMonth = Number(calendarId.month)-1
+        if( newMonth < 1 ){
+            newMonth = 12
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)-1}`)
+        }
+        else{
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
+        }
+    }
+
+    const nextMonthHandle = () => {
+        let newMonth = Number(calendarId.month)+1
+        if( newMonth > 12 ){
+            newMonth = 1
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)+1}`)
+        }
+        else{
+            navigate(`/calendar-edit/${calendarId.id}/${view}/${newMonth}/${Number(calendarId.year)}`)
+        }
+    }
+
     const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setView(e.target.value)
         navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
