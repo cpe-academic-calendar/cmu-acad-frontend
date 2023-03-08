@@ -60,9 +60,6 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
       }
     })
 
-
-
-
   }, [event])
 
 
@@ -93,8 +90,7 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     dispatchCalEvents({ type: 'delete', payload: selectedEvent })
     axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
       (res)=>{
-        console.log(res.data)
-        
+        console.log(res.data)    
       })
       setEventInfo(false)
     

@@ -45,18 +45,8 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
                 console.log(error)
             }
         }
-        const getCount = async () => {
-            try {
-                const res = await axios.get(`http://localhost:4000/calendar/studyweek/${calendarId.id}`)
-                    .then((res) => {
-                        setCount(res.data.term1)
-                    })
-            } catch (error) {
-                console.log(error)
-            }
-        }
+       
         getData()
-        getCount()
     }, [calendarId])
 
     const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
