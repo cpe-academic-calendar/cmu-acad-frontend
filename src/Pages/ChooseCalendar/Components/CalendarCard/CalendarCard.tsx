@@ -41,6 +41,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
         if (e == true) {
             setId(id)
             selectCalendarClicked(!selectCalendar)
+            // setMultipeSelect(multipleSelect => [...multipleSelect, ''] )
         } else {
             const index = userId.indexOf(id)
             userId.splice(index)

@@ -2,7 +2,10 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
 import GlobalContext from "../GlobalContext/GlobalContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { CSVLink } from "react-csv";
+import { useParams } from "react-router-dom";
 
 const PopUp = styled.div`
   display: flex;
@@ -72,6 +75,55 @@ const Modal = styled.div`
 
 const ExportPopUp: React.FC = () => {
   const { setExportModal } = useContext(GlobalContext)
+  const [event, setEvent] = useState<any[]>([])
+  const [eventData, seteventData] = useState<any[]>([])
+  const [scheduleData,setScheduleData] = useState<any[]>([])
+
+  let data: any[] = []
+  const calendar = useParams()
+  useEffect(() => {
+    const getData = async () => {
+      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findHoliday/${calendar.id}`)
+        .then((res) => {
+          setEvent(res.data[0].events)
+        })
+    }
+    getData()
+  }, [])
+
+
+  const headers = [
+    { label: "วัน", key: "day" },
+    { label: "ชื่อวันหยุด", key: "holidayName" },
+  ];
+  
+  const headers2 = [
+    {
+      label: 'ชื่อวัน', key: 'keyName'
+    },
+    {
+      label: 'วัน', key: "holidayName"
+    }
+  ]
+
+  useEffect(() => {
+    event.forEach((ed, idx) => {
+      data.push({
+        "holidayName": ed.event_name, "day": new Date(`${ed.start_date}`).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })
+      })
+    })
+    seteventData(data)
+    event.forEach((ed,idx) => {
+
+    })
+  }, [event])
+
+
   return (
     <Modal>
       <PopUp>
@@ -98,8 +150,10 @@ const ExportPopUp: React.FC = () => {
             <p>ร่างปฏิทินการศึกษา</p>
             <DownloadIcon />
           </div>
-          <div className="item">
-            <p>สรุปวันหยุดและวันหยุดชดเชย</p>
+          <div className="item" >
+            <CSVLink filename='สรุปวันหยุด' data={eventData} headers={headers}>
+              สรุปวันหยุดและวันหยุดชดเชย
+            </CSVLink>
             <DownloadIcon />
           </div>
         </Content>
