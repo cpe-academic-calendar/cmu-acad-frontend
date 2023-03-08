@@ -34,6 +34,7 @@ const Variables = createGlobalStyle`
         --default-event-color: #347BBB;
         --default-holiday-color: #352829;
         --default-exam-color: #666AD1;
+        --deafult-start-sem-color: #7cb342;
 
     }
 `

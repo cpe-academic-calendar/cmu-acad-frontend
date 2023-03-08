@@ -1,6 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import EditCalendarContext from "./EditCalendarContext";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
+import GlobalContext from "../../../../GlobalContext/GlobalContext";
+import axios from "axios";
 
 interface Payload {
     id: any;
@@ -12,55 +15,44 @@ interface Action {
     payload: Payload;
 }
 
-interface CalendarEvent {
-    id: number;
-    start_date: Date;
-    end_date: Date;
-  }
-
-
-
-function savedEventReducer(state: any[], action: Action) {
-    switch (action.type){
-        case 'push':
-            return [...state, action.payload]
-        case "update":
-            return state.map((evt) =>
-                evt.id === action.payload.id ? action.payload : evt
-            );
-        case "delete":
-            return state.filter((evt) => evt.id !== action.payload.id);
-            default:
-        throw new Error();
-    }
+interface calendarEventProps {
+event_name: string;
+type: string;
+start_date: Date;
+id: number;
 }
-
-//new event
-function initEvents(){
-    const storageEvent = localStorage.getItem('savedEvents');
-    const parsedEvent = storageEvent? JSON.parse(storageEvent) : [];
-    return parsedEvent
-}
-
 
 export const CalendarContextWrapper = (props: any) => {
+    const { setLoading } = useContext(GlobalContext);
     const [monthIndex, setMonthIndex] = useState<number>(dayjs().month());
     const [daySelected, setDaySelected] = useState<any>(null);
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
+    const [savedEvents, setSavedEvents] = useState<any[]>([])
     const [selectedEvent, setSelectedEvent] = useState<any>(); //Just one event that want to look info
-    // const [savedEvents, setSavedEvents] = useState<any[]>([]);
-    // const [savedEvents, dispatchCalEvents] = useReducer( savedEventReducer, [], initEvents)
-    const [savedEvents, dispatchCalEvents] = useReducer(
-        savedEventReducer,
-        [] as CalendarEvent[]
-      );
+    const [currentMonth, setCurrentMonth] = useState<number>(0);
+    const [eventInfo, setEventInfo] = useState(false);
+    // const [savedEvents, dispatchCalEvents] = useReducer(
+    //     savedEventReducer,
+    //     [] as CalendarEvent[]
+    //   );
 
-    useEffect(()=> {
-        localStorage.setItem('savedEvents', JSON.stringify(savedEvents));
-        // localStorage.removeItem("savedEvents")
-    }, [savedEvents])
+    const calendarId = useParams()
+    // console.log(calendarId)
+    useEffect(() => {
+        const getData = async () => {
+            setLoading(true)
+            try {
+                const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
+                setLoading(false)
+                setSavedEvents(res.data[0].events);
+            }catch(error){
+                console.log(error)
+            }        
+        }
+        getData()
+    }, [calendarId])
 
     const value = {
         monthIndex,
@@ -71,14 +63,15 @@ export const CalendarContextWrapper = (props: any) => {
         setShowAddEventModal,
         selectedEditEvent,
         setSelectedEditEvent,
-        dispatchCalEvents,
         savedEvents,
-        // setSavedEvents,
+        setSavedEvents,
         currentView,
         setCurrentView,
         selectedEvent, 
-        setSelectedEvent
-    };
+        setSelectedEvent,
+        currentMonth,
+        setCurrentMonth
+      };
 
     return (
     <EditCalendarContext.Provider value={value}>

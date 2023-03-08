@@ -29,16 +29,19 @@ interface dataProps {
 const CalendarEdit = () => {
 
     const [calendarName, setCalendarName] = React.useState('');
-    const [tempMonth, setTemptMonth] = React.useState(getMonth(0));
+    const [tempMonth, setTemptMonth] = React.useState(getMonth(0)); // month ที่เอามา auto generate
     const [fileOption, setFileOption] = React.useState<boolean>(false);
-    const { daySelected, showAddEventModal, currentView, setCurrentView, monthIndex, dispatchCalEvents } = React.useContext(EditCalendarContext);
+    const { showAddEventModal, monthIndex } = React.useContext(EditCalendarContext);
     const { exportModal, setExportModal } = React.useContext(GlobalContext)
     const [data, setData] = React.useState<any[]>([])
-    const calendarId = useParams()
+    const { id, month, view } = useParams()
+    // const paramResult = useParams()
+
+    // console.log(paramResult);
     
         React.useEffect(() => {
             document.addEventListener("click", handleClickOutSide, true)
-        }, [])
+        },)
     
         const refOne = React.useRef<HTMLDivElement | null>(null)
         const handleClickOutSide = (e: any) => {
@@ -51,16 +54,17 @@ const CalendarEdit = () => {
 
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
-        axios.get(`http://localhost:4000/calendar/${calendarId.id}`).then(
+        axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/${id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)
-                    setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
+                    setTemptMonth(getMonth(dayjs(month).month()))
+                    // setTemptMonth(getMonth(dayjs(res.data.start_semester).month()-5))
                     // setTemptMonth(getMonth(res.data.start_semester))
                     // console.log(dayjs(res.data.start_semester).month())
                 }
         )
-    },[])
+    },[month])
 
     const onFileClickHandle = () => {
         setFileOption(true);
@@ -75,7 +79,7 @@ const CalendarEdit = () => {
 
     let render_view = null;
 
-    switch (currentView){
+    switch (view){
         case 'month':
             render_view = 
         <Row>

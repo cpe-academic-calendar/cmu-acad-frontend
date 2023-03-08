@@ -15,6 +15,13 @@ interface Action {
     payload: Payload;
 }
 
+interface calendarEventProps {
+    event_name: string;
+    type: string;
+    start_date: Date;
+    id: number;
+    }
+
 interface contextType {
     monthIndex: number;
     setMonthIndex: (index: number) => void;
@@ -22,16 +29,16 @@ interface contextType {
     setDaySelected: (day: any) => void;
     showAddEventModal: boolean;
     setShowAddEventModal: (modal: boolean) => void;
-    dispatchCalEvents: React.Dispatch<Action>;
     savedEvents: any[];
-    // setSavedEvents: (event: any) => void;
+    setSavedEvents: (event: any) => void;
     selectedEditEvent: any;
     setSelectedEditEvent: (props: any) => void;
     currentView: string;
     setCurrentView: (props: string) => void;
     selectedEvent: any;
     setSelectedEvent: (props: any) => void;
-
+    currentMonth: number;
+    setCurrentMonth: (month: any) => void;
 }
 
 const EditCalendarContext = React.createContext<contextType>({
@@ -41,16 +48,16 @@ const EditCalendarContext = React.createContext<contextType>({
     setDaySelected: (day) => {},
     showAddEventModal: false,
     setShowAddEventModal: () => {},
-    dispatchCalEvents: ({type, payload}) => {},
     savedEvents: [],
-    // setSavedEvents: (event) => {},
+    setSavedEvents: (event) => {},
     selectedEditEvent: null,
     setSelectedEditEvent: (props) => {},
     currentView: '',
     setCurrentView: (props) => null,
     selectedEvent: null, 
-    setSelectedEvent: (props) => null
-
+    setSelectedEvent: (props) => null,
+    currentMonth: 0,
+    setCurrentMonth: (month) => {}
 })
 
 export default EditCalendarContext;

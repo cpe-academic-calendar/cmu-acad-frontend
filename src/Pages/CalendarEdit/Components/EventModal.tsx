@@ -13,7 +13,7 @@ interface calendarEventProps {
 
 export default function EventModal() {
 
-  const { showAddEventModal, dispatchCalEvents, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent,selectedEvent } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent,selectedEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)
@@ -50,10 +50,10 @@ export default function EventModal() {
         setErrorMessage(true);
       }
       else {
-        dispatchCalEvents({ type: 'update', payload: calendarEvent })
-        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
           calendarEvent
         ).then((res: any) => {
+          window.location.reload()
           console.log(res.data)
         })
         setErrorMessage(false);
@@ -66,12 +66,11 @@ export default function EventModal() {
       if (calendarEvent.event_name === '') {
         setErrorMessage(true);
       } else {
-        console.log(createEvent)
-        axios.post(`http://localhost:4000/event/create`,createEvent)
+        // console.log(createEvent)
+        axios.post(`https://cmu-acad-backend-production.up.railway.app/event/create`,createEvent)
           .then((res)=>{
-              dispatchCalEvents({ type: 'push', payload: res.data })
+            window.location.reload()
           })
-        // axios.post(`http://localhost:4000/event/create`,createEvent)
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);

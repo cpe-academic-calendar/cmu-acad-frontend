@@ -23,7 +23,7 @@ function ArchiveList( ) {
     useEffect(() => {
         const fetchData = async () => {
             axios
-                .get('http://localhost:4000/calendar/findArchive')
+                .get('https://cmu-acad-backend-production.up.railway.app/calendar/findArchive')
                 .then(  
                     response =>
                     setItem(response.data)

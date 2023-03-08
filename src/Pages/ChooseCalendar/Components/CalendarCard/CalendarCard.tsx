@@ -11,13 +11,13 @@ import dayjs from 'dayjs';
 import calendarProps from '../calendarProps'
 import { useNavigate } from 'react-router-dom';
 import ChooseCalendarContext from '../Context/ChooseCalendarContext';
-
-export const CalendarContext = createContext<number[]>([])
+import changeToThai from '../../../../Functions/changeToThai';
 
 const CalendarCard: React.FC<calendarProps> = (data) => {
-    const { multipleSelect,setMultipeSelect } = useContext(ChooseCalendarContext);
+    const { multipleSelect, setMultipeSelect } = useContext(ChooseCalendarContext);
+    // const { currentMonth } = useContext(GlobalContext)
     const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
-    const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false)
+    const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false);
     const { userId, setId } = useCalendarCollect()
     const navigate = useNavigate()
     const selectCalendarClicked = (state: Boolean) => {
@@ -65,28 +65,25 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     }
     
     const handleCardClick = () => {
-        navigate(`calendar-edit/${data.id}`)
+        navigate(`calendar-edit/${data.id}/${"month"}`)
     }
-
     console.log(multipleSelect)
+    console.log(data.year)
     
 
     return (
-        <CalendarContext.Provider value={userId}>
             <Card> 
                 <Start>
                     {
                         selectCalendar ?
                             <div className='check' onClick={() => {
                                 handleCheck(data.id, false)
-                                setMultipeSelect(true)
                             }}>
                                 <CheckCircleIcon />
                             </div>
                             :
                             <div className='check' onClick={() => {
                                 handleCheck(data.id, true)
-                                setMultipeSelect(false)
                             }}>
                                 <RadioButtonUncheckedOutlinedIcon />
                             </div>
@@ -94,12 +91,12 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                     <CalendarTodayOutlinedIcon className='icon' />
                     <div className="content" onClick={handleCardClick}>
                         <h4>{data.name}</h4>
-                        <p>{dayjs(data.year).format("BBBB")}</p>
+                        <p>ปีการศึกษา {data.year}</p>
                     </div>
                 </Start>
                 <End onClick={handleCardClick}>
-                    <h4>{dayjs(data.create_at).format("DD MMMM BBBB")}</h4>
-                    <h4>{dayjs(data.update_at).format("DD MMMM BBBB")}</h4>
+                    <h4>{dayjs(data.create_at).format("D")}  {changeToThai(dayjs(data.create_at).format("MMMM"))}  {dayjs(data.create_at).format("BBBB")}</h4>
+                    <h4>{dayjs(data.update_at).format("D")}  {changeToThai(dayjs(data.update_at).format("MMMM"))}  {dayjs(data.update_at).format("BBBB")}</h4>
                 </End>
                 <div className='block'>
                         <div className='static'>
@@ -112,12 +109,11 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
                         </div>
                     </div>
             </Card>
-        </CalendarContext.Provider >
-
     )
 }
 
 const Card = styled.div`
+    cursor: pointer;
     padding-left: 16vh;
     padding-right: 16vh;
     align-items: center;

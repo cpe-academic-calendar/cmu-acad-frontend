@@ -1,77 +1,82 @@
 import styled from "styled-components";
 import dayjs from "dayjs";
+import changeToThai from "../../../../Functions/changeToThai";
 
 interface EventProps {
-    name: string;
-    date: dayjs.Dayjs;
-    type: string;
+  name: string;
+  date: dayjs.Dayjs;
+  type: string;
 }
 
-var buddhistEra = require('dayjs/plugin/buddhistEra')
-// var updateLocale = require('dayjs/plugin/updateLocale')
-dayjs.extend(buddhistEra)
-// dayjs.extend(updateLocale)
-// dayjs.updateLocale('en', {
-// months: [
-//     "January", "February", "March", "April", "May", "June", "July",
-//     "August", "September", "October", "November", "December"
-// ]
-// })
+interface ColorProps {
+  color: string;
+}
 
-const EventCard: React.FC<EventProps> = ({name, date, type}) => {
-    let event_type = type;
-    let render_rectangle = null;
-    switch(event_type){
-        case 'กิจกรรม' :
-            render_rectangle = <Event />
-            break;
-        case 'วันหยุด' :
-            render_rectangle = <Holiday />
-            break;
-        case 'วันสอบ' :
-            render_rectangle = <Exam />
-            break;
-    }
-    return ( 
+var buddhistEra = require("dayjs/plugin/buddhistEra");
+dayjs.extend(buddhistEra);
+
+const EventCard: React.FC<EventProps> = ({ name, date, type }) => {
+  // function truncateString(str: string) {
+  //   if(30>str.length){
+  //     return str
+  //   }
+  //     return str.slice(0, 25) + "..."
+  // }
+
+  return (
     <Container>
-        {render_rectangle}
-        <div className="content">
-            <h1>{name}</h1>
-            {/* <p>date</p> */}
+      <Event color={type} />
+      <div className="content">
+        <h1>{name}</h1>
+        <DateThai>
+          <p>{dayjs(date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(date).format("BBBB")}</p>
+        </DateThai>
+      </div>
+    </Container>
+  );
+};
 
-            <p>{dayjs(date).format('DD MMMM BBBB')}</p>
-        </div>
-    </Container> );
-}
+const handleColorType = (color: string) => {
+  switch (color) {
+    case "กิจกรรม":
+      return "var(--default-event-color)";
+    case "วันหยุด":
+      return "var(--default-holiday-color)";
+    case "วันสอบ":
+      return "var(--default-exam-color)";
+    case "วันเปิดภาคเรียน":
+      return "var(--primary-color)";
+    case "วันปิดภาคเรียน":
+      return "var(--primary-color)";
+  }
+};
 
 const Container = styled.div`
-    display: flex;
-    /* width: 100%; */
-    h1{
-        font-weight: 600;
-    }
-    .content{
-        max-width: max-content;
-    }
-`
+  display: flex;
+  width: 100%;
+  h1 {
+    font-weight: 600;
+  }
+  .content {
+    width: 80%;
+  }
+`;
 
-const Event = styled.div`
-    height: 100%;
-    width: 6px;
-    background-color:  var(--default-event-color);
-    margin-right: 8px;
-`
-const Holiday = styled.div`
-    height: 100%;
-    width: 6px;
-    background-color: var(--default-holiday-color);
-    margin-right: 8px;
-`
-const Exam = styled.div`
-    height: 100%;
-    width: 6px;
-    background-color: var(--default-exam-color);
-    margin-right: 8px;
-`
- 
+const Event = styled.div<ColorProps>`
+  height: 100%;
+  width: 5px;
+  background-color: ${({ color }) => handleColorType(color)};
+  margin-right: 8px;
+`;
+
+const DateThai = styled.div`
+  display: flex;
+  p{
+    margin-right: 3px;
+    color: var(--dark-brown);
+  }
+`;
+
 export default EventCard;

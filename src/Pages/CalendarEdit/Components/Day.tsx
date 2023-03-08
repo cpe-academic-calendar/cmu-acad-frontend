@@ -1,17 +1,18 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import EditCalendarContext from "./Context/EditCalendarContext";
 import EventInfo from "./EventInfo";
+import { truncateString } from "../../../Functions/truncateString";
+import { handleColorType } from "../../../Functions/handleColorType";
 import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
-  DragStart,
 } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import changeToThai from "../../../Functions/changeToThai";
 
 interface DateFromDayjs {
   day: dayjs.Dayjs;
@@ -29,12 +30,8 @@ interface eventProps {
   type: string;
 }
 
-interface DayProps {
-  day: any;
-  event: any
-}
 
-const Day: React.FC<DayProps> = ({ day, event }) => {
+const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
   const calendarId = useParams();
@@ -44,26 +41,18 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
     setShowAddEventModal,
     savedEvents,
     setSelectedEditEvent,
-    dispatchCalEvents,
     selectedEvent,
     setSelectedEvent,
   } = useContext(EditCalendarContext);
 
 
   useEffect(() => {
-
-
-    event.map((ed: any) => {
-      if (event && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+    savedEvents.map((ed: any) => {
+      if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
         setDaySelected(ed.start_date)
-        dispatchCalEvents({ type: 'push', payload: ed })
       }
     })
-
-
-
-
-  }, [event])
+  }, [savedEvents])
 
 
   useEffect(() => {
@@ -90,21 +79,40 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
   };
 
   const deleteEventHandle = () => {
-    dispatchCalEvents({ type: 'delete', payload: selectedEvent })
-    axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
+    axios.delete(`https://cmu-acad-backend-production.up.railway.app/event/delete/${selectedEvent.id}`).then(
       (res)=>{
         console.log(res.data)
-        
+        window.location.reload()
       })
       setEventInfo(false)
-    
   }
+
+  const refOne = useRef<HTMLDivElement | null>(null)
+
+  const handleClickOutSide = (e: any) => {
+      if (refOne.current != null) {
+          if (!refOne.current?.contains(e.target)) {
+            closeEventInfoHandle()
+          }
+      }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutSide, true)
+}, [])
+
+  // function truncateString(str: string) {
+  //   if(15>str.length){
+  //     return str
+  //   }
+  //     return str.slice(0, 15) + "..."
+  // }
 
   return (
           <DayContainer>
             <LiteralDay onClick={addEventHandle}>
               {day.format("D")}
-              {day.format("D") === "1" && <div>{day.format("MMM")}</div>}
+              {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
             </LiteralDay>
             {dayEvents.map((evt, idx) => {
               return (
@@ -127,7 +135,11 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
                           setSelectedEvent(evt);
                         }}
                       >
-                        <p>{evt.event_name}</p>
+                      <p>
+                        {
+                          truncateString(evt.event_name)
+                        }
+                      </p>
                       </EventsEvent>
                     </div>
                   )}
@@ -135,29 +147,35 @@ const Day: React.FC<DayProps> = ({ day, event }) => {
               );
             })}
             {eventInfo && (
-              <EventInfo
-                event={selectedEvent}
-                closeEventInfoHandle={closeEventInfoHandle}
-                editEventHandle={() => {
-                  editEventHandle(selectedEvent);
-                }}
-                deleteEventHandle={deleteEventHandle}
-              />
+              <div ref={refOne}>
+                <EventInfo
+                  event={selectedEvent}
+                  closeEventInfoHandle={closeEventInfoHandle}
+                  editEventHandle={() => {
+                    editEventHandle(selectedEvent);
+                  }}
+                  deleteEventHandle={deleteEventHandle}
+                />
+              </div>
             )}
           </DayContainer>
   );
 };
 
-const handleColorType = (color: string) => {
-  switch (color) {
-    case "กิจกรรม":
-      return "var(--default-event-color)";
-    case "วันหยุด":
-      return "var(--default-holiday-color)";
-    case "วันสอบ":
-      return "var(--default-exam-color)";
-  }
-};
+// const handleColorType = (color: string) => {
+//   switch (color) {
+//     case "กิจกรรม":
+//       return "var(--default-event-color)";
+//     case "วันหยุด":
+//       return "var(--default-holiday-color)";
+//     case "วันสอบ":
+//       return "var(--default-exam-color)";
+//     case "วันเปิดภาคเรียน":
+//       return "var(--primary-color)";
+//     case "วันปิดภาคเรียน":
+//       return "var(--primary-color)";
+//   }
+// };
 
 const LiteralDay = styled.div`
   display: flex;
@@ -184,10 +202,12 @@ const DayContainer = styled.div`
 
 const EventsEvent = styled.div<ColorProps>`
   padding: 0px 4px;
+  overflow: hidden;
   z-index: 999;
   display: flex;
   justify-content: start;
   width: 100%;
+  /* max-height: 10px; */
   margin-bottom: 4px;
   background-color: ${({ color }) => handleColorType(color)};
   color: white;

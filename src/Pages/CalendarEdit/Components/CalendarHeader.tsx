@@ -3,8 +3,15 @@ import styled from 'styled-components';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import React, { useContext } from 'react';
-import GlobalContext from './Context/EditCalendarContext';
+import React, { useContext, useState } from 'react';
+import EditCalendarContext from './Context/EditCalendarContext';
+import GlobalContext from '../../../GlobalContext/GlobalContext';
+import LoadingCompoent from '../../Loading/LoadingComponent';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { compose } from '@mui/system';
 
 interface handleProps{
     onFileClickHandle: () => void;
@@ -13,8 +20,15 @@ interface handleProps{
 
 const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
 
-    const { currentView, setCurrentView } = useContext(GlobalContext);
+    const [view, setView] = useState('month');
+    const { loading } = useContext(GlobalContext)
+    const calendarId = useParams()
+    const navigate = useNavigate()
 
+    const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setView(e.target.value)
+        navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
+    }
 
     return (
     <Nav>
@@ -27,13 +41,19 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
-            <select id="display" value={currentView} onChange={(e) => setCurrentView(e.target.value)}>
+            <select id="display" value={calendarId.view} onChange={onViewChange}>
                 <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
+            <Loading>
+                <LoadingCompoent />
+            </Loading>
         </Items>
         <p>{name}</p>
-        <p>1/65 มิถุนายน 2565</p>
+        <RightSide>
+            {/* <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p> */}
+            <p>1/65 เดือน ปี</p>
+        </RightSide>
     </Nav>
     );
 }
@@ -64,6 +84,7 @@ const Items = styled.div`
     display: flex;
     max-width: 100%;
     color: var(--primary-color);
+    align-items: center;
     .files{
         display: flex;
         align-items: center;
@@ -99,6 +120,22 @@ const FileOption = styled.div`
     color: #111;
     .item{
         padding: 10px 30px;
+    }
+`
+
+const Loading = styled.div`
+    margin-left: 8px;
+`
+
+const RightSide = styled.div`
+    display: flex;
+    align-items: center;
+    .icons{
+        margin-right: 16px;
+        color: var(--primary-color);
+        .item{
+            cursor: pointer;
+        }
     }
 `
 

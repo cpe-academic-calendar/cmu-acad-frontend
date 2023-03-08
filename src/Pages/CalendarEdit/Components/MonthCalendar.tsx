@@ -3,19 +3,27 @@ import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
 import axios from 'axios'
-import { useParams } from "react-router-dom";
 import {
     DragDropContext,
     Droppable,
-    Draggable,
     DropResult,
     DragStart
   } from "react-beautiful-dnd";
 import EditCalendarContext from "./Context/EditCalendarContext";
+import GlobalContext from "../../../GlobalContext/GlobalContext";
+import { useParams } from "react-router-dom";
 
 interface DateFromDayjs {
     month: dayjs.Dayjs[][];
     events: any[];
+}
+
+interface eventProps {
+    event_name: string;
+    start_date: number;
+    id: number;
+    duration?: number;
+    type: string
 }
 
 
@@ -23,60 +31,62 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
     const {
         daySelected,
         setDaySelected,
-        setShowAddEventModal,
         savedEvents,
         selectedEditEvent,
         setSelectedEditEvent,
-        dispatchCalEvents,
-        selectedEvent,
-        setSelectedEvent,
+        setMonthIndex,
+        monthIndex
       } = useContext(EditCalendarContext);
-    const [event, setEvent] = useState<any[]>([])
+    const { setLoading } = useContext(GlobalContext)
+    const selectedEditEventRef = React.useRef<any>(null);
+    const daySelectedRef = React.useRef<any>();
     const calendarId = useParams()
-    console.log(calendarId)
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const res = await axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`)
-                setEvent(res.data[0].events);
-            }catch(error){
-                console.log(error)
-            }        
-        }
-        getData()
-    }, [calendarId])
-
-    console.log(event)
-
-    const [draggedComponent, setDraggedComponent] = React.useState<string | null>(null);
+    // console.log(event)
 
     const onDragEnd = (result: DropResult) => {
-        const { destination, source } = result
-    
-    if (destination !== null && destination !== undefined) {
-        setDaySelected(dayjs(destination.droppableId).format())
+    const { destination, source } = result
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
     }
-        const calendarEvent = {
-            event_name: selectedEditEvent.event_name,
-            // duration: selectedEditEvent.duration,
-            start_date: daySelected,
-            id: selectedEditEvent.id,
-            type: selectedEditEvent.type
+    
+    daySelectedRef.current = new Date(dayjs(destination.droppableId).format())
+
+    if (destination !== null && destination !== undefined) {
+        const calendarEvent: eventProps = {
+            event_name: selectedEditEventRef.current.event_name,
+            start_date: daySelectedRef.current,
+            id: selectedEditEventRef.current.id,
+            type: selectedEditEventRef.current.type
             }
-        dispatchCalEvents({ type: "update", payload: calendarEvent });
-        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+        setLoading(true)
+        console.log(daySelectedRef.current)
+        // console.log(result)
+        // console.log(daySelectedRef.current)
+        // console.log(calendarEvent)
+        
+        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
         calendarEvent
       ).then((res: any) => {
+        setLoading(false)
+        window.location.reload()
         console.log(res.data)
       })
+    }
       };  
+
+
     const onDragStart = (start: DragStart, provided: any) => {
-        setDraggedComponent(start.draggableId);
+        // console.log(start.draggableId)
         savedEvents.map((event) => {
-            if(event.id === Number(draggedComponent)){
-                setSelectedEditEvent(event)
+            if(event.id === Number(start.draggableId)){
+                selectedEditEventRef.current = event
             }
         })
+        console.log(selectedEditEventRef.current) 
         // console.log(start.draggableId)
       }
         
@@ -116,7 +126,8 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
                             <Droppable droppableId={`${day.format("YYYY-MM-DD")}`}>
                                 {(provided, snapshot) => (
                                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                                        <Day day={day} event={event} key={idx} />
+                                        <Day day={day} key={idx} />
+                                        {provided.placeholder}
                                     </div>
                                 )}
                             </Droppable>

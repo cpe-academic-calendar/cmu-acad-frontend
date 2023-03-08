@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
 import { yearsToMonths } from "date-fns";
+import GlobalContext from "../../../GlobalContext/GlobalContext";
 
 const DuplicatePopUp = (props: any): JSX.Element => {
+    const { setLoading } = useContext(GlobalContext)
     const [calendar_name, setCalendarName] = useState("")
     const [year, setYear] = useState(0)
     const [start_date, setStartDate] = useState("")
@@ -17,10 +19,11 @@ const DuplicatePopUp = (props: any): JSX.Element => {
     console.log(popup)
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        setLoading(true)
         await e.preventDefault();
         await setYear(props.data.item.year)
         await setStartDate(props.data.item.start_semester)
-        await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
+        await axios.post(`https://cmu-acad-backend-production.up.railway.app/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
             date_semester: year,
             calendar_status: "Active",
@@ -29,7 +32,8 @@ const DuplicatePopUp = (props: any): JSX.Element => {
             .then((response) => {
                 setResponse(response.data)
                 console.log(response.data)
-                alert("duplicate calendar success")
+                setLoading(false)
+                // alert("duplicate calendar success")
                 window.location.reload();
             })
             .catch(function (error) {
