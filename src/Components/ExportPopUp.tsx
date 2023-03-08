@@ -77,32 +77,41 @@ const ExportPopUp: React.FC = () => {
   const { setExportModal } = useContext(GlobalContext)
   const [event, setEvent] = useState<any[]>([])
   const [eventData, seteventData] = useState<any[]>([])
-  const [scheduleData,setScheduleData] = useState<any[]>([])
+  const [scheduleData, setScheduleData] = useState<any[]>([])
+  const [schedule, setSchedule] = useState<any[]>([])
 
   let data: any[] = []
+  let calendar_ev: any[] = []
   const calendar = useParams()
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findHoliday/${calendar.id}`)
+      await axios.get(`http://localhost:4000/calendar/findHoliday/${calendar.id}`)
         .then((res) => {
           setEvent(res.data[0].events)
         })
     }
+    const getEvent = async () => {
+      await axios.get(`http://localhost:4000/calendar/findEvent/${calendar.id}`)
+        .then((res) => {
+          setScheduleData(res.data[0].events)
+        })
+    }
+    getEvent()
     getData()
   }, [])
-
+  console.log(scheduleData)
 
   const headers = [
     { label: "วัน", key: "day" },
     { label: "ชื่อวันหยุด", key: "holidayName" },
   ];
-  
+
   const headers2 = [
     {
-      label: 'ชื่อวัน', key: 'keyName'
+      label: 'ชื่อวัน', key: 'eventName'
     },
     {
-      label: 'วัน', key: "holidayName"
+      label: 'วัน', key: "eventDate"
     }
   ]
 
@@ -117,11 +126,26 @@ const ExportPopUp: React.FC = () => {
         })
       })
     })
-    seteventData(data)
-    event.forEach((ed,idx) => {
 
+    scheduleData.forEach((ed, idx) => {
+      calendar_ev.push({
+        "eventName": ed.event_name, "eventDate": `${new Date(ed.start_date).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })} - ${new Date(ed.end_date).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long'
+        })}`
+      })
     })
-  }, [event])
+    setSchedule(calendar_ev)
+    seteventData(data)
+
+  }, [event,scheduleData])
 
 
   return (
@@ -147,7 +171,9 @@ const ExportPopUp: React.FC = () => {
             <DownloadIcon />
           </div>
           <div className="item">
-            <p>ร่างปฏิทินการศึกษา</p>
+            <CSVLink filename='ร่างปฏิทิน' data={schedule} headers={headers2}>
+              <p>ร่างปฏิทินการศึกษา</p>
+            </CSVLink>
             <DownloadIcon />
           </div>
           <div className="item" >
