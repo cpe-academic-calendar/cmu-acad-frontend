@@ -105,26 +105,19 @@ function ChooseCalendar(props: any) {
                     <div className="end">
                         <p>วันที่สร้าง</p>
                         <p>แก้ไขล่าสุด</p>
-                        {/* {
-                            multipleSelect?
-                                <div className=''>
-                                    <div onClick={onClickhandle}>
-                                        <DeleteIcon />
-                                    </div>
-                                    <div onClick={onClickhandle}>
-                                        <FolderIcon />
-                                    </div>
-                                </div>
+                        {
+                            multipleSelect.length==0?
+                            null
                                 :
-                                <div className='disable-icon flex'>
-                                    <div>
-                                        <DeleteIcon />
-                                    </div>
-                                    <div>
-                                        <FolderIcon />
-                                    </div>
+                            <div className=''>
+                                <div onClick={onClickhandle}>
+                                    <DeleteIcon />
                                 </div>
-                        } */}
+                                <div onClick={onClickhandle}>
+                                    <FolderIcon />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </TableCardHeader>
                 {render_list}
