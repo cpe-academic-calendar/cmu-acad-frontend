@@ -44,7 +44,7 @@ export const CalendarContextWrapper = (props: any) => {
         const getData = async () => {
             setLoading(true)
             try {
-                const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
+                const res = await axios.get(`http://localhost:4000/calendar/findEventById/${calendarId.id}`)
                 setLoading(false)
                 setSavedEvents(res.data[0].events);
             }catch(error){

@@ -54,7 +54,7 @@ const CalendarEdit = () => {
 
     // console.log(dayjs(res.data.start_semester).month())
     useEffect(() => {
-        axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/${id}`).then(
+        axios.get(`http://localhost:4000/calendar/${id}`).then(
             (res) => {
                     setCalendarName(res.data.name)
                     setData(res.data)

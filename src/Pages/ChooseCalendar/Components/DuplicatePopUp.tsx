@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { yearsToMonths } from "date-fns";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
 
 const DuplicatePopUp = (props: any): JSX.Element => {
@@ -16,24 +15,26 @@ const DuplicatePopUp = (props: any): JSX.Element => {
     const handleClosePopup = () => {
         setPopup(false)
     }
-    console.log(popup)
     
+    useEffect(()=>{
+        console.log(props)
+    },[props])
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         setLoading(true)
         await e.preventDefault();
         await setYear(props.data.item.year)
         await setStartDate(props.data.item.start_semester)
-        await axios.post(`https://cmu-acad-backend-production.up.railway.app/calendar/duplicate/${props.data.item.id}`, {
+        await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
-            date_semester: year,
-            calendar_status: "Active",
             start_semester: start_date
         })
             .then((response) => {
                 setResponse(response.data)
                 console.log(response.data)
                 setLoading(false)
-                // alert("duplicate calendar success")
+                alert("duplicate calendar success")
                 window.location.reload();
             })
             .catch(function (error) {
