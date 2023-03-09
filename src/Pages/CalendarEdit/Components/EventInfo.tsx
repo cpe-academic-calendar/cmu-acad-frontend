@@ -3,16 +3,9 @@ import styled from "styled-components";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import EditCalendarContext from "./Context/EditCalendarContext";
 import { handleColorType } from "../../../Functions/handleColorType";
 import changeToThai from "../../../Functions/changeToThai";
 import dayjs from "dayjs";
-import axios from "axios";
-
-// interface eventType {
-//   name: string;
-//   type: string;
-// }
 
 interface eventProps {
   closeEventInfoHandle: () => void;
@@ -26,12 +19,6 @@ interface ColorProps {
 }
 
 const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEventHandle, deleteEventHandle }) => {
-
-  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent, selectedEvent } = useContext(EditCalendarContext);
-
-  const deleteEvent = {
-    id: selectedEvent.id,
-  }
 
   let render_delete_edit_button = null
 

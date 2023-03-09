@@ -1,11 +1,9 @@
-//import * from "../../../Components/Events.styled";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import GlobalContext from "./Context/EditCalendarContext";
-// import CheckIcon from '@mui/icons-material/Check';
 
 interface calendarEventProps {
   title: string;
@@ -28,14 +26,16 @@ export default function EventModal() {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
 
     event.preventDefault()
-
+    
     const calendarEvent = {
-      event_name: eventName,
+      name: eventName,
       type: eventType,
       start_date: daySelected,
       id: selectedEvent?.id,
     }
-    
+
+    console.log(calendarEvent.id)
+
     const createEvent = {
       event_name: eventName,
       type: eventType,
@@ -46,14 +46,14 @@ export default function EventModal() {
 
 
     if (selectedEditEvent) {
-      if (calendarEvent.event_name === '') {
+      if (calendarEvent.name === '') {
         setErrorMessage(true);
       }
       else {
-        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
+        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
           calendarEvent
         ).then((res: any) => {
-          window.location.reload()
+          // window.location.reload()
           console.log(res.data)
         })
         setErrorMessage(false);
@@ -63,13 +63,13 @@ export default function EventModal() {
       }
     }
     else {
-      if (calendarEvent.event_name === '') {
+      if (calendarEvent.name === '') {
         setErrorMessage(true);
       } else {
-        // console.log(createEvent)
-        axios.post(`https://cmu-acad-backend-production.up.railway.app/event/create`,createEvent)
+        axios.post(`http://localhost:4000/event/create`,createEvent)
           .then((res)=>{
-            window.location.reload()
+            console.log(res.data)
+            // window.location.reload()
           })
         setSelectedEditEvent(null);
         setDaySelected(0);
