@@ -41,18 +41,18 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
-            <select id="display" value={calendarId.view} onChange={onViewChange}>
-                <option value="month">เดือน</option>
-                <option value="year">ปี</option>
-            </select>
             <Loading>
                 <LoadingCompoent />
             </Loading>
         </Items>
         <p>{name}</p>
         <RightSide>
-            {/* <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p> */}
-            <p>1/65 เดือน ปี</p>
+            <Items>
+            <select id="display" value={calendarId.view} onChange={onViewChange}>
+                <option value="month">เดือน</option>
+                <option value="year">ปี</option>
+            </select>
+            </Items>
         </RightSide>
     </Nav>
     );

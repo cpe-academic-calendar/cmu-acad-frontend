@@ -15,7 +15,7 @@ const SideBar:React.FC = () => {
     })
 
     return ( <div>
-        <Container className="overflow-scroll">
+        <Container className="overflow">
         <Row>
             <div className="header">
                 <CalendarMonthIcon />
@@ -39,26 +39,28 @@ const Container = styled.div`
     padding-bottom: 48px;
     gap: 24px;
     width: 253px;
-    height: 938px;
+    height: 80%;
     top: 79px;
-
     background: #FFFFFF;
     /* Stroke */
     border-left: 1px solid #E7E7E7;
     border-top: 1px solid #E7E7E7;
+    overflow-y: scroll;
 `
 
 const Row = styled.div`
     display: flex;
     padding-bottom: 48px;
     background-color: wheat;
+    
     .header{
         position: fixed;
         font-weight: 600;
         color: var(--primary-color);
         background-color: white;
-        margin-top: 22px;
-    }
+        width: 100%;
+        padding: 20px 0;
+}
 `
 
 
