@@ -114,7 +114,7 @@ function ChooseCalendar(props: any) {
                                     <DeleteIcon />
                                 </div>
                                 <div onClick={onClickhandle}>
-                                    <FolderIcon />
+                                    <FolderIcon />                                  
                                 </div>
                             </div>
                         }

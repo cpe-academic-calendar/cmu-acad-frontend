@@ -41,7 +41,6 @@ const Container = styled.div`
     width: 253px;
     height: 80%;
     top: 79px;
-
     background: #FFFFFF;
     /* Stroke */
     border-left: 1px solid #E7E7E7;

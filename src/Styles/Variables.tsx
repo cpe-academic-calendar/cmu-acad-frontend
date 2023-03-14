@@ -4,7 +4,7 @@ const Variables = createGlobalStyle`
     :root {
         --primary-color: #F57F17 ;
         --background: #fff;
-        --variant-background: #f3f3f3;
+        --variant-background: #FEF2E8;
         --hover: #fafafa;
         --disable-color: #aaa;
         --error: #C62828;

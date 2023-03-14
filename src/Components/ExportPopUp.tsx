@@ -85,13 +85,13 @@ const ExportPopUp: React.FC = () => {
   const calendar = useParams()
   useEffect(() => {
     const getData = async () => {
-      await axios.get(`http://localhost:4000/calendar/findHoliday/${calendar.id}`)
+      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findHoliday/${calendar.id}`)
         .then((res) => {
           setEvent(res.data[0].events)
         })
     }
     const getEvent = async () => {
-      await axios.get(`http://localhost:4000/calendar/findEvent/${calendar.id}`)
+      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEvent/${calendar.id}`)
         .then((res) => {
           setScheduleData(res.data[0].events)
         })

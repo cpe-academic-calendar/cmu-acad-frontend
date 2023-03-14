@@ -11,7 +11,7 @@ interface calendarEventProps {
 
 export default function EventModal() {
 
-  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent,selectedEvent } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEvent, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)

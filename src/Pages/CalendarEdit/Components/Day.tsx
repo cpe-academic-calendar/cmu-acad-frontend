@@ -13,10 +13,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import changeToThai from "../../../Functions/changeToThai";
-
-interface DateFromDayjs {
-  day: dayjs.Dayjs;
-}
+import { useInView } from 'react-intersection-observer';
 
 interface ColorProps {
   color: string;
@@ -30,11 +27,14 @@ interface eventProps {
   type: string;
 }
 
+interface monthColorProps {
+  color:string;
+}
+
 
 const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const calendarId = useParams();
   const {
     daySelected,
     setDaySelected,
@@ -101,18 +101,21 @@ const Day: React.FC<any> = ({ day }) => {
     document.addEventListener("click", handleClickOutSide, true)
 }, [])
 
-  // function truncateString(str: string) {
-  //   if(15>str.length){
-  //     return str
-  //   }
-  //     return str.slice(0, 15) + "..."
-  // }
+const colorValidate = (day: any) => {
+  if(Number(dayjs(day).format("M")) %2 === 0){
+    return "even"
+  }
+  else{
+    return "odd"
+  }
+}
+
 
   return (
-          <DayContainer>
+          <DayContainer color={colorValidate(day)}>
             <LiteralDay onClick={addEventHandle}>
-              {day.format("D")}
-              {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
+                {day.format("D")}
+                {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
             </LiteralDay>
             {dayEvents.map((evt, idx) => {
               return (
@@ -162,27 +165,21 @@ const Day: React.FC<any> = ({ day }) => {
   );
 };
 
-// const handleColorType = (color: string) => {
-//   switch (color) {
-//     case "กิจกรรม":
-//       return "var(--default-event-color)";
-//     case "วันหยุด":
-//       return "var(--default-holiday-color)";
-//     case "วันสอบ":
-//       return "var(--default-exam-color)";
-//     case "วันเปิดภาคเรียน":
-//       return "var(--primary-color)";
-//     case "วันปิดภาคเรียน":
-//       return "var(--primary-color)";
-//   }
-// };
+const handleMonthColor = (color: string) => {
+  switch (color) {
+    case "even":
+      return "var(--background)";
+    case "odd":
+      return "var(--variant-background)";
+  }
+};
 
 const LiteralDay = styled.div`
   display: flex;
   cursor: pointer;
 `;
 
-const DayContainer = styled.div`
+const DayContainer = styled.div<monthColorProps>`
   display: flex;
   z-index: 0;
   width: 100%;
@@ -192,12 +189,7 @@ const DayContainer = styled.div`
   border-color: var(--stroke);
   border-width: 0px 0px 1px 1px;
   border-style: solid;
-  .work-day {
-    background: #ffffff;
-  }
-  .holiday {
-    background: var(--disable-color);
-  }
+  background-color: ${({ color }) => handleMonthColor(color)};
 `;
 
 const EventsEvent = styled.div<ColorProps>`
