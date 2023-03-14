@@ -63,7 +63,7 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
             type: selectedEditEventRef.current.type
             }
         setLoading(true)
-        console.log(daySelectedRef.current)
+        // console.log(daySelectedRef.current)
         // console.log(result)
         // console.log(daySelectedRef.current)
         // console.log(calendarEvent)

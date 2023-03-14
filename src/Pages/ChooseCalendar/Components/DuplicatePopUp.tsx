@@ -23,9 +23,9 @@ const DuplicatePopUp = (props: any): JSX.Element => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         setLoading(true)
-        await e.preventDefault();
-        await setYear(props.data.item.year)
-        await setStartDate(props.data.item.start_semester)
+        e.preventDefault();
+        setYear(props.data.item.year)
+        setStartDate(props.data.item.start_semester)
         await axios.post(`http://localhost:4000/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
             start_semester: start_date

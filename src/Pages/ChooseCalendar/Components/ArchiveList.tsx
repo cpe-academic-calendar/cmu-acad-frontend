@@ -1,10 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CalendarCard from "./CalendarCard/CalendarCard";
-import calendarProps from "./calendarProps";
-
-// interface Data { id: number, name: string; date_semester: number; create_at: string; update_at: string; };
-
 
 interface CalendarProps {
     id: number,
