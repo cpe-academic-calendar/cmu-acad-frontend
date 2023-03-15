@@ -54,6 +54,42 @@ export const CalendarContextWrapper = (props: any) => {
         getData()
     }, [calendarId])
 
+    const pushEvent = (event: any) => {
+        setLoading(true)
+        axios.post(`https://cmu-acad-backend-production.up.railway.app/event/create`,event)
+        .then((res)=>{
+            setSavedEvents(() => [...savedEvents, res.data])
+            setLoading(false)
+        })
+    }
+
+    const updateEvent = (newEvent: any) => {
+        setLoading(true)
+        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${newEvent.id}`,newEvent).then(
+            (res: any) => {
+            const newItems = savedEvents.map((evt) => 
+                evt.id === newEvent.id ? newEvent : evt
+            )
+            setSavedEvents(newItems)
+            setLoading(false)
+      })
+    }
+
+    const deleteEvent = (event: any) => {
+        setLoading(true)
+        try{
+            axios.delete(`https://cmu-acad-backend-production.up.railway.app/event/delete/${event.id}`, event).then(
+                (res)=>{
+                    const newItems = savedEvents.filter(evt => evt.id !== event.id);
+                    setSavedEvents(newItems);
+                    setLoading(false)
+                })
+        }
+        catch(err){
+            return err;
+        }
+    }
+
     const value = {
         monthIndex,
         setMonthIndex,
@@ -70,7 +106,10 @@ export const CalendarContextWrapper = (props: any) => {
         selectedEvent, 
         setSelectedEvent,
         currentMonth,
-        setCurrentMonth
+        setCurrentMonth,
+        pushEvent,
+        deleteEvent,
+        updateEvent
       };
 
     return (

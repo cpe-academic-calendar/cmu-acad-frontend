@@ -36,7 +36,8 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         selectedEditEvent,
         setSelectedEditEvent,
         setMonthIndex,
-        monthIndex
+        monthIndex,
+        updateEvent
       } = useContext(EditCalendarContext);
     const { setLoading } = useContext(GlobalContext)
     const selectedEditEventRef = React.useRef<any>(null);
@@ -96,13 +97,7 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
         // console.log(daySelectedRef.current)
         // console.log(calendarEvent)
         
-        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
-        calendarEvent
-      ).then((res: any) => {
-        setLoading(false)
-        window.location.reload()
-        // console.log(res.data)
-      })
+    updateEvent(calendarEvent)
     }
       };  
 

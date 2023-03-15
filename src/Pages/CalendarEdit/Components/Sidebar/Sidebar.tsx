@@ -14,22 +14,33 @@ const SideBar:React.FC = () => {
         )
     })
 
-    return ( <div>
-        <Container className="overflow">
-        <Row>
+    return ( 
+    <Container>
+
+        <Section>
             <div className="header">
-                <CalendarMonthIcon />
-                กำหนดการสำคัญ
+                    <CalendarMonthIcon />
+                    กำหนดการสำคัญ
             </div>
-        </Row>
+            <Content>
                 {event_render}
-        </Container>
-    </div> );
+            </Content>
+        </Section>
+        <Section>
+            <div className="header">
+                    <CalendarMonthIcon />
+                    กำหนดการสำคัญ
+            </div>
+            <Content>
+                {event_render}
+            </Content>
+        </Section>
+    </Container> );
 }
 
 const Container = styled.div`
-    margin-top: 54px;
     position: fixed;
+    margin-top: 54px;
     display: flex;
     top: 79;
     right: 0;
@@ -45,23 +56,22 @@ const Container = styled.div`
     /* Stroke */
     border-left: 1px solid #E7E7E7;
     border-top: 1px solid #E7E7E7;
-    overflow-y: scroll;
 `
 
-const Row = styled.div`
+const Section = styled.div`
     display: flex;
-    padding-bottom: 48px;
-    background-color: wheat;
-    
+    flex-direction: column;
     .header{
-        position: fixed;
         font-weight: 600;
         color: var(--primary-color);
         background-color: white;
         width: 100%;
         padding: 20px 0;
-}
+    }
 `
 
-
+const Content = styled.div`
+    height: 30vh;
+    overflow-y: scroll;
+`
 export default SideBar;

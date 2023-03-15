@@ -11,7 +11,7 @@ interface calendarEventProps {
 
 export default function EventModal() {
 
-  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEvent, selectedEditEvent, setSelectedEditEvent } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEvent, selectedEditEvent, setSelectedEditEvent, pushEvent, updateEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)
@@ -50,12 +50,7 @@ export default function EventModal() {
         setErrorMessage(true);
       }
       else {
-        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${calendarEvent.id}`,
-          calendarEvent
-        ).then((res: any) => {
-          // window.location.reload()
-          console.log(res.data)
-        })
+        updateEvent(calendarEvent)
         setErrorMessage(false);
         setSelectedEditEvent(null);
         setDaySelected(0);
@@ -66,11 +61,7 @@ export default function EventModal() {
       if (calendarEvent.name === '') {
         setErrorMessage(true);
       } else {
-        axios.post(`http://localhost:4000/event/create`,createEvent)
-          .then((res)=>{
-            console.log(res.data)
-            // window.location.reload()
-          })
+        pushEvent(createEvent)
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
