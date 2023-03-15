@@ -55,17 +55,16 @@ const handleColorType = (color: string) => {
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
   h1 {
     font-weight: 600;
   }
   .content {
     width: 80%;
   }
+  margin-bottom: 16px;
 `;
 
 const Event = styled.div<ColorProps>`
-  height: 100%;
   width: 5px;
   background-color: ${({ color }) => handleColorType(color)};
   margin-right: 8px;

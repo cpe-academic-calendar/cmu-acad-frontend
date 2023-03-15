@@ -43,6 +43,7 @@ const Day: React.FC<any> = ({ day }) => {
     setSelectedEditEvent,
     selectedEvent,
     setSelectedEvent,
+    deleteEvent
   } = useContext(EditCalendarContext);
 
 
@@ -79,11 +80,7 @@ const Day: React.FC<any> = ({ day }) => {
   };
 
   const deleteEventHandle = () => {
-    axios.delete(`https://cmu-acad-backend-production.up.railway.app/event/delete/${selectedEvent.id}`).then(
-      (res)=>{
-        console.log(res.data)
-        window.location.reload()
-      })
+      deleteEvent(selectedEvent)
       setEventInfo(false)
   }
 
