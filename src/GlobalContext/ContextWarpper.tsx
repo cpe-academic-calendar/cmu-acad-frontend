@@ -6,7 +6,6 @@ export const ContextWarpper = (props: any) => {
     const [exportModal, setExportModal] = useState<boolean>(false);
     const [calendarSort, setCalendarSort] = useState<String>('Active');
     const [loading, setLoading] = useState(false);
-    const [currentMonth, setCurrentMonth] = useState<any>();
 
     const value = {
         exportModal, 
@@ -14,9 +13,7 @@ export const ContextWarpper = (props: any) => {
         calendarSort, 
         setCalendarSort, 
         loading, 
-        setLoading,
-        currentMonth,
-        setCurrentMonth
+        setLoading
     };
 
     return (

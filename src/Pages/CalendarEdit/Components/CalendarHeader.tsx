@@ -1,24 +1,22 @@
-import { getMonth } from './util'
 import styled from 'styled-components';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import React, { useContext, useState } from 'react';
-import EditCalendarContext from './Context/EditCalendarContext';
 import GlobalContext from '../../../GlobalContext/GlobalContext';
 import LoadingCompoent from '../../Loading/LoadingComponent';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { compose } from '@mui/system';
 
 interface handleProps{
     onFileClickHandle: () => void;
     name: string;
+    year: number;
 }
 
-const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
+const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} ) => {
 
     const [view, setView] = useState('month');
     const { loading } = useContext(GlobalContext)
@@ -41,18 +39,21 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
-            <Loading>
-                <LoadingCompoent />
-            </Loading>
-        </Items>
-        <p>{name}</p>
-        <RightSide>
             <Items>
             <select id="display" value={calendarId.view} onChange={onViewChange}>
                 <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
             </Items>
+            <Loading>
+                <LoadingCompoent />
+            </Loading>
+        </Items>
+        <p>{name}</p>
+        <RightSide>
+        <p>
+            ปีการศึกษา {year+543}
+        </p>
         </RightSide>
     </Nav>
     );
