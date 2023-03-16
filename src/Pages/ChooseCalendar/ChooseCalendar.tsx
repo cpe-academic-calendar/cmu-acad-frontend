@@ -26,8 +26,6 @@ function ChooseCalendar(props: any) {
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
     const [item, setItem] = useState<calendarProps[]>([]);
 
-    console.log(setItem)
-
     useEffect(() => {
         const fetchData = async () => {
             axios
@@ -47,7 +45,6 @@ function ChooseCalendar(props: any) {
     const onClickhandle = async () => {
         await axios.delete(`${CalendarPath.delete}/${props.item.id}`)
             .then((response: any) => {
-                console.log(response.data)
                 setLoading(false)
                 alert("delete calendar success")
                 window.location.reload();

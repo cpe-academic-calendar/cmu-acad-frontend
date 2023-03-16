@@ -42,7 +42,7 @@ export const CalendarContextWrapper = (props: any) => {
                 setLoading(false)
                 setSavedEvents(res.data[0].events);
             }catch(error){
-                console.log(error)
+                return error
             }        
         }
         getData()

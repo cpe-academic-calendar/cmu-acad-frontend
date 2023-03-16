@@ -99,7 +99,6 @@ const ExportPopUp: React.FC = () => {
     getEvent()
     getData()
   }, [])
-  console.log(scheduleData)
 
   const headers = [
     { label: "วัน", key: "day" },

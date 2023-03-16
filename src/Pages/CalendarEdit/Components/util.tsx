@@ -7,7 +7,6 @@ export function getMonth(month = dayjs().month(), year = dayjs().year()) {
     const daysMatrix = new Array(70).fill([]).map(() => {
         return new Array(7).fill(null).map(() => {
         currentMonthCount++;
-        console.log(new Date(year,month,currentMonthCount))
         return dayjs(new Date(year, month, currentMonthCount));
         });
     });

@@ -28,14 +28,14 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
-        await axios.post('http://localhost:4000/calendar/create',
+        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`)
                 window.location.reload();
             })
             .catch(function (error) {
-                console.log(error);
+                return error
             })
             .finally(() => {
                 setLoading(false)

@@ -28,13 +28,11 @@ export default function EventModal() {
     event.preventDefault()
     
     const calendarEvent = {
-      name: eventName,
+      event_name: eventName,
       type: eventType,
       start_date: daySelected,
       id: selectedEvent?.id,
     }
-
-    console.log(calendarEvent.id)
 
     const createEvent = {
       event_name: eventName,
@@ -46,7 +44,7 @@ export default function EventModal() {
 
 
     if (selectedEditEvent) {
-      if (calendarEvent.name === '') {
+      if (calendarEvent.event_name === '') {
         setErrorMessage(true);
       }
       else {
@@ -58,7 +56,7 @@ export default function EventModal() {
       }
     }
     else {
-      if (calendarEvent.name === '') {
+      if (calendarEvent.event_name === '') {
         setErrorMessage(true);
       } else {
         pushEvent(createEvent)

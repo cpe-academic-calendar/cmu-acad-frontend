@@ -44,7 +44,6 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
     setMultipleSelect([...multipleSelect, cardId]);
     setSelectCalendar(!selectCalendar);
   };
-  console.log(data.id);
 
   const handleUnCheckClick = (id: number) => {
     setCardId(id);
