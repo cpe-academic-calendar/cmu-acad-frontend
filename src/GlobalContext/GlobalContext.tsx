@@ -7,8 +7,6 @@ interface contextType {
     setCalendarSort: (state: String) => void;
     loading: boolean;
     setLoading: (state: boolean) => void;
-    currentMonth: any;
-    setCurrentMonth: (month: any) => void;
 }
 
 const GlobalContext = React.createContext<contextType>({
@@ -17,9 +15,7 @@ const GlobalContext = React.createContext<contextType>({
     calendarSort: '',
     setCalendarSort: (state) => null,
     loading: false,
-    setLoading: () => {},
-    currentMonth: null,
-    setCurrentMonth: () => {}
+    setLoading: () => {}
 })
 
 export default GlobalContext;

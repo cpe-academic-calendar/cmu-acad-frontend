@@ -32,14 +32,8 @@ export const CalendarContextWrapper = (props: any) => {
     const [savedEvents, setSavedEvents] = useState<any[]>([])
     const [selectedEvent, setSelectedEvent] = useState<any>(); //Just one event that want to look info
     const [currentMonth, setCurrentMonth] = useState<number>(0);
-    const [eventInfo, setEventInfo] = useState(false);
-    // const [savedEvents, dispatchCalEvents] = useReducer(
-    //     savedEventReducer,
-    //     [] as CalendarEvent[]
-    //   );
 
     const calendarId = useParams()
-    // console.log(calendarId)
     useEffect(() => {
         const getData = async () => {
             setLoading(true)

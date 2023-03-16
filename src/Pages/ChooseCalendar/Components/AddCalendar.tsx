@@ -14,10 +14,7 @@ type ButtonProps = {
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
-    const { setLoading, loading, setCurrentMonth } = useContext(GlobalContext)
-
-    const [selectMonth, setSelectMonth] = useState(0) //เดือน
-    const [startSemister, setStartSemister] = useState(new Date())
+    const { setLoading } = useContext(GlobalContext)
     const [name, setName] = useState('')
     const [startSemester, setStartSemester] = useState(new Date())
     const [semester_year,setSemesterYear] = useState(0)
