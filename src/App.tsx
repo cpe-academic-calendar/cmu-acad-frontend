@@ -16,6 +16,7 @@ import ClendarEdit from './Pages/CalendarEdit/CalendarEdit'
 import DuplicatePopUp from './Pages/ChooseCalendar/Components/DuplicatePopUp';
 import CalendarWarp from './Pages/CalendarEdit/CalendarWarp';
 import LoadingModal from './Pages/Loading/LoadingModal';
+import ChooseWarp from './Pages/ChooseCalendar/ChooseWarp';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ChooseCalendar />} />
+          <Route path="/" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
           <Route path="/draft_year" element={<Draft />}/>
           <Route path="/event" element={<EventEdit />} />

@@ -9,14 +9,22 @@ import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
 import axios from 'axios'
 import { CalendarPath } from "./Components/path";
-import calendarProps from "./Components/calendarProps";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
 import LoadingModal from "../Loading/LoadingModal";
 import ChooseCalendarContext from "./Components/Context/ChooseCalendarContext";
 
-
-
+interface calendarProps{
+    id: number,
+    name: string;
+    start_semester: Date;
+    year: number;
+    create_at: Date;
+    update_at: Date;
+    selected: boolean;
+    handleCheckClick: (id: number) => void;
+    handleUnCheckClick: (selectedCard: number) => void;
+  }
 
 
 function ChooseCalendar(props: any) {
@@ -24,31 +32,33 @@ function ChooseCalendar(props: any) {
     const { multipleSelect } = useContext(ChooseCalendarContext)
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
-    const [item, setItem] = useState<calendarProps[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            axios
-                .get(CalendarPath.find)
-                .then(
-                    response =>
-                        setItem(response.data)
-                )
-        };
-        fetchData()
-    }, [])
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);
     };
 
-    const onClickhandle = async () => {
-        await axios.delete(`${CalendarPath.delete}/${props.item.id}`)
+    const onDeleteClickhandle = () => {
+        multipleSelect.forEach(async (item) => {
+            await axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete/${item}`)
             .then((response: any) => {
                 setLoading(false)
-                alert("delete calendar success")
                 window.location.reload();
             })
+        })
+        alert("delete calendar success")
+    }
+
+    const onArchiveClickhandle = () => {
+        multipleSelect.map(async (item) => {
+            await axios.put(`${CalendarPath.archiveCalendar}${item}`,
+            {
+                    calendar_status: "Archive"
+            })
+                .then((response) => {
+                    window.location.reload();
+                })
+        })
+        alert("archive calendar success")
     }
 
     let render_list = null;
@@ -57,7 +67,7 @@ function ChooseCalendar(props: any) {
 
     switch (calendarSort) {
         case "Active":
-            render_list = <ActiveList data={item} />
+            render_list = <ActiveList />
             sort_button =
                 <CalendarSortButton>
                     <div className="select" onClick={() => setCalendarSort("Active")}>
@@ -107,10 +117,10 @@ function ChooseCalendar(props: any) {
                             null
                                 :
                             <div className=''>
-                                <div onClick={onClickhandle}>
+                                <div onClick={onDeleteClickhandle}>
                                     <DeleteIcon />
                                 </div>
-                                <div onClick={onClickhandle}>
+                                <div onClick={onArchiveClickhandle}>
                                     <FolderIcon />                                  
                                 </div>
                             </div>

@@ -8,22 +8,26 @@ import styled from "styled-components";
 import CalendarCardOption from "./CalendarCardOption";
 import { useCalendarCollect } from "../CollectItem";
 import dayjs from "dayjs";
-import calendarProps from "../calendarProps";
 import { useNavigate } from "react-router-dom";
 import ChooseCalendarContext from "../Context/ChooseCalendarContext";
 import changeToThai from "../../../../Functions/changeToThai";
 
+interface calendarProps{
+  id: number,
+  name: string;
+  start_semester: Date;
+  year: number;
+  create_at: Date;
+  update_at: Date;
+  handleCheckClick: (id: number) => void;
+  handleUnCheckClick: (selectedCard: number) => void;
+}
+
 const CalendarCard: React.FC<calendarProps> = (data) => {
-  const { multipleSelect, setMultipleSelect } = useContext(
-    ChooseCalendarContext
-  );
+
   const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false);
-  const [selectCalendar, setSelectCalendar] = useState<Boolean>(false);
-  const [cardId, setCardId] = useState(0);
   const navigate = useNavigate();
-  const selectCalendarClicked = (state: Boolean) => {
-    setSelectCalendar(state);
-  };
+  const [selectCalendar, setSelectCalendar] = useState<boolean>(false);
 
   let render_option = null;
 
@@ -38,20 +42,6 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
   useEffect(() => {
     document.addEventListener("click", handleClickOutSide, true);
   }, []);
-
-  const handleCheckClick = (id: number) => {
-    setCardId(id);
-    setMultipleSelect([...multipleSelect, cardId]);
-    setSelectCalendar(!selectCalendar);
-  };
-
-  const handleUnCheckClick = (id: number) => {
-    setCardId(id);
-    // multipleSelect.push({
-    //     id: cardId
-    //   });
-    setSelectCalendar(!selectCalendar);
-  };
 
   const refOne = useRef<HTMLDivElement | null>(null);
 
@@ -74,7 +64,8 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
           <div
             className="check"
             onClick={() => {
-              handleUnCheckClick(data.id);
+              data.handleUnCheckClick(data.id);
+              setSelectCalendar((prev) => !prev)
             }}
           >
             <CheckCircleIcon />
@@ -83,7 +74,8 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
           <div
             className="check"
             onClick={() => {
-              handleCheckClick(data.id);
+              data.handleCheckClick(data.id);
+              setSelectCalendar((prev) => !prev)
             }}
           >
             <RadioButtonUncheckedOutlinedIcon />
