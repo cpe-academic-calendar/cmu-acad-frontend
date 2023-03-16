@@ -46,7 +46,6 @@ const SideBar:React.FC = () => {
         ).then(
             (res) => {
                 setStudyCount(res.data)
-
             }
         )
 
