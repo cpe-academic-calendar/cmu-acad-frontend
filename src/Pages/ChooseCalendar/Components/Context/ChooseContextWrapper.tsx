@@ -4,6 +4,7 @@ import ChooseCalendarContext from "./ChooseCalendarContext";
 const ChooseContextWrapper = (props: any) => {
     const [multipleSelect, setMultipleSelect] = useState<number[]>([]);
     const [startSemisterMonth, setStartSemisterMonth] = useState<any>();
+    const [search, setSearch] = useState('')
 
     // useEffect(() => {
     //     console.log(multipleSelect)
@@ -13,16 +14,13 @@ const ChooseContextWrapper = (props: any) => {
         multipleSelect,
         setMultipleSelect,
         startSemisterMonth,
-        setStartSemisterMonth
+        setStartSemisterMonth,
+        search,
+        setSearch
     }
 
     return ( 
-        <ChooseCalendarContext.Provider value={{
-            multipleSelect,
-            setMultipleSelect,
-            startSemisterMonth,
-            setStartSemisterMonth
-        }}>
+        <ChooseCalendarContext.Provider value={value}>
             {props.children}
         </ChooseCalendarContext.Provider>
      );

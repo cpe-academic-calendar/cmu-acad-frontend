@@ -24,6 +24,7 @@ id: number;
 
 export const CalendarContextWrapper = (props: any) => {
     const { setLoading } = useContext(GlobalContext);
+
     const [monthIndex, setMonthIndex] = useState<number>(dayjs().month());
     const [daySelected, setDaySelected] = useState<any>(null);
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
@@ -34,6 +35,7 @@ export const CalendarContextWrapper = (props: any) => {
     const [currentMonth, setCurrentMonth] = useState<number>(0);
 
     const calendarId = useParams()
+
     useEffect(() => {
         const getData = async () => {
             setLoading(true)
@@ -61,11 +63,12 @@ export const CalendarContextWrapper = (props: any) => {
         setLoading(true)
         axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${newEvent.id}`,newEvent).then(
             (res: any) => {
-            const newItems = savedEvents.map((evt) => 
-                evt.id === newEvent.id ? newEvent : evt
-            )
-            setSavedEvents(newItems)
-            setLoading(false)
+                axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`).then(
+                    (response: any) => {
+                        setSavedEvents(response.data[0].events)
+                        setLoading(false)
+                    }
+                )
       })
     }
 

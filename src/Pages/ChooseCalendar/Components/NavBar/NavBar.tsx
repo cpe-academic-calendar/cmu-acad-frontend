@@ -1,13 +1,15 @@
 import React from "react";
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-// import { Container, Logo, CalendarSearch, NavBarSt, Welcome, DropDown } from "./NavBar.styled";
 import ProfileOption from "./ProfileOption";
 import styled from "styled-components";
+import { useContext } from "react";
+import ChooseCalendarContext from "../Context/ChooseCalendarContext";
 import { Navigate } from "react-router-dom";
 
 const NavBar: React.FC = () => {
     const [profileOption, setProfileOption] = React.useState(false);
-    const [search, setSearch] = React.useState('');
+    const { search, setSearch } = useContext(ChooseCalendarContext);
+    const [data, setData] = React.useState();
 
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)
@@ -27,7 +29,7 @@ const NavBar: React.FC = () => {
             <Container>
                 <Logo src="\Assets\Logo.png" />
                 <CalendarSearch placeholder="Search" value={search} onChange={(e) => {setSearch(e.target.value)}} />
-                <DropDown>
+                <RightSide>
                     <Welcome>
                         <span>
                             <p className="caption">ยินดีต้อนรับ</p>
@@ -35,17 +37,21 @@ const NavBar: React.FC = () => {
                         </span>
                     </Welcome>
                     <h1 onClick={() => setProfileOption(true)}><KeyboardArrowDownOutlinedIcon /></h1>
-                </DropDown>
-            </Container>
-            {profileOption && 
-                <div ref={refOne}>
+                    {profileOption && 
+                <DropDown ref={refOne}>
                     <ProfileOption />
-                </div>
-            }
+                </DropDown>}
+                </RightSide>
+            </Container>
         </NavBarSt>
 
     )
 }
+
+const DropDown = styled.div`
+    position: absolute;
+    width: 312px;
+`
 
 const NavBarSt = styled.div`
     background: var(--background);
@@ -67,9 +73,9 @@ const Logo = styled.img`
 
 const CalendarSearch = styled.input`
     width: 50%;
-    margin-top: auto;
-    margin-bottom: auto;
-    padding: 12px 20px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 12px 12px;
     border: 1px solid #F57F17;
     border-radius: 30px;
     background-color: white;
@@ -86,13 +92,9 @@ const Welcome = styled.span`
     }
 `
 
-const DropDown = styled.div`
+const RightSide = styled.div`
     display: flex;
     align-items: center;
-    h1{
-        font-size: large;
-        margin-left: 8px;
-    }
 `
 
 export default NavBar;

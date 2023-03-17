@@ -32,7 +32,7 @@ const CalendarEdit = () => {
   const [startSemesterMonth, setStartSemesterMonth] = useState<any>();
   const [startSemesterYear, setStartSemesterYear] = useState<any>();
   const [fileOption, setFileOption] = React.useState<boolean>(false);
-  const { showAddEventModal, monthIndex } = React.useContext(EditCalendarContext);
+  const { showAddEventModal, savedEvents, setSavedEvents } = React.useContext(EditCalendarContext);
   const { exportModal, setExportModal } = React.useContext(GlobalContext);
   const [data, setData] = React.useState<any[]>([]);
   const { id, view } = useParams();

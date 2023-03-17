@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
+import GlobalContext from "../../../GlobalContext/GlobalContext";
 import CalendarCard from "./CalendarCard/CalendarCard";
 import ChooseCalendarContext from "./Context/ChooseCalendarContext";
 
@@ -13,19 +14,21 @@ interface CalendarProps {
 }
 
 function ActiveList( ) {
-
+    const { search } = useContext(ChooseCalendarContext);
     const [item, setItem] = useState([])
+    
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async (input: string) => {
             axios
-                .get('https://cmu-acad-backend-production.up.railway.app/calendar/findAll')
+                .get(`https://cmu-acad-backend-production.up.railway.app/calendar/findByName?query=${input}`)
                 .then(  
-                    response =>
-                    setItem(response.data)
+                    response => {
+                        setItem(response.data)
+                    }
                 )
         };
-        fetchData()
-    }, [])
+        fetchData(search)
+    }, [search])
 
     const { multipleSelect, setMultipleSelect } = useContext(ChooseCalendarContext);
 
