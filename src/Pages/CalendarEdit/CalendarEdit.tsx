@@ -137,7 +137,7 @@ const CalendarEdit = () => {
         <CalendarHeader
           onFileClickHandle={onFileClickHandle}
           name={calendarName}
-          year = {startSemesterYear}
+          year={startSemesterYear}
         />
         {fileOption ? (
           <div ref={refOne}>

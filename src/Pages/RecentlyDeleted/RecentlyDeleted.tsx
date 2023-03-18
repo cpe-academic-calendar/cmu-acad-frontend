@@ -13,8 +13,7 @@ import dayjs from "dayjs";
 import LoadingModal from "../Loading/LoadingModal";
 
 const RecentlyDeleted = () => {
-  const [data, setData] = useState([]);
-  const [calendarSelected, setCalendarSelected] = useState<any>();
+  const [data, setData] = useState<any[]>([]);
   const { loading, setLoading } = useContext(GlobalContext)
 
   useEffect(() => {
@@ -32,16 +31,32 @@ const RecentlyDeleted = () => {
     getData()
 }, [])
 
-  // const restoreHandle = (calendar: any) => {
-  //   setLoading(true)
-  //   try{
-  //     axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`, calendar).then({
-  //       const newItems = data.filter((cal: any) => cal.id !== calendar.id);
-  //       setData(newItems);
-  //       setLoading(false)
-  //     })
-  //   }
-  // }
+  const restoreHandle = (calendar: any) => {
+    setLoading(true)
+    try{
+      axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`, calendar).then(
+        (res) => {
+          const newItems = data.filter((cal) => cal.id !== calendar.id);
+          setData(newItems);
+          setLoading(false);
+      })
+    }catch(err){
+      return err
+    }
+  }
+
+  const deleteHandle = (calendar: any) => {
+    setLoading(true)
+    try{
+      axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete-real/${calendar.id}`, calendar).then(
+        (res) => {
+          const newItems = data.filter((cal) => cal.id !== calendar.id);
+          setData(newItems);
+          setLoading(false);
+      })
+    }catch(err){
+      return err
+    }}
 
   return (
     <Container>
@@ -77,16 +92,15 @@ const RecentlyDeleted = () => {
                       <td>{calendar.delete_at}</td>
                       <td>
                         <div className="icon" 
-                        // onClick={() => {
-                        //   setCalendarSelected(calendar)
-                        //   restoreHandle(calendarSelected)
-                        // }}
+                        onClick={() => {
+                          restoreHandle(calendar)
+                        }}
                         >
                           <RestoreIcon />
                         </div>
                       </td>
                       <td>
-                        <div className="icon">
+                        <div className="icon" onClick={() => deleteHandle(calendar)}>
                           <DeleteIcon />
                         </div>
                       </td>

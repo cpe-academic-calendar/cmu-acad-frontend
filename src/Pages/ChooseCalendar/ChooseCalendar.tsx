@@ -109,9 +109,9 @@ function ChooseCalendar(props: any) {
                 <TableCardHeader>
                     <InsertDriveFileOutlinedIcon color="action" />
                     <p>ชื่อ</p>
+                    <p>วันที่สร้าง</p>
+                    <p>แก้ไขล่าสุด</p>
                     <div className="end">
-                        <p>วันที่สร้าง</p>
-                        <p>แก้ไขล่าสุด</p>
                         {
                             multipleSelect.length==0?
                             null
@@ -164,7 +164,7 @@ const Container = styled.div`
 
 const TableCardHeader = styled.div`
     padding-left: 16vh;
-    padding-right: 16vh;
+    padding-right: 26vh;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -217,25 +217,6 @@ const CalendarSortButton = styled.div`
         margin: 12px;
         p{
             color: var(--primary-color);
-        }
-    }
-`
-
-const ProfileOption = styled.div`
-    position: fixed;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    z-index: 998;
-    border-radius: 10px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-    color: #111;
-    margin-top: 48px;
-    .item{
-        padding: 20px 30px;
-        &:hover{
-            cursor: pointer;
-            background-color: var(--hover);
         }
     }
 `
