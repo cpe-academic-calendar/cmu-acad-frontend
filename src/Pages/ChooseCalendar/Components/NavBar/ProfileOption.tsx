@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProfileOption = () => {
   return (
@@ -10,7 +11,7 @@ const ProfileOption = () => {
           <button><PeopleAltIcon /><p>จัดการผู้ใช้</p></button>
         </a>
         <a href="/recently-deleted">
-          <button><HistoryIcon /><p>ประวัตการลบ</p></button>
+          <button><DeleteIcon /><p>ถังขยะ</p></button>
         </a>
       <div className="item">
         <a href="https://oauth.cmu.ac.th/v2/Authorize.aspx?response_type=code&client_id=MgtZS8S3J9cAhGAUGhbdX9qFHR2mCySSG7pNHbW8&redirect_uri=http://localhost:4000/auth&scope=cmuitaccount.basicinfo&cmuitaccount.personal_id&state=xyz">
@@ -23,7 +24,7 @@ const ProfileOption = () => {
 
 const DraftOption = styled.div`
   position: absolute;
-  align-items: center;
+  justify-content: start;
   background-color: var(--background);
   color: #000;
   font-size: medium;
@@ -33,10 +34,10 @@ const DraftOption = styled.div`
   border-radius: 12px;
     button{
       display: flex;
-    justify-content: space-between;
-    padding: 24px;
-    margin-left: 4px;
-    margin-right: 4px;
+      width: 100%;
+      padding: 24px;
+      margin-left: 4px;
+      margin-right: 4px;
     &:hover{
       background-color: var(--hover);
       border-radius: 12px;

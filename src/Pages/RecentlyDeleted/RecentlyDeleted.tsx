@@ -1,11 +1,51 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import RestoreIcon from '@mui/icons-material/Restore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from "axios";
+
+import GlobalContext from "../../GlobalContext/GlobalContext";
+
+import dayjs from "dayjs";
+
+import LoadingModal from "../Loading/LoadingModal";
 
 const RecentlyDeleted = () => {
+  const [data, setData] = useState([]);
+  const [calendarSelected, setCalendarSelected] = useState<any>();
+  const { loading, setLoading } = useContext(GlobalContext)
+
+  useEffect(() => {
+    const getData = async () => {
+        setLoading(true)
+        try {
+            const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted/{id}`)
+            setLoading(false)
+            setData(res.data)
+            console.log(res.data)
+        }catch(error){
+            return error
+        }        
+    }
+    getData()
+}, [])
+
+  // const restoreHandle = (calendar: any) => {
+  //   setLoading(true)
+  //   try{
+  //     axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`, calendar).then({
+  //       const newItems = data.filter((cal: any) => cal.id !== calendar.id);
+  //       setData(newItems);
+  //       setLoading(false)
+  //     })
+  //   }
+  // }
+
   return (
     <Container>
+      { loading? <LoadingModal /> : null }
         <Count>
           <a href="/">
             <BackButton>
@@ -15,7 +55,7 @@ const RecentlyDeleted = () => {
             </a>
             <TableSort>
                 <TableName>
-                <p>ประวัติการลบ</p>
+                <p>ถังขยะ</p>
                 </TableName>
                     <input type="text" placeholder="ค้นหาปฏิทิน" />
             </TableSort>
@@ -25,15 +65,34 @@ const RecentlyDeleted = () => {
                     <th>ชื่อปฏิทิน</th>
                     <th>ปีการศึกษา</th>
                     <th>ลบล่าสุด</th>
+                    <th>กู้คืน</th>
                     <th>ลบ</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td><DeleteIcon /></td>
-                </tr>
+                {
+                  data.map((calendar: any, idx) => (
+                  <tr key={idx}>
+                      <td>{idx}</td>
+                      <td>{calendar.name}</td>
+                      <td>{Number(dayjs(calendar.start_semester).format("YYYY"))+543}</td>
+                      <td>{calendar.delete_at}</td>
+                      <td>
+                        <div className="icon" 
+                        // onClick={() => {
+                        //   setCalendarSelected(calendar)
+                        //   restoreHandle(calendarSelected)
+                        // }}
+                        >
+                          <RestoreIcon />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="icon">
+                          <DeleteIcon />
+                        </div>
+                      </td>
+                  </tr>
+                  ))
+                }
             </table>
         </Count>
     </Container>
@@ -63,6 +122,9 @@ const Count = styled.div`
     border: 1px solid var(--stroke);
     text-align: center;
     padding: 20px 40px;
+  }
+  .icon{
+    cursor: pointer;
   }
 `;
 

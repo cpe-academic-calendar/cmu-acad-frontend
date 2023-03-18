@@ -16,6 +16,8 @@ import LoadingModal from './Pages/Loading/LoadingModal';
 import ChooseWarp from './Pages/ChooseCalendar/ChooseWarp';
 import Admin from './Pages/Admin/Admin';
 import RecentlyDeleted from './Pages/RecentlyDeleted/RecentlyDeleted';
+import Login from './Pages/Login/Login';
+import Register from './Pages/Login/Register';
 
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
           <Route path="/loading" element={<LoadingModal/>} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/recently-deleted' element={<RecentlyDeleted />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </ Routes>
       </ BrowserRouter>
     </div>

@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import EditCalendarContext from "./Context/EditCalendarContext";
 import EventInfo from "./EventInfo";
 import { truncateString } from "../../../Functions/truncateString";
-import { handleColorType } from "../../../Functions/handleColorType";
 import {
   DragDropContext,
   Droppable,
@@ -19,14 +18,6 @@ interface ColorProps {
   color: string;
 }
 
-interface eventProps {
-  id: number;
-  event_name: string;
-  start_date: Date;
-  end_date: Date;
-  type: string;
-}
-
 interface monthColorProps {
   color:string;
 }
@@ -36,7 +27,6 @@ const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
   const {
-    daySelected,
     setDaySelected,
     setShowAddEventModal,
     savedEvents,
@@ -129,7 +119,7 @@ const colorValidate = (day: any) => {
                       {...provided.dragHandleProps}
                     >
                       <EventsEvent
-                        color={evt.type}
+                        color={evt.color}
                         onClick={() => {
                           setEventInfo(true);
                           setSelectedEvent(evt);
@@ -198,7 +188,7 @@ const EventsEvent = styled.div<ColorProps>`
   width: 100%;
   /* max-height: 10px; */
   margin-bottom: 4px;
-  background-color: ${({ color }) => handleColorType(color)};
+  background-color: ${props => props.color};
   color: white;
 `;
 
