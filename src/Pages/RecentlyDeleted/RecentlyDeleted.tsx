@@ -22,8 +22,13 @@ const RecentlyDeleted = () => {
         try {
             const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted/{id}`)
             setLoading(false)
-            setData(res.data)
-            console.log(res.data)
+            res.data.map((card: any) => {
+              if(card.delete_at)
+                {
+                  setData((prev) => [...prev, card])
+                }
+            })
+            console.log(data)
         }catch(error){
             return error
         }        

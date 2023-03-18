@@ -18,6 +18,7 @@ import Admin from './Pages/Admin/Admin';
 import RecentlyDeleted from './Pages/RecentlyDeleted/RecentlyDeleted';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Login/Register';
+import Redirect from './Pages/Redirect';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
+          {/* <Route path="/" element={<Redirect />} /> */}
           <Route path="/" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
           <Route path="/draft_year" element={<Draft />}/>

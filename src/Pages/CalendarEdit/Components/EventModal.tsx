@@ -27,7 +27,7 @@ export default function EventModal() {
   const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
-  const [selectedColor, setSelectedColor] = React.useState('#347BBB');
+  const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
   const calendarId = useParams()
 
   const color = [
