@@ -4,7 +4,8 @@ import changeToThai from "../../../../Functions/changeToThai";
 
 interface EventProps {
   name: string;
-  date: dayjs.Dayjs;
+  start_date: dayjs.Dayjs;
+  end_date: dayjs.Dayjs;
   color: string;
 }
 
@@ -15,7 +16,7 @@ interface ColorProps {
 var buddhistEra = require("dayjs/plugin/buddhistEra");
 dayjs.extend(buddhistEra);
 
-const EventCard: React.FC<EventProps> = ({ name, date, color }) => {
+const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) => {
 
   return (
     <Container>
@@ -23,9 +24,13 @@ const EventCard: React.FC<EventProps> = ({ name, date, color }) => {
       <div className="content">
         <h1>{name}</h1>
         <DateThai>
-          <p>{dayjs(date).format("DD")}</p>{" "}
-          <p>{changeToThai(dayjs(date).format("MMMM"))}</p>{" "}
-          <p>{dayjs(date).format("BBBB")}</p>
+          <p>{dayjs(start_date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(start_date).format("BBBB")}</p>
+          <p>-</p>
+          <p>{dayjs(end_date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(end_date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(end_date).format("BBBB")}</p>
         </DateThai>
       </div>
     </Container>
@@ -38,7 +43,7 @@ const Container = styled.div`
     font-weight: 600;
   }
   .content {
-    width: 80%;
+    width: 100%;
   }
   margin-bottom: 16px;
 `;
@@ -51,9 +56,11 @@ const Event = styled.div<ColorProps>`
 
 const DateThai = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   p{
     margin-right: 3px;
-    color: var(--dark-brown);
+    color: rgba(0, 0, 0, 0.5);
   }
 `;
 

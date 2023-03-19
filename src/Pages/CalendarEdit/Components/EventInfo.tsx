@@ -58,6 +58,10 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
         <p>{dayjs(event.start_date).format('D')}</p>
         <p>{changeToThai(dayjs(event.start_date).format('MMMM'))}</p>
         <p>{dayjs(event.start_date).format('BBBB')}</p>
+        <p>-</p>
+        <p>{dayjs(event.end_date).format('D')}</p>
+        <p>{changeToThai(dayjs(event.end_date).format('MMMM'))}</p>
+        <p>{dayjs(event.end_date).format('BBBB')}</p>
         </Duration>
         <Status>
           สถานะ:

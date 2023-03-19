@@ -25,11 +25,14 @@ export default function EventModal() {
 
   //state of input that are in this modal
   const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
-  const [duration, setDuration] = useState(1);  //duration
+  // const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
+  const [endDate, setEndDate] = useState(selectedEditEvent? selectedEditEvent.end_date: new Date(daySelected))
   const [errorMessage, setErrorMessage] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
   const calendarId = useParams()
+
+  console.log(savedEvents)
 
   const color = [
     '#EC407A',
@@ -73,7 +76,8 @@ export default function EventModal() {
       event_name: eventName,
       type: eventType,
       start_date: daySelected,
-      id: selectedEvent?.id,
+      end_date: endDate,
+      id: selectedEvent.id,
       color: selectedColor,
     }
 
@@ -82,6 +86,7 @@ export default function EventModal() {
       type: eventType,
       calendar: calendarId.id,
       start_date: new Date(daySelected),
+      end_date: endDate,
       color: selectedColor,
     }
 
@@ -147,7 +152,7 @@ export default function EventModal() {
                 />
                 {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
 
-                <DurationInput
+                {/* <DurationInput
                   type="number"
                   name="duration"
                   placeholder="ระยะเวลา"
@@ -156,7 +161,7 @@ export default function EventModal() {
                 />
                 <div>
                   <p>วัน</p>
-                </div>
+                </div> */}
               </SettingDate>
             </div>
             <SettingSection>
@@ -172,11 +177,20 @@ export default function EventModal() {
               </Option>
             </SettingDate>
             <SettingSection>
-              <TextStatus>วันที่</TextStatus>
+              <TextStatus>วันเริ่มต้น</TextStatus>
             </SettingSection>
             <SettingDate>
               <DatePick type="date" value={dayjs(daySelected).format("YYYY-MM-DD")} onChange={(e) => 
                 setDaySelected(e.target.value)
+                }>
+              </DatePick>
+            </SettingDate>
+            <SettingSection>
+              <TextStatus>วันสิ้นสุด</TextStatus>
+            </SettingSection>
+            <SettingDate>
+              <DatePick type="date" value={dayjs(endDate).format("YYYY-MM-DD")} onChange={(e) => 
+                setEndDate(e.target.value)
                 }>
               </DatePick>
             </SettingDate>
@@ -280,6 +294,7 @@ const SettingSection = styled.div`
 `;
 
 const DurationInput = styled.input`
+width: 100%;
   line-height: 19px;
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
