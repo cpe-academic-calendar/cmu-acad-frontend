@@ -105,6 +105,7 @@ const colorValidate = (day: any) => {
                 {day.format("D")}
                 {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
             </LiteralDay>
+            <div className="overflow">
             {dayEvents.map((evt, idx) => {
               return (
                 <Draggable
@@ -137,6 +138,7 @@ const colorValidate = (day: any) => {
                 </Draggable>
               );
             })}
+                        </div>
             {eventInfo && (
               <div ref={refOne}>
                 <EventInfo
@@ -178,6 +180,10 @@ const DayContainer = styled.div<monthColorProps>`
   border-width: 0px 0px 1px 1px;
   border-style: solid;
   background-color: ${({ color }) => handleMonthColor(color)};
+  .overflow{
+    overflow-y: scroll;
+  }
+  
 `;
 
 const EventsEvent = styled.div<ColorProps>`

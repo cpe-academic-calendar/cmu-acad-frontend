@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import GlobalContext from "./Context/EditCalendarContext";
 import CheckIcon from '@mui/icons-material/Check';
+import dayjs from "dayjs";
 
 interface calendarEventProps {
   title: string;
@@ -55,23 +56,25 @@ export default function EventModal() {
         </ChooseColors>
   ))
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+  useEffect(() => {
     if(eventType === 'กิจกรรม'){
       setSelectedColor(selectedColor)
-    }
-    else if(eventType === 'วันหยุด'){
+    }else if(eventType === 'วันหยุด'){
       setSelectedColor('#352829')
     }else if(eventType === 'วันสอบ'){
       setSelectedColor('#666AD1')
     }
+  }, [eventType])
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
 
     const calendarEvent = {
       event_name: eventName,
       type: eventType,
       start_date: daySelected,
       id: selectedEvent?.id,
-      color: selectedColor
+      color: selectedColor,
     }
 
     const createEvent = {
@@ -79,7 +82,7 @@ export default function EventModal() {
       type: eventType,
       calendar: calendarId.id,
       start_date: new Date(daySelected),
-      color: selectedColor
+      color: selectedColor,
     }
 
 
@@ -160,11 +163,22 @@ export default function EventModal() {
               <TextStatus>สถานะ</TextStatus>
             </SettingSection>
             <SettingDate>
-              <Option value={eventType} onChange={(e) => setEventType(e.target.value)}>
+              <Option value={eventType} onChange={(e) => 
+                setEventType(e.target.value)
+                }>
                 <option value="กิจกรรม">กิจกรรม</option>
                 <option value="วันหยุด">วันหยุด</option>
                 <option value="วันสอบ">วันสอบ</option>
               </Option>
+            </SettingDate>
+            <SettingSection>
+              <TextStatus>วันที่</TextStatus>
+            </SettingSection>
+            <SettingDate>
+              <DatePick type="date" value={dayjs(daySelected).format("YYYY-MM-DD")} onChange={(e) => 
+                setDaySelected(e.target.value)
+                }>
+              </DatePick>
             </SettingDate>
             {
               (eventType === "กิจกรรม") && 
@@ -330,4 +344,10 @@ const ColorOption = styled.div`
 
 const Icon = styled.div`
   color: white;
+`
+
+const DatePick = styled.input`
+  border-radius: 20px;
+  border: 2px solid #aaaaaa;
+  padding: 5px;
 `
