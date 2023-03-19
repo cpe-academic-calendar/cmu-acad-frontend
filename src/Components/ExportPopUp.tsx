@@ -117,7 +117,7 @@ const ExportPopUp: React.FC = () => {
   useEffect(() => {
     event.forEach((ed, idx) => {
       data.push({
-        "holidayName": ed.event_name, "day": new Date(`${ed.start_date}`).toLocaleDateString('th-TH', {
+        "holidayName": ed.event_name, "day": new Date(`${ed.date}`).toLocaleDateString('th-TH', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
@@ -128,7 +128,7 @@ const ExportPopUp: React.FC = () => {
 
     scheduleData.forEach((ed, idx) => {
       calendar_ev.push({
-        "eventName": ed.event_name, "eventDate": `${new Date(ed.start_date).toLocaleDateString('th-TH', {
+        "eventName": ed.event_name, "eventDate": `${new Date(ed.date).toLocaleDateString('th-TH', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',

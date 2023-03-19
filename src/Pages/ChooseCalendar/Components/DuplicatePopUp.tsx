@@ -8,7 +8,7 @@ const DuplicatePopUp = (props: any): JSX.Element => {
     const { setLoading } = useContext(GlobalContext)
     const [calendar_name, setCalendarName] = useState("")
     const [year, setYear] = useState(0)
-    const [start_date, setStartDate] = useState("")
+    const [startDate, setStartDate] = useState("")
     const [response, setResponse] = useState()
     const [popup, setPopup] = useState(true)
 
@@ -24,7 +24,7 @@ const DuplicatePopUp = (props: any): JSX.Element => {
         setStartDate(props.data.item.start_semester)
         await axios.post(`https://cmu-acad-backend-production.up.railway.app/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
-            start_semester: start_date
+            start_semester: startDate
         })
             .then((response) => {
                 setResponse(response.data)

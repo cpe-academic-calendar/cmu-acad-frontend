@@ -27,6 +27,7 @@ const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
   const {
+    daySelected,
     setDaySelected,
     setShowAddEventModal,
     savedEvents,
@@ -39,8 +40,8 @@ const Day: React.FC<any> = ({ day }) => {
 
   useEffect(() => {
     savedEvents.map((ed: any) => {
-      if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-        setDaySelected(ed.start_date)
+      if (savedEvents && dayjs(ed.date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+        setDaySelected(ed.date)
       }
     })
   }, [savedEvents])
@@ -49,7 +50,7 @@ const Day: React.FC<any> = ({ day }) => {
   useEffect(() => {
     const events = savedEvents.filter(
       (evt) => (
-        dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+        dayjs(evt.date).format("DD-MM-YY") === day.format("DD-MM-YY")
     ))
     setDayEvents(events)
   }, [savedEvents, day])

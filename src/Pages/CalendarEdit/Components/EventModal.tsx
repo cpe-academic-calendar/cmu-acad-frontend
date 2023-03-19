@@ -24,7 +24,7 @@ export default function EventModal() {
 
   //state of input that are in this modal
   const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
-  const [duration, setDuration] = useState(1);  //duration
+  // const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
@@ -69,7 +69,7 @@ export default function EventModal() {
     const calendarEvent = {
       event_name: eventName,
       type: eventType,
-      start_date: daySelected,
+      date: daySelected,
       id: selectedEvent?.id,
       color: selectedColor
     }
@@ -78,7 +78,7 @@ export default function EventModal() {
       event_name: eventName,
       type: eventType,
       calendar: calendarId.id,
-      start_date: new Date(daySelected),
+      date: daySelected,
       color: selectedColor
     }
 
@@ -93,7 +93,6 @@ export default function EventModal() {
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
-        console.log(selectedEditEvent)
       }
     }
     else {
@@ -144,7 +143,7 @@ export default function EventModal() {
                 />
                 {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
 
-                <DurationInput
+                {/* <DurationInput
                   type="number"
                   name="duration"
                   placeholder="ระยะเวลา"
@@ -153,7 +152,7 @@ export default function EventModal() {
                 />
                 <div>
                   <p>วัน</p>
-                </div>
+                </div> */}
               </SettingDate>
             </div>
             <SettingSection>

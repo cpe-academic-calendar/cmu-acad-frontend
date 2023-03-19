@@ -15,16 +15,17 @@ interface Action {
     payload: Payload;
 }
 
-interface calendarEventProps {
+interface calendarEvent {
 id: number;
 event_name: string;
 type: string;
 start_date: Date;
 end_date: Date
-current_date: Date
 color: string;
 
 }
+
+type calendarEventProps = Omit<calendarEvent, 'start_date'|'end_date'> & {date: Date}
 
 export const CalendarContextWrapper = (props: any) => {
     const { setLoading } = useContext(GlobalContext);
@@ -35,7 +36,7 @@ export const CalendarContextWrapper = (props: any) => {
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
     const [savedEvents, setSavedEvents] = useState<calendarEventProps[]>([]);
-    // const [importedEvents, setImportEvents] = useState<any[]>([]);
+    const [importedEvents, setImportEvents] = useState<any[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<any>(); //Just one event that want to look info
     const [currentMonth, setCurrentMonth] = useState<number>(0);
 
@@ -51,9 +52,25 @@ export const CalendarContextWrapper = (props: any) => {
         const getData = async () => {
             setLoading(true)
             try {
-                const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
+                const res = await axios.get<Array<{events: calendarEvent[]}>>(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
                 setLoading(false)
-                setSavedEvents(res.data[0].events);
+                const calendarEvents = res.data[0].events.map(event => {
+                    const startDate = new Date(event.start_date);
+                    const endDate = new Date(event.end_date);
+                    const dates = [];
+                    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+                      dates.push(new Date(date));
+                    }
+                    return dates.map(date => ({
+                      id: event.id,
+                      event_name: event.event_name,
+                      color: event.color,
+                      type: event.type,
+                      date: date,
+                    }));
+                  }).flat()
+
+                setSavedEvents(calendarEvents);
             }catch(error){
                 return error
             }        

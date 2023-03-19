@@ -3,10 +3,6 @@ import dayjs from "dayjs";
 
 interface Payload {
     id: number;
-    // start_date: any;
-    // end_date?:any;
-    // type:string;
-    // duration: number;
 }
 
 // An interface for our actions
@@ -18,7 +14,7 @@ interface Action {
 interface calendarEventProps {
     event_name: string;
     type: string;
-    start_date: Date;
+    date: Date;
     id: number;
     }
 

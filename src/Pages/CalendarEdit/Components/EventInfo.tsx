@@ -55,9 +55,9 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
           </ButtonContainer>
         </InfoHeader>
         <Duration>
-        <p>{dayjs(event.start_date).format('D')}</p>
-        <p>{changeToThai(dayjs(event.start_date).format('MMMM'))}</p>
-        <p>{dayjs(event.start_date).format('BBBB')}</p>
+        <p>{dayjs(event.date).format('D')}</p>
+        <p>{changeToThai(dayjs(event.date).format('MMMM'))}</p>
+        <p>{dayjs(event.date).format('BBBB')}</p>
         </Duration>
         <Status>
           สถานะ:

@@ -19,7 +19,7 @@ interface DateFromDayjs {
 
 interface eventProps {
     event_name: string;
-    start_date: number;
+    date: Date;
     id: number;
     duration?: number;
     type: string
@@ -50,7 +50,7 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month }) => {
     if (destination !== null && destination !== undefined) {
         const calendarEvent: eventProps = {
             event_name: selectedEditEventRef.current.event_name,
-            start_date: daySelectedRef.current,
+            date: daySelectedRef.current,
             id: selectedEditEventRef.current.id,
             type: selectedEditEventRef.current.type
             }

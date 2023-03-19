@@ -53,7 +53,7 @@ const SideBar:React.FC = () => {
 
     let event_render = savedEvents.map((props, idx) => {
         return (
-            <EventCard key={idx} name={props.event_name} date={props.start_date} color={props.color} />
+            <EventCard key={idx} name={props.event_name} date={props.date} color={props.color} />
         )
     })
 
