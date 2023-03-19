@@ -3,7 +3,6 @@ import styled from "styled-components";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { handleColorType } from "../../../Functions/handleColorType";
 import changeToThai from "../../../Functions/changeToThai";
 import dayjs from "dayjs";
 
@@ -45,7 +44,7 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
       <InfoLayout>
         <InfoHeader>
           <TitleHeader>
-              <BoxEventColor color={event.type} />
+              <BoxEventColor color={event.color} />
               <Title>{event.event_name}</Title>
           </TitleHeader>
           <ButtonContainer>
@@ -59,6 +58,10 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
         <p>{dayjs(event.start_date).format('D')}</p>
         <p>{changeToThai(dayjs(event.start_date).format('MMMM'))}</p>
         <p>{dayjs(event.start_date).format('BBBB')}</p>
+        <p>-</p>
+        <p>{dayjs(event.end_date).format('D')}</p>
+        <p>{changeToThai(dayjs(event.end_date).format('MMMM'))}</p>
+        <p>{dayjs(event.end_date).format('BBBB')}</p>
         </Duration>
         <Status>
           สถานะ:
@@ -124,7 +127,7 @@ const BoxEventColor = styled.div<ColorProps>`
   min-width: 20px;
   max-width: 20px;
   max-height: 20px;
-  background-color: ${({ color }) => handleColorType(color)};
+  background-color: ${props => props.color};
   border-radius: 5px;
 `;
 

@@ -1,7 +1,7 @@
 export const CalendarPath = {
-    find : 'http://localhost:4000/calendar/findAll',
-    findArchive : 'http://localhost:4000/calendar/findArchive',
-    archiveCalendar : `http://localhost:4000/calendar/setstatus/`,
-    delete : `http://localhost:4000/calendar/delete/`,
-    create : `http://localhost:4000/calendar/create`
+    find : 'https://cmu-acad-backend-production.up.railway.app/calendar/findAll',
+    findArchive : 'https://cmu-acad-backend-production.up.railway.app/calendar/findArchive',
+    archiveCalendar : `https://cmu-acad-backend-production.up.railway.app/calendar/setstatus/`,
+    delete : `https://cmu-acad-backend-production.up.railway.app/calendar/delete/`,
+    create : `https://cmu-acad-backend-production.up.railway.app/calendar/create`
 }

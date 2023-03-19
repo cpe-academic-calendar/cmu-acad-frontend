@@ -39,6 +39,9 @@ interface contextType {
     setSelectedEvent: (props: any) => void;
     currentMonth: number;
     setCurrentMonth: (month: any) => void;
+    pushEvent: (event: any) => void;
+    deleteEvent: (event: any) => void;
+    updateEvent: (event: any) => void;
 }
 
 const EditCalendarContext = React.createContext<contextType>({
@@ -57,7 +60,10 @@ const EditCalendarContext = React.createContext<contextType>({
     selectedEvent: null, 
     setSelectedEvent: (props) => null,
     currentMonth: 0,
-    setCurrentMonth: (month) => {}
+    setCurrentMonth: (month) => {},
+    pushEvent: (event) => {},
+    deleteEvent: (event) => {},
+    updateEvent: (event) => {}
 })
 
 export default EditCalendarContext;

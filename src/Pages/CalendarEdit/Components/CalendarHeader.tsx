@@ -1,33 +1,56 @@
-import { getMonth } from './util'
 import styled from 'styled-components';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import React, { useContext, useState } from 'react';
-import EditCalendarContext from './Context/EditCalendarContext';
+import React, { useContext, useState, useEffect } from 'react';
 import GlobalContext from '../../../GlobalContext/GlobalContext';
 import LoadingCompoent from '../../Loading/LoadingComponent';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { compose } from '@mui/system';
+// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface handleProps{
     onFileClickHandle: () => void;
     name: string;
+    year: number;
 }
 
-const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
+const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} ) => {
 
     const [view, setView] = useState('month');
-    const { loading } = useContext(GlobalContext)
+    const [nameEdit, setNameEdit] = useState(false)
+    const [calendarName, setCalendarName] = useState('')
+    const [nameInput, setNameInput] = useState('')
     const calendarId = useParams()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        axios
+          .get(`https://cmu-acad-backend-production.up.railway.app/calendar/${calendarId.id}`)
+          .then((res) => {
+            setCalendarName(res.data.name);
+          });
+      }, []);
 
     const onViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setView(e.target.value)
         navigate(`/calendar-edit/${calendarId.id}/${e.target.value}`)
+    }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        if(nameInput === ''){
+            setNameEdit(false)
+        }else{
+            axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/update/${calendarId.id}`, {name: nameInput}).then(
+                (res) => {
+                    setNameEdit(false)
+                }
+            ).finally(
+                () => setCalendarName(nameInput)
+            )
+        }
     }
 
     return (
@@ -41,18 +64,33 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name} ) => {
                 <CalendarTodayOutlinedIcon fontSize='large' />
                 <p>ปฏิทิน</p>
             </div>
+            <Items>
             <select id="display" value={calendarId.view} onChange={onViewChange}>
                 <option value="month">เดือน</option>
                 <option value="year">ปี</option>
             </select>
+            </Items>
             <Loading>
                 <LoadingCompoent />
             </Loading>
         </Items>
-        <p>{name}</p>
+        {
+            nameEdit?
+            <form className='flex' onSubmit={handleSubmit}>
+                <CalendarInput placeholder={calendarName} value={nameInput} onChange={(e) => {setNameInput(e.target.value)}} />
+                <SubmitButton type='submit'>
+                    แก้ไขชื่อ
+                </SubmitButton>
+            </form>
+            :
+            <div onClick={() => setNameEdit(true)}>
+                <p>{calendarName}</p>
+            </div>
+        }
         <RightSide>
-            {/* <p>1/65 {dayjs(calendarId.month).format("MMMM")} {dayjs(calendarId.year).format("YYYY")}</p> */}
-            <p>1/65 เดือน ปี</p>
+        <p>
+            ปีการศึกษา {year+543}
+        </p>
         </RightSide>
     </Nav>
     );
@@ -139,4 +177,20 @@ const RightSide = styled.div`
     }
 `
 
+const CalendarInput = styled.input`
+    width: 50%;
+    padding: 8px 8px;
+    border: 1px solid #F57F17;
+    border-radius: 30px 0 0 30px;
+    background-color: white;
+`
+
+const SubmitButton = styled.button`
+padding: 4px 4px;
+display: flex;
+align-items: center;
+background-color: #F57F17;
+color: white;
+border-radius: 0 30px 30px 0 ;
+`
 export default CalendarHeader;

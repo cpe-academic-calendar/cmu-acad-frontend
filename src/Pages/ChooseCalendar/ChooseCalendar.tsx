@@ -9,14 +9,22 @@ import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
 import axios from 'axios'
 import { CalendarPath } from "./Components/path";
-import calendarProps from "./Components/calendarProps";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
 import LoadingModal from "../Loading/LoadingModal";
 import ChooseCalendarContext from "./Components/Context/ChooseCalendarContext";
 
-
-
+interface calendarProps{
+    id: number,
+    name: string;
+    start_semester: Date;
+    year: number;
+    create_at: Date;
+    update_at: Date;
+    selected: boolean;
+    handleCheckClick: (id: number) => void;
+    handleUnCheckClick: (selectedCard: number) => void;
+  }
 
 
 function ChooseCalendar(props: any) {
@@ -24,34 +32,33 @@ function ChooseCalendar(props: any) {
     const { multipleSelect } = useContext(ChooseCalendarContext)
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
-    const [item, setItem] = useState<calendarProps[]>([]);
-
-    console.log(setItem)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            axios
-                .get(CalendarPath.find)
-                .then(
-                    response =>
-                        setItem(response.data)
-                )
-        };
-        fetchData()
-    }, [])
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);
     };
 
-    const onClickhandle = async () => {
-        await axios.delete(`${CalendarPath.delete}/${props.item.id}`)
+    const onDeleteClickhandle = () => {
+        multipleSelect.forEach(async (item) => {
+            await axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete/${item}`)
             .then((response: any) => {
-                console.log(response.data)
                 setLoading(false)
-                alert("delete calendar success")
                 window.location.reload();
             })
+        })
+        alert("delete calendar success")
+    }
+
+    const onArchiveClickhandle = () => {
+        multipleSelect.map(async (item) => {
+            await axios.put(`${CalendarPath.archiveCalendar}${item}`,
+            {
+                    calendar_status: "Archive"
+            })
+                .then((response) => {
+                    window.location.reload();
+                })
+        })
+        alert("archive calendar success")
     }
 
     let render_list = null;
@@ -60,7 +67,7 @@ function ChooseCalendar(props: any) {
 
     switch (calendarSort) {
         case "Active":
-            render_list = <ActiveList data={item} />
+            render_list = <ActiveList />
             sort_button =
                 <CalendarSortButton>
                     <div className="select" onClick={() => setCalendarSort("Active")}>
@@ -102,29 +109,22 @@ function ChooseCalendar(props: any) {
                 <TableCardHeader>
                     <InsertDriveFileOutlinedIcon color="action" />
                     <p>ชื่อ</p>
+                    <p>วันที่สร้าง</p>
+                    <p>แก้ไขล่าสุด</p>
                     <div className="end">
-                        <p>วันที่สร้าง</p>
-                        <p>แก้ไขล่าสุด</p>
-                        {/* {
-                            multipleSelect?
-                                <div className=''>
-                                    <div onClick={onClickhandle}>
-                                        <DeleteIcon />
-                                    </div>
-                                    <div onClick={onClickhandle}>
-                                        <FolderIcon />
-                                    </div>
-                                </div>
+                        {
+                            multipleSelect.length==0?
+                            null
                                 :
-                                <div className='disable-icon flex'>
-                                    <div>
-                                        <DeleteIcon />
-                                    </div>
-                                    <div>
-                                        <FolderIcon />
-                                    </div>
+                            <div className=''>
+                                <div onClick={onDeleteClickhandle}>
+                                    <DeleteIcon />
                                 </div>
-                        } */}
+                                <div onClick={onArchiveClickhandle}>
+                                    <FolderIcon />                                  
+                                </div>
+                            </div>
+                        }
                     </div>
                 </TableCardHeader>
                 {render_list}
@@ -164,7 +164,7 @@ const Container = styled.div`
 
 const TableCardHeader = styled.div`
     padding-left: 16vh;
-    padding-right: 16vh;
+    padding-right: 26vh;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -217,25 +217,6 @@ const CalendarSortButton = styled.div`
         margin: 12px;
         p{
             color: var(--primary-color);
-        }
-    }
-`
-
-const ProfileOption = styled.div`
-    position: fixed;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    z-index: 998;
-    border-radius: 10px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-    color: #111;
-    margin-top: 48px;
-    .item{
-        padding: 20px 30px;
-        &:hover{
-            cursor: pointer;
-            background-color: var(--hover);
         }
     }
 `

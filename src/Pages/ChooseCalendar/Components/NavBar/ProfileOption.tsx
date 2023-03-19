@@ -1,11 +1,21 @@
 import styled from "styled-components";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import HistoryIcon from '@mui/icons-material/History';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProfileOption = () => {
   return (
     <DraftOption>
-      <div className="hover:bg-gray-200">
+        <a href="/admin">
+          <button><PeopleAltIcon /><p>จัดการผู้ใช้</p></button>
+        </a>
+        <a href="/recently-deleted">
+          <button><DeleteIcon /><p>ถังขยะ</p></button>
+        </a>
+      <div className="item">
         <a href="https://oauth.cmu.ac.th/v2/Authorize.aspx?response_type=code&client_id=MgtZS8S3J9cAhGAUGhbdX9qFHR2mCySSG7pNHbW8&redirect_uri=http://localhost:4000/auth&scope=cmuitaccount.basicinfo&cmuitaccount.personal_id&state=xyz">
-          <button>ออกจากระบบ</button>
+        <button><LogoutIcon /><p>ออกจากระบบ</p></button>
         </a>
       </div>
     </DraftOption>
@@ -14,17 +24,28 @@ const ProfileOption = () => {
 
 const DraftOption = styled.div`
   position: absolute;
-  align-items: center;
+  justify-content: start;
   background-color: var(--background);
   color: #000;
   font-size: medium;
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-  padding: 16px;
   border-radius: 12px;
-  p {
-    margin: 2px;
+    button{
+      display: flex;
+      width: 100%;
+      padding: 24px;
+      margin-left: 4px;
+      margin-right: 4px;
+    &:hover{
+      background-color: var(--hover);
+      border-radius: 12px;
+    }
+    p{
+      margin-left: 8px;
+    }
+
   }
 `;
 

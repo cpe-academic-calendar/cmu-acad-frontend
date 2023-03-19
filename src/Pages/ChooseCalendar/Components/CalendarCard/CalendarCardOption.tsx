@@ -16,7 +16,7 @@ const CalendarCardOption = (props: any): JSX.Element => {
     const handleDuplicate = () => {
         setDuplicate(true)
     }
-    console.log(props.item.id)
+
     const handleArchive = async ()=> {
         await axios.put(`${CalendarPath.archiveCalendar}${props.item.id}`,
         {
@@ -24,7 +24,6 @@ const CalendarCardOption = (props: any): JSX.Element => {
         })
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data)
                 alert("Archive calendar success")
                 window.location.reload();
             })
@@ -37,19 +36,16 @@ const CalendarCardOption = (props: any): JSX.Element => {
         })
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data)
                 alert("Active calendar success")
                 window.location.reload();
             })
     }
 
     const handleDelete = async () => {
-        console.log("delete")
         setDeleteCalendar(true)
         await axios.delete(CalendarPath.delete + props.item.id)
             .then((response) => {
                 setResponse(response.data)
-                console.log(response.data)
                 alert("delete calendar success")
                 window.location.reload();
             })
@@ -87,7 +83,6 @@ const CalendarCardOption = (props: any): JSX.Element => {
             </div>
         </div>)
     }
-    console.log(deleteCalendar)
 
     //option moved here
     let render_option = null;

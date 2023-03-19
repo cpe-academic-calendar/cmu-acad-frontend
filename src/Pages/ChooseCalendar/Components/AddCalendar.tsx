@@ -12,8 +12,7 @@ type ButtonProps = {
 
 const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
-    const { setLoading} = useContext(GlobalContext)
-
+    const { setLoading } = useContext(GlobalContext)
     const [name, setName] = useState('')
     const [semester_year, setSemesterYear] = useState(0)
     const [value, setValue] = useState(new Date("2023-06-19"))
@@ -24,19 +23,18 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         start_semester: value,
         year: value,
         calendar_status: "Active",
-    }
+    }   
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
-        await axios.post('http://localhost:4000/calendar/create',
+        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`)
-                window.location.reload();
             })
             .catch(function (error) {
-                console.log(error);
+                return error
             })
             .finally(() => {
                 setLoading(false)

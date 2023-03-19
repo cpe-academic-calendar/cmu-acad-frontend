@@ -4,8 +4,9 @@ import changeToThai from "../../../../Functions/changeToThai";
 
 interface EventProps {
   name: string;
-  date: dayjs.Dayjs;
-  type: string;
+  start_date: dayjs.Dayjs;
+  end_date: dayjs.Dayjs;
+  color: string;
 }
 
 interface ColorProps {
@@ -15,67 +16,51 @@ interface ColorProps {
 var buddhistEra = require("dayjs/plugin/buddhistEra");
 dayjs.extend(buddhistEra);
 
-const EventCard: React.FC<EventProps> = ({ name, date, type }) => {
-  // function truncateString(str: string) {
-  //   if(30>str.length){
-  //     return str
-  //   }
-  //     return str.slice(0, 25) + "..."
-  // }
+const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) => {
 
   return (
     <Container>
-      <Event color={type} />
+      <Event color={color} />
       <div className="content">
         <h1>{name}</h1>
         <DateThai>
-          <p>{dayjs(date).format("DD")}</p>{" "}
-          <p>{changeToThai(dayjs(date).format("MMMM"))}</p>{" "}
-          <p>{dayjs(date).format("BBBB")}</p>
+          <p>{dayjs(start_date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(start_date).format("BBBB")}</p>
+          <p>-</p>
+          <p>{dayjs(end_date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(end_date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(end_date).format("BBBB")}</p>
         </DateThai>
       </div>
     </Container>
   );
 };
 
-const handleColorType = (color: string) => {
-  switch (color) {
-    case "กิจกรรม":
-      return "var(--default-event-color)";
-    case "วันหยุด":
-      return "var(--default-holiday-color)";
-    case "วันสอบ":
-      return "var(--default-exam-color)";
-    case "วันเปิดภาคเรียน":
-      return "var(--primary-color)";
-    case "วันปิดภาคเรียน":
-      return "var(--primary-color)";
-  }
-};
-
 const Container = styled.div`
   display: flex;
-  width: 100%;
   h1 {
     font-weight: 600;
   }
   .content {
-    width: 80%;
+    width: 100%;
   }
+  margin-bottom: 16px;
 `;
 
 const Event = styled.div<ColorProps>`
-  height: 100%;
   width: 5px;
-  background-color: ${({ color }) => handleColorType(color)};
+  background-color: ${(prpos) => (prpos.color)};
   margin-right: 8px;
 `;
 
 const DateThai = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   p{
     margin-right: 3px;
-    color: var(--dark-brown);
+    color: rgba(0, 0, 0, 0.5);
   }
 `;
 

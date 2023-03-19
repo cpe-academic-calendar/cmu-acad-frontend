@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import EditCalendarContext from "./Context/EditCalendarContext";
 import EventInfo from "./EventInfo";
 import { truncateString } from "../../../Functions/truncateString";
-import { handleColorType } from "../../../Functions/handleColorType";
 import {
   DragDropContext,
   Droppable,
@@ -13,36 +12,28 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import changeToThai from "../../../Functions/changeToThai";
-
-interface DateFromDayjs {
-  day: dayjs.Dayjs;
-}
+import { useInView } from 'react-intersection-observer';
 
 interface ColorProps {
   color: string;
 }
 
-interface eventProps {
-  id: number;
-  event_name: string;
-  start_date: Date;
-  end_date: Date;
-  type: string;
+interface monthColorProps {
+  color:string;
 }
 
 
 const Day: React.FC<any> = ({ day }) => {
   const [dayEvents, setDayEvents] = useState<any[]>([]);
   const [eventInfo, setEventInfo] = useState(false);
-  const calendarId = useParams();
   const {
-    daySelected,
     setDaySelected,
     setShowAddEventModal,
     savedEvents,
     setSelectedEditEvent,
     selectedEvent,
     setSelectedEvent,
+    deleteEvent
   } = useContext(EditCalendarContext);
 
 
@@ -50,6 +41,9 @@ const Day: React.FC<any> = ({ day }) => {
     savedEvents.map((ed: any) => {
       if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
         setDaySelected(ed.start_date)
+      }else
+      if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+        setDaySelected(ed.end_date)
       }
     })
   }, [savedEvents])
@@ -57,8 +51,9 @@ const Day: React.FC<any> = ({ day }) => {
 
   useEffect(() => {
     const events = savedEvents.filter(
-      (evt) => dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
-    )
+      (evt) => (
+        dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY") || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+    ))
     setDayEvents(events)
   }, [savedEvents, day])
 
@@ -79,11 +74,7 @@ const Day: React.FC<any> = ({ day }) => {
   };
 
   const deleteEventHandle = () => {
-    axios.delete(`http://localhost:4000/event/delete/${selectedEvent.id}`).then(
-      (res)=>{
-        console.log(res.data)
-        window.location.reload()
-      })
+      deleteEvent(selectedEvent)
       setEventInfo(false)
   }
 
@@ -101,19 +92,23 @@ const Day: React.FC<any> = ({ day }) => {
     document.addEventListener("click", handleClickOutSide, true)
 }, [])
 
-  // function truncateString(str: string) {
-  //   if(15>str.length){
-  //     return str
-  //   }
-  //     return str.slice(0, 15) + "..."
-  // }
+const colorValidate = (day: any) => {
+  if(Number(dayjs(day).format("M")) %2 === 0){
+    return "even"
+  }
+  else{
+    return "odd"
+  }
+}
+
 
   return (
-          <DayContainer>
+          <DayContainer color={colorValidate(day)}>
             <LiteralDay onClick={addEventHandle}>
-              {day.format("D")}
-              {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
+                {day.format("D")}
+                {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
             </LiteralDay>
+            <div className="overflow">
             {dayEvents.map((evt, idx) => {
               return (
                 <Draggable
@@ -129,7 +124,7 @@ const Day: React.FC<any> = ({ day }) => {
                       {...provided.dragHandleProps}
                     >
                       <EventsEvent
-                        color={evt.type}
+                        color={evt.color}
                         onClick={() => {
                           setEventInfo(true);
                           setSelectedEvent(evt);
@@ -146,6 +141,7 @@ const Day: React.FC<any> = ({ day }) => {
                 </Draggable>
               );
             })}
+                        </div>
             {eventInfo && (
               <div ref={refOne}>
                 <EventInfo
@@ -162,27 +158,21 @@ const Day: React.FC<any> = ({ day }) => {
   );
 };
 
-// const handleColorType = (color: string) => {
-//   switch (color) {
-//     case "กิจกรรม":
-//       return "var(--default-event-color)";
-//     case "วันหยุด":
-//       return "var(--default-holiday-color)";
-//     case "วันสอบ":
-//       return "var(--default-exam-color)";
-//     case "วันเปิดภาคเรียน":
-//       return "var(--primary-color)";
-//     case "วันปิดภาคเรียน":
-//       return "var(--primary-color)";
-//   }
-// };
+const handleMonthColor = (color: string) => {
+  switch (color) {
+    case "even":
+      return "var(--background)";
+    case "odd":
+      return "var(--disable)";
+  }
+};
 
 const LiteralDay = styled.div`
   display: flex;
   cursor: pointer;
 `;
 
-const DayContainer = styled.div`
+const DayContainer = styled.div<monthColorProps>`
   display: flex;
   z-index: 0;
   width: 100%;
@@ -192,12 +182,11 @@ const DayContainer = styled.div`
   border-color: var(--stroke);
   border-width: 0px 0px 1px 1px;
   border-style: solid;
-  .work-day {
-    background: #ffffff;
+  background-color: ${({ color }) => handleMonthColor(color)};
+  .overflow{
+    overflow-y: scroll;
   }
-  .holiday {
-    background: var(--disable-color);
-  }
+  
 `;
 
 const EventsEvent = styled.div<ColorProps>`
@@ -209,7 +198,7 @@ const EventsEvent = styled.div<ColorProps>`
   width: 100%;
   /* max-height: 10px; */
   margin-bottom: 4px;
-  background-color: ${({ color }) => handleColorType(color)};
+  background-color: ${props => props.color};
   color: white;
 `;
 

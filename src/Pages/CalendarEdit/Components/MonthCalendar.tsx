@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import dayjs from 'dayjs'
 import styled from "styled-components";
 import Day from "./Day";
-import axios from 'axios'
 import {
     DragDropContext,
     Droppable,
@@ -11,10 +10,10 @@ import {
   } from "react-beautiful-dnd";
 import EditCalendarContext from "./Context/EditCalendarContext";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
-import { useParams } from "react-router-dom";
 
 interface DateFromDayjs {
-    month: dayjs.Dayjs[][];
+    // month: (dayjs.Dayjs | null)[][];
+    month: dayjs.Dayjs[][]
     events: any[];
 }
 
@@ -27,21 +26,14 @@ interface eventProps {
 }
 
 
-const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
+const MonthCalendar: React.FC<DateFromDayjs> = ({ month }) => {
     const {
-        daySelected,
-        setDaySelected,
         savedEvents,
-        selectedEditEvent,
-        setSelectedEditEvent,
-        setMonthIndex,
-        monthIndex
+        updateEvent
       } = useContext(EditCalendarContext);
     const { setLoading } = useContext(GlobalContext)
     const selectedEditEventRef = React.useRef<any>(null);
     const daySelectedRef = React.useRef<any>();
-    const calendarId = useParams()
-    // console.log(event)
 
     const onDragEnd = (result: DropResult) => {
     const { destination, source } = result
@@ -63,62 +55,25 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
             type: selectedEditEventRef.current.type
             }
         setLoading(true)
-        // console.log(daySelectedRef.current)
-        // console.log(result)
-        // console.log(daySelectedRef.current)
-        // console.log(calendarEvent)
         
-        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
-        calendarEvent
-      ).then((res: any) => {
-        setLoading(false)
-        window.location.reload()
-        console.log(res.data)
-      })
+    updateEvent(calendarEvent)
     }
       };  
 
 
     const onDragStart = (start: DragStart, provided: any) => {
-        // console.log(start.draggableId)
         savedEvents.map((event) => {
             if(event.id === Number(start.draggableId)){
                 selectedEditEventRef.current = event
             }
         })
-        console.log(selectedEditEventRef.current) 
-        // console.log(start.draggableId)
       }
+
         
-    return ( <>
-        <Header>
-                <DayItems>
-                    <p>วันอาทิตย์</p>
-                </DayItems>
-                <DayItems>
-                    <p> วันจันทร์</p>
-                    <p>12</p>
-                </DayItems>
-                <DayItems>
-                    <p>วันอังคาร</p>
-                    <p>12</p>
-                </DayItems>
-                <DayItems>
-                    <p>วันพุธ</p>
-                    <p>12</p>
-                </DayItems>
-                <DayItems>
-                    <p>วันพฤหัส</p>
-                    <p>12</p>
-                </DayItems>
-                <DayItems>
-                    <p>วันศุกร์</p>
-                    <p>12</p>
-                </DayItems>
-                <DayItems>วันเสาร์</DayItems>
-        </Header>
+    return ( 
+    <div>
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-            <Container>
+            <div>
             {
                 month.map((row, i) => (
                     <Calendar key={i}>
@@ -135,9 +90,9 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month, events }) => {
                     </Calendar>
                 ))
             }
-            </Container>
+            </div>
         </DragDropContext>
-    </> );
+    </div> );
 }
 
 const Calendar = styled.div`
@@ -145,30 +100,6 @@ const Calendar = styled.div`
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows:184px;
     width: 100%;
-`
-
-const Container = styled.div`
-    margin-top: 133px;
-`
-const Header = styled.div`
-    width: 100%;
-    margin-top: 79px;
-    position: fixed;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows:54px;
-    background: #FCFCFC;
-    border-width: 0px 1px 1px 0px;
-    border-style: solid;
-    border-color: #E7E7E7;
-    padding-right: 253px;
-`
-
-const DayItems = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 `
 
 export default MonthCalendar;

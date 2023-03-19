@@ -2,7 +2,10 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
 import GlobalContext from "../GlobalContext/GlobalContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { CSVLink } from "react-csv";
+import { useParams } from "react-router-dom";
 
 const PopUp = styled.div`
   display: flex;
@@ -72,6 +75,78 @@ const Modal = styled.div`
 
 const ExportPopUp: React.FC = () => {
   const { setExportModal } = useContext(GlobalContext)
+  const [event, setEvent] = useState<any[]>([])
+  const [eventData, seteventData] = useState<any[]>([])
+  const [scheduleData, setScheduleData] = useState<any[]>([])
+  const [schedule, setSchedule] = useState<any[]>([])
+
+  let data: any[] = []
+  let calendar_ev: any[] = []
+  const calendar = useParams()
+  useEffect(() => {
+    const getData = async () => {
+      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findHoliday/${calendar.id}`)
+        .then((res) => {
+          setEvent(res.data[0].events)
+        })
+    }
+    const getEvent = async () => {
+      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEvent/${calendar.id}`)
+        .then((res) => {
+          setScheduleData(res.data[0].events)
+        })
+    }
+    getEvent()
+    getData()
+  }, [])
+
+  const headers = [
+    { label: "วัน", key: "day" },
+    { label: "ชื่อวันหยุด", key: "holidayName" },
+  ];
+
+  const headers2 = [
+    {
+      label: 'ชื่อวัน', key: 'eventName'
+    },
+    {
+      label: 'วัน', key: "eventDate"
+    }
+  ]
+
+  useEffect(() => {
+    event.forEach((ed, idx) => {
+      data.push({
+        "holidayName": ed.event_name, "day": new Date(`${ed.start_date}`).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })
+      })
+    })
+
+    scheduleData.forEach((ed, idx) => {
+      calendar_ev.push({
+        "eventName": ed.event_name, "eventDate": `${new Date(ed.start_date).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })} - ${new Date(ed.end_date).toLocaleDateString('th-TH', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long'
+        })}`
+      })
+    })
+    setSchedule(calendar_ev)
+    seteventData(data)
+
+  }, [event,scheduleData])
+
+
   return (
     <Modal>
       <PopUp>
@@ -95,11 +170,15 @@ const ExportPopUp: React.FC = () => {
             <DownloadIcon />
           </div>
           <div className="item">
-            <p>ร่างปฏิทินการศึกษา</p>
+            <CSVLink filename='ร่างปฏิทิน' data={schedule} headers={headers2}>
+              <p>ร่างปฏิทินการศึกษา</p>
+            </CSVLink>
             <DownloadIcon />
           </div>
-          <div className="item">
-            <p>สรุปวันหยุดและวันหยุดชดเชย</p>
+          <div className="item" >
+            <CSVLink filename='สรุปวันหยุด' data={eventData} headers={headers}>
+              สรุปวันหยุดและวันหยุดชดเชย
+            </CSVLink>
             <DownloadIcon />
           </div>
         </Content>
