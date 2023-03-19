@@ -29,8 +29,8 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Redirect />} /> */}
-          <Route path="/" element={<ChooseWarp />} />
+          <Route path="/" element={<Redirect />} />
+          <Route path="/choose_calendar" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
           <Route path="/draft_year" element={<Draft />}/>
           <Route path="/event" element={<EventEdit />} />

@@ -32,7 +32,6 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`)
-                window.location.reload();
             })
             .catch(function (error) {
                 return error

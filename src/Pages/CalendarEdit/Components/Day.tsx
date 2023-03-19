@@ -50,7 +50,11 @@ const Day: React.FC<any> = ({ day }) => {
     const events = savedEvents.filter(
       (evt) => dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     )
+    // const endevents = savedEvents.filter(
+    //   (evt) => dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+    // )
     setDayEvents(events)
+    // setDayEvents(endevents)
   }, [savedEvents, day])
 
   const addEventHandle = () => {
