@@ -145,7 +145,7 @@ const CalendarEdit = () => {
                 นำออกเป็นไฟล์อื่น
               </div>
               <div className="item" onClick={() => handleClickBack()}>
-                <a href="/">กลับหน้าหลัก</a>
+                <a href="/choose_calendar">กลับหน้าหลัก</a>
               </div>
             </FileOption>
           </div>

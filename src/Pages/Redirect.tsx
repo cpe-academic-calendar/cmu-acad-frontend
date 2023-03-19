@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"
 
 const Redirect = () => {
-
     useEffect(() => {
-        window.location.href = 'http://localhost:3000/choose_calendar';
+        window.location.href = 'http://localhost:3000/oauth';
     },[])
 
     return ( <>

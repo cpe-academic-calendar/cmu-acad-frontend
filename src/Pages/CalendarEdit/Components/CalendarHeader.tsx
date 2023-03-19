@@ -50,7 +50,6 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} )
             ).finally(
                 () => setCalendarName(nameInput)
             )
-                
         }
     }
 

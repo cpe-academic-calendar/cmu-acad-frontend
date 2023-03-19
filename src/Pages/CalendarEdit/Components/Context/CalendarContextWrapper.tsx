@@ -16,10 +16,14 @@ interface Action {
 }
 
 interface calendarEventProps {
+id: number;
 event_name: string;
 type: string;
 start_date: Date;
-id: number;
+end_date: Date
+current_date: Date
+color: string;
+
 }
 
 export const CalendarContextWrapper = (props: any) => {
@@ -30,11 +34,18 @@ export const CalendarContextWrapper = (props: any) => {
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [selectedEditEvent, setSelectedEditEvent] = useState<any>(null);
     const [currentView, setCurrentView] = React.useState<string>('month');
-    const [savedEvents, setSavedEvents] = useState<any[]>([])
+    const [savedEvents, setSavedEvents] = useState<calendarEventProps[]>([]);
+    // const [importedEvents, setImportEvents] = useState<any[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<any>(); //Just one event that want to look info
     const [currentMonth, setCurrentMonth] = useState<number>(0);
 
     const calendarId = useParams()
+
+    const findCurrentDate = (start: Date , end : Date) => {
+        let difference = start.getTime() - end.getTime();
+        let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+        return TotalDays;
+    }
 
     useEffect(() => {
         const getData = async () => {

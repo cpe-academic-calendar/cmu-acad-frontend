@@ -37,7 +37,7 @@ function App() {
           <Route path="/export_popup" element={<ExportPopUP/>} />
           <Route path="/yearview" element={<Draft />}/>
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
-          <Route path="/calendar-edit/:id/:view" element={<CalendarWarp/>} />
+          <Route path="choose_calendar/calendar-edit/:id/:view" element={<CalendarWarp/>} />
           <Route path="/loading" element={<LoadingModal/>} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/recently-deleted' element={<RecentlyDeleted />} />
