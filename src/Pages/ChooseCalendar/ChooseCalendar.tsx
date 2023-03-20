@@ -31,7 +31,13 @@ function ChooseCalendar(props: any) {
     const { calendarSort, setCalendarSort, exportModal, loading, setLoading } = useContext(GlobalContext);
     const { multipleSelect } = useContext(ChooseCalendarContext)
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
+    const [token, setToken] = useState('')
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
+
+    useEffect(() => {
+        console.log(localStorage.getItem('token'))
+
+    }, []) 
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);
