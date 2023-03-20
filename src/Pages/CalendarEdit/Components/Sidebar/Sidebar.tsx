@@ -45,6 +45,7 @@ const SideBar:React.FC = () => {
             `https://cmu-acad-backend-production.up.railway.app/calendar/studyweek/${calendarId.id}`
         ).then(
             (res) => {
+                console.log(res.data)
                 setStudyCount(res.data)
             }
         )

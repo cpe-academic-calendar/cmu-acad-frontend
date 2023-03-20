@@ -29,7 +29,7 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Redirect />} />
+          <Route path="/:token" element={<Redirect />} />
           <Route path="/choose_calendar" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
           <Route path="/draft_year" element={<Draft />}/>
@@ -37,7 +37,7 @@ function App() {
           <Route path="/export_popup" element={<ExportPopUP/>} />
           <Route path="/yearview" element={<Draft />}/>
           <Route path="/duplicate-popup" element={<DuplicatePopUp/>} />
-          <Route path="choose_calendar/calendar-edit/:id/:view" element={<CalendarWarp/>} />
+          <Route path="/calendar-edit/:id/:view" element={<CalendarWarp/>} />
           <Route path="/loading" element={<LoadingModal/>} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/recently-deleted' element={<RecentlyDeleted />} />

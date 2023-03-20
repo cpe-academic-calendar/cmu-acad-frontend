@@ -28,6 +28,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
   const [duplicateOverlay, setDuplicateOverlay] = useState<Boolean>(false);
   const navigate = useNavigate();
   const [selectCalendar, setSelectCalendar] = useState<boolean>(false);
+  const [pathId, setPathId] = useState('')
 
   let render_option = null;
 
@@ -54,7 +55,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
   };
 
   const handleCardClick = () => {
-    navigate(`calendar-edit/${data.id}/${"month"}`);
+    navigate(`calendar-edit/${data.id}/${"month"}`, {replace: true});
   };
 
   return (

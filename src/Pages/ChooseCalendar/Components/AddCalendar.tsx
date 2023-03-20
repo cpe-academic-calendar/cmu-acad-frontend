@@ -14,7 +14,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
 
     const { setLoading } = useContext(GlobalContext)
     const [name, setName] = useState('')
-    const [semester_year, setSemesterYear] = useState(0)
+    const [semesterYear, setSemesterYear] = useState(0)
     const [value, setValue] = useState(new Date("2023-06-19"))
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
             data)
             .then((response) => {
-                navigate(`/calendar-edit/${response.data.id}/month`)
+                navigate(`/calendar-edit/${response.data.id}/month`, {replace: true})
             })
             .catch(function (error) {
                 return error
@@ -42,7 +42,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     }
 
     const onSelect = (e: any) => {
-        const day = new Date(e).setFullYear(semester_year)
+        const day = new Date(e).setFullYear(semesterYear)
         setValue(new Date(day))
     }
 
