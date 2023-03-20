@@ -55,7 +55,7 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
   };
 
   const handleCardClick = () => {
-    navigate(`calendar-edit/${data.id}/${"month"}`, {replace: true});
+    navigate(`/calendar-edit/${data.id}/${"month"}`);
   };
 
   return (

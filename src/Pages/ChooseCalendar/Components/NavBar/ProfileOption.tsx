@@ -5,6 +5,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProfileOption = () => {
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
+
   return (
     <DraftOption>
         <a href="/admin">
@@ -14,9 +20,8 @@ const ProfileOption = () => {
           <button><DeleteIcon /><p>ถังขยะ</p></button>
         </a>
       <div className="item">
-        <a href="https://oauth.cmu.ac.th/v2/Authorize.aspx?response_type=code&client_id=MgtZS8S3J9cAhGAUGhbdX9qFHR2mCySSG7pNHbW8&redirect_uri=http://localhost:4000/auth&scope=cmuitaccount.basicinfo&cmuitaccount.personal_id&state=xyz">
-        <button><LogoutIcon /><p>ออกจากระบบ</p></button>
-        </a>
+        
+        <button onClick={handleLogOut}><LogoutIcon /><p>ออกจากระบบ</p></button>
       </div>
     </DraftOption>
   );

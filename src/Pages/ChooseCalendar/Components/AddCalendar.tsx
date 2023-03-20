@@ -23,6 +23,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         start_semester: value,
         year: value,
         calendar_status: "Active",
+        user_id: localStorage.getItem("acadId")
     }   
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

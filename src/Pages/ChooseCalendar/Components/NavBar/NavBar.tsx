@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import ProfileOption from "./ProfileOption";
 import styled from "styled-components";
 import { useContext } from "react";
 import ChooseCalendarContext from "../Context/ChooseCalendarContext";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 const NavBar: React.FC = () => {
+
     const [profileOption, setProfileOption] = React.useState(false);
     const { search, setSearch } = useContext(ChooseCalendarContext);
     const [data, setData] = React.useState();
+    const [firstName, setFirstName] = useState('')
+    const [lasttName, setLasttName] = useState('')
+
+    React.useEffect(() => {
+        const token = localStorage.getItem("token")
+        axios.get(`https://misapi.cmu.ac.th/cmuitaccount/v1/api/cmuitaccount/basicinfo`,{
+            headers:{
+                'Authorization' : `Bearer ${token}`
+            }}).then(res => {
+                axios.get(`https://cmu-acad-backend-production.up.railway.app/user/findByName/${res.data.cmuitaccount}`)
+                .then(res => {
+                    localStorage.setItem("acadId", res.data)
+                })
+                setFirstName(res.data.firstname_TH)
+                setLasttName(res.data.lastname_TH)
+            })
+    },[])
 
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)
@@ -33,7 +52,7 @@ const NavBar: React.FC = () => {
                     <Welcome>
                         <span>
                             <p className="caption">ยินดีต้อนรับ</p>
-                            <h3>lorem ipsum</h3>
+                            <h3>{firstName} {lasttName}</h3>
                         </span>
                     </Welcome>
                     <h1 onClick={() => setProfileOption(true)}><KeyboardArrowDownOutlinedIcon /></h1>

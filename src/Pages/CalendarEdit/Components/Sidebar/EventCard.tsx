@@ -24,6 +24,14 @@ const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) 
       <div className="content">
         <h1>{name}</h1>
         <DateThai>
+          {
+            (dayjs(start_date).format() === dayjs(end_date).format())?
+            <div>
+                        <p>{dayjs(start_date).format("DD")}</p>{" "}
+          <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
+          <p>{dayjs(start_date).format("BBBB")}</p>
+            </div>:
+            <div>
           <p>{dayjs(start_date).format("DD")}</p>{" "}
           <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
           <p>{dayjs(start_date).format("BBBB")}</p>
@@ -31,6 +39,8 @@ const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) 
           <p>{dayjs(end_date).format("DD")}</p>{" "}
           <p>{changeToThai(dayjs(end_date).format("MMMM"))}</p>{" "}
           <p>{dayjs(end_date).format("BBBB")}</p>
+            </div>
+          }
         </DateThai>
       </div>
     </Container>

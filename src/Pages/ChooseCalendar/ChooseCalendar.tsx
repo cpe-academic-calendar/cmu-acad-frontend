@@ -35,8 +35,13 @@ function ChooseCalendar(props: any) {
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
 
     useEffect(() => {
-        console.log(localStorage.getItem('token'))
+        if(localStorage.getItem("token")===null){
+          window.location.href = "https://cmu-acad.netlify.app/"
+      }
+      }, [])
 
+    useEffect(() => {
+        console.log(localStorage.getItem('token'))
     }, []) 
 
     const newCalendarHandle = () => {

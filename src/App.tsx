@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SettingCalendar from './Pages/SettingCalendar/SettingCalendar';
@@ -18,11 +18,13 @@ import Admin from './Pages/Admin/Admin';
 import RecentlyDeleted from './Pages/RecentlyDeleted/RecentlyDeleted';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Login/Register';
-import Redirect from './Pages/Redirect';
-import SecondRedirect from './Pages/SecondRedirect';
+import Redirect from './Pages/Redirects/Redirect';
+import SecondRedirect from './Pages/Redirects/SecondRedirect';
+import ToLogin from './Pages/Redirects/ToLogin';
 
 
 function App() {
+  
   return (
     <div>
       <Reset />
@@ -30,7 +32,8 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Redirect />} />
+          <Route path='/' element={<ToLogin />} />
+          <Route path='/redirect' element={<Redirect />} />
           <Route path="/token=:token" element={<SecondRedirect />} />
           <Route path="/choose_calendar" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
