@@ -87,22 +87,22 @@ const ExportPopUp: React.FC = () => {
   const handleConExport = () => {
     // window.location.href = `https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`;
     // axios.get(`https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`).then((res)=>{
-      window.location.href = `http://localhost:4000/calendar/exportStudy${id}`;
-      axios.get(`http://localhost:4000/calendar/exportStudy${id}`).then((res)=>{
+      window.location.href = `http://localhost:4000/calendar/exportHoliday/${id}`;
+      axios.get(`http://localhost:4000/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }
 
-  const handleCalenDraft = () => {
-    window.location.href = `http://localhost:4000/calendar/exportHoliday${id}`;
-    axios.get(`http://localhost:4000/calendar/exportHoliday${id}`).then((res)=>{
+  const handleCalendarDraft = () => {
+    window.location.href = `http://localhost:4000/calendar/exportEvent/${id}`;
+    axios.get(`http://localhost:4000/calendar/exportEvent/${id}`).then((res)=>{
       return res.data
     })
   }
 
   const handleSummarize = () => {
-    window.location.href = `http://localhost:4000/calendar/exportHoliday${id}`;
-    axios.get(`http://localhost:4000/calendar/exportEvent${id}`).then((res)=>{
+    window.location.href = `http://localhost:4000/calendar/exportHoliday/${id}`;
+    axios.get(`http://localhost:4000/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }
@@ -121,16 +121,12 @@ const ExportPopUp: React.FC = () => {
             <img src="/Images/Excel-Transparent-Background.png" alt="Excel" />
             <p>ไฟล์สกุล .xlsx</p>
           </div>
-          <div className="item">
-            <p>โครงร่างปฏิทินการศึกษา</p>
-            <DownloadIcon />
-          </div>
           <div className="item" onClick={handleConExport}>
             <p>สรุประยะเวลาที่ใช้สำหรับการเรียนการสอน</p>
             <DownloadIcon />
           </div>
           <div className="item">
-            <div onClick={handleCalenDraft}>
+            <div onClick={handleCalendarDraft}>
               <p>ร่างปฏิทินการศึกษา</p>
             </div>
             <DownloadIcon />

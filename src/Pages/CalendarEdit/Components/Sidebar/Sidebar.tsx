@@ -58,7 +58,7 @@ const SideBar: React.FC = () => {
         key={idx}
         name={props.event_name}
         start_date={props.start_date}
-        // end_date={props.end_date}
+        end_date={props.end_date}
         color={props.color}
       />
     );
@@ -98,7 +98,7 @@ const SideBar: React.FC = () => {
               <td>{studyCount.term2[0].friday}</td>
             </tr>
             <tr>
-              <td>3</td>
+              <td>ฤดูร้อน</td>
               <td>{studyCount.term3[0].monday}</td>
               <td>{studyCount.term3[0].tuesday}</td>
               <td>{studyCount.term3[0].wednesday}</td>

@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useReducer, useState } from "react";
+import  {  useState } from "react";
 import GlobalContext from "./GlobalContext";
 
 export const ContextWarpper = (props: any) => {

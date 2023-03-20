@@ -5,7 +5,7 @@ import changeToThai from "../../../../Functions/changeToThai";
 interface EventProps {
   name: string;
   start_date: dayjs.Dayjs;
-  // end_date: dayjs.Dayjs;
+  end_date: dayjs.Dayjs;
   color: string;
 }
 
@@ -25,7 +25,7 @@ const EventCard: React.FC<EventProps> = ({ name, start_date, color }) => {
         <h1>{name}</h1>
         <DateThai>
             <div>
-                        <p>{dayjs(start_date).format("DD")}</p>{" "}
+          <p>{dayjs(start_date).format("DD")}</p>{" "}
           <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
           <p>{dayjs(start_date).format("BBBB")}</p>
             </div>

@@ -10,7 +10,6 @@ import {
   Draggable,
 } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import changeToThai from "../../../Functions/changeToThai";
 import { useInView } from 'react-intersection-observer';
 
@@ -42,10 +41,10 @@ const Day: React.FC<any> = ({ day }) => {
       if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
         setDaySelected(ed.start_date)
       }
-      // else
-      // if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-      //   setDaySelected(ed.end_date)
-      // }
+      else
+      if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+        setDaySelected(ed.end_date)
+      }
     })
   }, [savedEvents])
 
@@ -54,7 +53,7 @@ const Day: React.FC<any> = ({ day }) => {
     const events = savedEvents.filter(
       (evt) => (
         dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY") 
-        // || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+        || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     ))
     setDayEvents(events)
   }, [savedEvents, day])
@@ -108,7 +107,8 @@ const colorValidate = (day: any) => {
           <DayContainer color={colorValidate(day)}>
             <LiteralDay onClick={addEventHandle}>
                 {day.format("D")}
-                {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
+                {<div>{changeToThai(day.format("MMMM"))}</div>}
+                {/* {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>} */}
             </LiteralDay>
             <div className="overflow">
             {dayEvents.map((evt, idx) => {
