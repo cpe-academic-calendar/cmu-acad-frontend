@@ -41,10 +41,11 @@ const Day: React.FC<any> = ({ day }) => {
     savedEvents.map((ed: any) => {
       if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
         setDaySelected(ed.start_date)
-      }else
-      if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-        setDaySelected(ed.end_date)
       }
+      // else
+      // if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
+      //   setDaySelected(ed.end_date)
+      // }
     })
   }, [savedEvents])
 
@@ -52,7 +53,8 @@ const Day: React.FC<any> = ({ day }) => {
   useEffect(() => {
     const events = savedEvents.filter(
       (evt) => (
-        dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY") || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+        dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY") 
+        // || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     ))
     setDayEvents(events)
   }, [savedEvents, day])
@@ -163,7 +165,7 @@ const handleMonthColor = (color: string) => {
     case "even":
       return "var(--background)";
     case "odd":
-      return "var(--disable)";
+      return "var(--variant-background)";
   }
 };
 

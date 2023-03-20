@@ -82,70 +82,30 @@ const ExportPopUp: React.FC = () => {
 
   let data: any[] = []
   let calendar_ev: any[] = []
-  const calendar = useParams()
-  useEffect(() => {
-    const getData = async () => {
-      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findHoliday/${calendar.id}`)
-        .then((res) => {
-          setEvent(res.data[0].events)
-        })
-    }
-    const getEvent = async () => {
-      await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEvent/${calendar.id}`)
-        .then((res) => {
-          setScheduleData(res.data[0].events)
-        })
-    }
-    getEvent()
-    getData()
-  }, [])
+  const {id} = useParams()
 
-  const headers = [
-    { label: "วัน", key: "day" },
-    { label: "ชื่อวันหยุด", key: "holidayName" },
-  ];
-
-  const headers2 = [
-    {
-      label: 'ชื่อวัน', key: 'eventName'
-    },
-    {
-      label: 'วัน', key: "eventDate"
-    }
-  ]
-
-  useEffect(() => {
-    event.forEach((ed, idx) => {
-      data.push({
-        "holidayName": ed.event_name, "day": new Date(`${ed.start_date}`).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long',
-        })
-      })
+  const handleConExport = () => {
+    // window.location.href = `https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`;
+    // axios.get(`https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`).then((res)=>{
+      window.location.href = `http://localhost:4000/calendar/exportStudy${id}`;
+      axios.get(`http://localhost:4000/calendar/exportStudy${id}`).then((res)=>{
+      return res.data
     })
+  }
 
-    scheduleData.forEach((ed, idx) => {
-      calendar_ev.push({
-        "eventName": ed.event_name, "eventDate": `${new Date(ed.start_date).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long',
-        })} - ${new Date(ed.end_date).toLocaleDateString('th-TH', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long'
-        })}`
-      })
+  const handleCalenDraft = () => {
+    window.location.href = `http://localhost:4000/calendar/exportHoliday${id}`;
+    axios.get(`http://localhost:4000/calendar/exportHoliday${id}`).then((res)=>{
+      return res.data
     })
-    setSchedule(calendar_ev)
-    seteventData(data)
+  }
 
-  }, [event,scheduleData])
-
+  const handleSummarize = () => {
+    window.location.href = `http://localhost:4000/calendar/exportHoliday${id}`;
+    axios.get(`http://localhost:4000/calendar/exportEvent${id}`).then((res)=>{
+      return res.data
+    })
+  }
 
   return (
     <Modal>
@@ -165,20 +125,20 @@ const ExportPopUp: React.FC = () => {
             <p>โครงร่างปฏิทินการศึกษา</p>
             <DownloadIcon />
           </div>
-          <div className="item">
+          <div className="item" onClick={handleConExport}>
             <p>สรุประยะเวลาที่ใช้สำหรับการเรียนการสอน</p>
             <DownloadIcon />
           </div>
           <div className="item">
-            <CSVLink filename='ร่างปฏิทิน' data={schedule} headers={headers2}>
+            <div onClick={handleCalenDraft}>
               <p>ร่างปฏิทินการศึกษา</p>
-            </CSVLink>
+            </div>
             <DownloadIcon />
           </div>
           <div className="item" >
-            <CSVLink filename='สรุปวันหยุด' data={eventData} headers={headers}>
+            <div onClick={handleSummarize}>
               สรุปวันหยุดและวันหยุดชดเชย
-            </CSVLink>
+            </div>
             <DownloadIcon />
           </div>
         </Content>

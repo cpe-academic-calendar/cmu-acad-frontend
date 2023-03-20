@@ -1,23 +1,17 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import GlobalContext from "./Context/EditCalendarContext";
-import CheckIcon from '@mui/icons-material/Check';
-import dayjs from "dayjs";
 
 interface calendarEventProps {
   title: string;
 }
 
-interface colorProps {
-  color: string
-}
-
 export default function EventModal() {
 
-  const { savedEvents, setShowAddEventModal, daySelected, setDaySelected, selectedEvent, selectedEditEvent, setSelectedEditEvent, pushEvent, updateEvent } = useContext(GlobalContext);
+  const { showAddEventModal, setShowAddEventModal, daySelected, setDaySelected, selectedEditEvent, setSelectedEditEvent,selectedEvent } = useContext(GlobalContext);
   const closedEventHandle = () => {
     setShowAddEventModal(false);
     setSelectedEditEvent(null)
@@ -25,97 +19,64 @@ export default function EventModal() {
 
   //state of input that are in this modal
   const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
-  // const [duration, setDuration] = useState(1);  //duration
+  const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
-  const [endDate, setEndDate] = useState(selectedEditEvent? selectedEditEvent.end_date: new Date(daySelected))
   const [errorMessage, setErrorMessage] = React.useState(false);
-  const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
   const calendarId = useParams()
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
 
-  console.log(savedEvents)
-
-  const color = [
-    '#EC407A',
-    '#AB47BC',
-    '#347BBB',
-    '#42A5F5',
-    '#26A69A',
-    '#4CAF50',
-    '#FFA726',
-    '#FF5722',
-    '#DD2C00'
-  ]
-
-  let render_color = color.map((colo) => 
-    (
-        <ChooseColors color={colo} onClick={() => setSelectedColor(colo)}>
-          {
-            (selectedColor === colo) && 
-            <Icon>
-              <CheckIcon />
-            </Icon>
-
-          }
-        </ChooseColors>
-  ))
-
-  useEffect(() => {
-    if(eventType === 'กิจกรรม'){
-      setSelectedColor(selectedColor)
-    }else if(eventType === 'วันหยุด'){
-      setSelectedColor('#352829')
-    }else if(eventType === 'วันสอบ'){
-      setSelectedColor('#666AD1')
-    }
-  }, [eventType])
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-
+    event.preventDefault()
+    
     const calendarEvent = {
-      event_name: eventName,
+      name: eventName,
       type: eventType,
       start_date: daySelected,
-      end_date: endDate,
-      id: selectedEvent.id,
-      color: selectedColor,
+      id: selectedEvent?.id,
     }
+
+    console.log(calendarEvent.id)
 
     const createEvent = {
       event_name: eventName,
       type: eventType,
       calendar: calendarId.id,
       start_date: new Date(daySelected),
-      end_date: endDate,
-      color: selectedColor,
+
     }
 
 
     if (selectedEditEvent) {
-      if (calendarEvent.event_name === '') {
+      if (calendarEvent.name === '') {
         setErrorMessage(true);
       }
       else {
-        updateEvent(calendarEvent)
+        axios.put(`http://localhost:4000/event/update/${calendarEvent.id}`,
+          calendarEvent
+        ).then((res: any) => {
+          // window.location.reload()
+          console.log(res.data)
+        })
         setErrorMessage(false);
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
-        console.log(selectedEditEvent)
       }
     }
     else {
-      if (calendarEvent.event_name === '') {
+      if (calendarEvent.name === '') {
         setErrorMessage(true);
       } else {
-        pushEvent(createEvent)
+        axios.post(`http://localhost:4000/event/create`,createEvent)
+          .then((res)=>{
+            console.log(res.data)
+            // window.location.reload()
+          })
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
       }
     }
   }
-
   return (
     <Container>
       <EventContainer>
@@ -137,10 +98,7 @@ export default function EventModal() {
 
           {/* Input */}
           <SettingEvent>
-            <div>
-            <SettingSection>
-              <TextStatus>ชื่อกิจกรรม</TextStatus>
-            </SettingSection>
+            <div className="col">
               <SettingDate>
                 <DurationInput
                   type="text"
@@ -165,46 +123,15 @@ export default function EventModal() {
               </SettingDate>
             </div>
             <SettingSection>
-              <TextStatus>สถานะ</TextStatus>
+              <TextStatus>สถานะ...</TextStatus>
             </SettingSection>
             <SettingDate>
-              <Option value={eventType} onChange={(e) => 
-                setEventType(e.target.value)
-                }>
+              <ColorOption value={eventType} onChange={(e) => setEventType(e.target.value)}>
                 <option value="กิจกรรม">กิจกรรม</option>
                 <option value="วันหยุด">วันหยุด</option>
                 <option value="วันสอบ">วันสอบ</option>
-              </Option>
+              </ColorOption>
             </SettingDate>
-            <SettingSection>
-              <TextStatus>วันเริ่มต้น</TextStatus>
-            </SettingSection>
-            <SettingDate>
-              <DatePick type="date" value={dayjs(daySelected).format("YYYY-MM-DD")} onChange={(e) => 
-                setDaySelected(e.target.value)
-                }>
-              </DatePick>
-            </SettingDate>
-            <SettingSection>
-              <TextStatus>วันสิ้นสุด</TextStatus>
-            </SettingSection>
-            <SettingDate>
-              <DatePick type="date" value={dayjs(endDate).format("YYYY-MM-DD")} onChange={(e) => 
-                setEndDate(e.target.value)
-                }>
-              </DatePick>
-            </SettingDate>
-            {
-              (eventType === "กิจกรรม") && 
-              <div>
-              <SettingSection>
-                <TextStatus>สี</TextStatus>
-              </SettingSection>
-                <ColorOption>
-                  {render_color}
-                </ColorOption>
-              </div>
-            }
             <AddEventButton>
               {
                 selectedEditEvent ?
@@ -215,6 +142,7 @@ export default function EventModal() {
                   <SaveButton type="submit" onClick={handleSubmit} className="rounded-full dark:md:hover:bg-amber-500">
                     บันทึก
                   </SaveButton>
+
               }
             </AddEventButton>
           </SettingEvent>
@@ -251,6 +179,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 10px 0 10px;
+  margin-bottom: 18px;
 `;
 
 const TitileHeader = styled.div`
@@ -269,7 +198,7 @@ const HeaderButton = styled.div`
 const SettingEvent = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 16px;
+  margin: 18px;
   border-radius: 15px;
 `;
 
@@ -277,6 +206,13 @@ const SettingDate = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* .col{
+    flex-direction: column;
+  }
+  .duration{
+    display: flex;
+    align-items: center;
+  } */
 `;
 
 const AddEventButton = styled.div`
@@ -293,8 +229,20 @@ const SettingSection = styled.div`
   margin-top: 8px;
 `;
 
+// const InputName = styled.input`
+//   color: rgba(0, 0, 0, 0.5);
+//   border: 2px solid #aaaaaa;
+//   width: 80%;
+//   height: 33px;
+//   padding: 5px;
+//   font-size: 16px;
+//   line-height: 19px;
+//   background: #fcfcfc;
+//   border-radius: 20px;
+//   margin: 4px;
+// `;
+
 const DurationInput = styled.input`
-width: 100%;
   line-height: 19px;
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
@@ -311,7 +259,7 @@ const TextStatus = styled.div`
   color: #000000;
 `;
 
-const Option = styled.select`
+const ColorOption = styled.select`
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
   width: 50%;
@@ -337,32 +285,5 @@ const SaveButton = styled.button`
 
 const ErrorLabel = styled.span`
   font-size: 12px;
-  color: var(--error);
-`;
-
-const ChooseColors = styled.div<colorProps>`
-    display: flex;
-    height: 25px;
-    width: 25px;
-    background-color: ${props => props.color};
-    border-radius: 50%;
-    display: inline-block;
-`
-
-const ColorOption = styled.div`
-  width: 100%;
-  padding-left: 12px;
-  padding-right: 12px;
-  display: flex;
-  justify-content: space-between;
-`
-
-const Icon = styled.div`
-  color: white;
-`
-
-const DatePick = styled.input`
-  border-radius: 20px;
-  border: 2px solid #aaaaaa;
-  padding: 5px;
+  color: var(--error)
 `
