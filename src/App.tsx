@@ -29,7 +29,7 @@ function App() {
       <Variables />
       <BrowserRouter>
         <Routes>
-          <Route path="/:token" element={<Redirect />} />
+          <Route path="/token=:token" element={<Redirect />} />
           <Route path="/choose_calendar" element={<ChooseWarp />} />
           <Route path="/setting" element={<SettingCalendar />} />
           <Route path="/draft_year" element={<Draft />}/>
