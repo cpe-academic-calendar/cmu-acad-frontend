@@ -38,12 +38,12 @@ const Day: React.FC<any> = ({ day }) => {
 
   useEffect(() => {
     savedEvents.map((ed: any) => {
-      if (savedEvents && dayjs(ed.start_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-        setDaySelected(ed.start_date)
+      if (savedEvents && ed.start_date.substr(0,10) === day.format("DD-MM-YY")) {
+        setDaySelected(ed.start_date.substr(0,10))
       }
       else
-      if (savedEvents && dayjs(ed.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")) {
-        setDaySelected(ed.end_date)
+      if (savedEvents && ed.start_date.substr(0,10) === day.format("DD-MM-YY")) {
+        setDaySelected(ed.end_date.substr(0,10))
       }
     })
   }, [savedEvents])
@@ -62,7 +62,7 @@ const Day: React.FC<any> = ({ day }) => {
   }, [savedEvents, day])
 
   const addEventHandle = () => {
-    setDaySelected(day);
+    setDaySelected(Number(day.substr(0,10)));
     setShowAddEventModal(true);
   };
 

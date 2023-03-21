@@ -18,7 +18,7 @@ dayjs.extend(buddhistEra);
 
 const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) => {
 
-  console.log(start_date)
+  // console.log(start_date)
 
   return (
     <Container>
@@ -29,20 +29,19 @@ const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) 
           {
             (String(start_date) === String(end_date))?
             <>
-          <p>{String(start_date).substr(0,1)}</p>{" "}
+          <p>{String(start_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(start_date).format("BBBB")}</p>
             </>:
             <>
-          <p>{String(start_date).substr(0,1)}</p>{" "}
+          <p>{String(start_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(start_date).format("BBBB")}</p>
           <p>-</p>
-          <p>{dayjs(end_date).format("DD")}</p>{" "}
+          <p>{String(end_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(end_date).format("BBBB")}</p>
             </>
-            
           }
         </DateThai>
       </div>

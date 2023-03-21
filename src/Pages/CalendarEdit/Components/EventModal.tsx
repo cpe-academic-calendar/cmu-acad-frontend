@@ -26,7 +26,6 @@ export default function EventModal() {
 
   //state of input that are in this modal
   const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
-  const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
@@ -34,8 +33,7 @@ export default function EventModal() {
   const [startDate, setStartDate] = useState(selectedEditEvent ? selectedEditEvent.start_date : daySelected)
   const calendarId = useParams()
 
-console.log(startDate)
-console.log(endDate)
+console.log(selectedEditEvent)
 
   const color = [
     '#EC407A',
@@ -80,7 +78,7 @@ console.log(endDate)
       type: eventType,
       start_date: startDate,
       id: selectedEvent?.id,
-      endDate: endDate,
+      end_date: endDate,
       color: selectedColor,
     }
 
@@ -89,7 +87,7 @@ console.log(endDate)
       type: eventType,
       calendar: calendarId.id,
       start_date:  startDate,
-      endDate: endDate,
+      end_date: endDate,
       color: selectedColor,
     }
 
@@ -155,31 +153,28 @@ console.log(endDate)
                   required
                 />
                 {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
-
-                {/* <DurationInput
-                  type="number"
-                  name="duration"
-                  placeholder="ระยะเวลา"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.valueAsNumber)}
-                />
-                <div>
-                  <p>วัน</p>
-                </div> */}
               </SettingDate>
             </div>
-            <SettingSection>
-              <TextStatus>สถานะ</TextStatus>
-            </SettingSection>
-            <SettingDate>
-              <Option value={eventType} onChange={(e) => 
-                setEventType(e.target.value)
-                }>
-                <option value="กิจกรรม">กิจกรรม</option>
-                <option value="วันหยุด">วันหยุด</option>
-                <option value="วันสอบ">วันสอบ</option>
-              </Option>
-            </SettingDate>
+
+              {
+                (eventType === "กิจกรรม" || eventType === "วันหยุด" || eventType === "วันสอบ") &&
+                <div>
+              <SettingSection>
+                <TextStatus>สถานะ</TextStatus>
+              </SettingSection>
+                <SettingDate>
+                  <Option value={eventType} onChange={(e) => 
+                    setEventType(e.target.value)
+                    }>
+                    <option value="กิจกรรม">กิจกรรม</option>
+                    <option value="วันหยุด">วันหยุด</option>
+                    <option value="วันสอบ">วันสอบ</option>
+                  </Option>
+              </SettingDate>
+
+                </div>
+              }
+
             <SettingSection>
               <TextStatus>วันเริ่มต้น</TextStatus>
             </SettingSection>
@@ -189,6 +184,9 @@ console.log(endDate)
                 }>
               </DatePick>
             </SettingDate>
+            {
+              (eventType === "กิจกรรม" || eventType === "วันหยุด" || eventType === "วันสอบ") &&
+              <>
             <SettingSection>
               <TextStatus>วันสิ้นสุด</TextStatus>
             </SettingSection>
@@ -198,6 +196,8 @@ console.log(endDate)
                 }>
               </DatePick>
             </SettingDate>
+              </>
+            }
             {
               (eventType === "กิจกรรม") && 
               <div>

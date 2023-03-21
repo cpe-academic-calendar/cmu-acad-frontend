@@ -27,9 +27,6 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
     else{
       render_delete_edit_button = 
       <>
-        <button onClick={editEventHandle}>
-                <EditOutlinedIcon />
-        </button>
         <button onClick={deleteEventHandle}>
           <DeleteOutlineOutlinedIcon />
         </button>
@@ -49,6 +46,9 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
           </TitleHeader>
           <ButtonContainer>
               {render_delete_edit_button}
+              <button onClick={editEventHandle}>
+                <EditOutlinedIcon />
+        </button>
             <button onClick={closeEventInfoHandle}>
               <CloseOutlinedIcon />
             </button>
@@ -56,18 +56,18 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
         </InfoHeader>
         <Duration>
         {
-            (String(event.start_date) === String(event.end_date))?
+          (String(event.start_date) === String(event.end_date))?
             <>
-          <p>{String(event.start_date).substr(0,1)}</p>{" "}
+          <p>{String(event.start_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(event.start_date).format("BBBB")}</p>
             </>:
             <>
-          <p>{String(event.start_date).substr(0,1)}</p>{" "}
+          <p>{String(event.start_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(event.start_date).format("BBBB")}</p>
           <p>-</p>
-          <p>{dayjs(event.end_date).format("DD")}</p>{" "}
+          <p>{String(event.end_date).substr(8,2)}</p>{" "}
           <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(event.end_date).format("BBBB")}</p>
             </>

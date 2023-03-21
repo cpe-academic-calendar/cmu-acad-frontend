@@ -3,6 +3,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const ProfileOption = () => {
 
@@ -19,8 +20,10 @@ const ProfileOption = () => {
         <a href="/recently-deleted">
           <button><DeleteIcon /><p>ถังขยะ</p></button>
         </a>
+        <a href="/setting">
+          <button><SettingsIcon /><p>ตั้งค่า</p></button>
+        </a>
       <div className="item">
-        
         <button onClick={handleLogOut}><LogoutIcon /><p>ออกจากระบบ</p></button>
       </div>
     </DraftOption>
