@@ -36,7 +36,7 @@ function ChooseCalendar(props: any) {
 
     useEffect(() => {
         if(localStorage.getItem("token")===null){
-          window.location.href = "https://cmu-acad.netlify.app/"
+        //   window.location.href = "https://cmu-acad.netlify.app/"
       }
       }, [])
 

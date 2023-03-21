@@ -1,28 +1,28 @@
 export function changeToThai(str: string) {
   switch (str) {
-    case "January":
+    case "01":
       return "มกราคม";
-    case "February":
+    case "02":
       return "กุมภาพันธ์";
-    case "March":
+    case "03":
       return "มีนาคม";
-    case "April":
+    case "04":
       return "เมษายน";
-    case "May":
+    case "05":
       return "พฤษภาคม";
-    case "June":
+    case "06":
       return "มิถุนายน";
-    case "July":
+    case "07":
       return "กรกฎาคม";
-    case "August":
+    case "08":
       return "สิงหาคม";
-    case "September":
+    case "09":
       return "กันยายน";
-    case "October":
+    case "10":
       return "ตุลาคม";
-    case "November":
+    case "11":
       return "พฤศจิกายน";
-    case "December":
+    case "12":
       return "ธันวาคม";
   }
 }

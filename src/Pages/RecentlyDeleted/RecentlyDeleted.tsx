@@ -11,11 +11,13 @@ import GlobalContext from "../../GlobalContext/GlobalContext";
 import dayjs from "dayjs";
 
 import LoadingModal from "../Loading/LoadingModal";
+import { useNavigate } from "react-router-dom";
 
 const RecentlyDeleted = () => {
   const [data, setData] = useState<any[]>([]);
   const { loading, setLoading } = useContext(GlobalContext)
   const [name,setName] = useState('')
+  const navigate = useNavigate()
  
   useEffect(() => {
     const getData = async () => {
@@ -68,12 +70,10 @@ const RecentlyDeleted = () => {
     <Container>
       { loading? <LoadingModal /> : null }
         <Count>
-          <a href="/">
-            <BackButton>
+            <BackButton onClick={() => {navigate(-1)}}>
                 <ArrowBackIosIcon />
                 <p>กลับหน้าหลัก</p>
             </BackButton>
-            </a>
             <TableSort>
                 <TableName>
                 <p>ถังขยะ</p>

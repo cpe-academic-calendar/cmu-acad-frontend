@@ -48,12 +48,15 @@ const Day: React.FC<any> = ({ day }) => {
     })
   }, [savedEvents])
 
+  // console.log(dayjs(day).format());
+  // console.log(savedEvents)
 
   useEffect(() => {
     const events = savedEvents.filter(
       (evt) => (
-        dayjs(evt.start_date).format("DD-MM-YY") === day.format("DD-MM-YY") 
-        || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
+        evt.start_date.substr(0,10) === dayjs(day).format().substr(0,10) 
+        || evt.end_date.substr(0,10) === dayjs(day).format().substr(0,10) 
+        // || dayjs(evt.end_date).format("DD-MM-YY") === day.format("DD-MM-YY")
     ))
     setDayEvents(events)
   }, [savedEvents, day])
@@ -175,6 +178,7 @@ const LiteralDay = styled.div`
 `;
 
 const DayContainer = styled.div<monthColorProps>`
+/* position: relative; */
   display: flex;
   z-index: 0;
   width: 100%;

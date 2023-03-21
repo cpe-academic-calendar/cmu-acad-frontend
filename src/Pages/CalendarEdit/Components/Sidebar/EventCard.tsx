@@ -16,7 +16,9 @@ interface ColorProps {
 var buddhistEra = require("dayjs/plugin/buddhistEra");
 dayjs.extend(buddhistEra);
 
-const EventCard: React.FC<EventProps> = ({ name, start_date, color }) => {
+const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) => {
+
+  console.log(start_date)
 
   return (
     <Container>
@@ -24,11 +26,24 @@ const EventCard: React.FC<EventProps> = ({ name, start_date, color }) => {
       <div className="content">
         <h1>{name}</h1>
         <DateThai>
-            <div>
-          <p>{dayjs(start_date).format("DD")}</p>{" "}
-          <p>{changeToThai(dayjs(start_date).format("MMMM"))}</p>{" "}
+          {
+            (String(start_date) === String(end_date))?
+            <>
+          <p>{String(start_date).substr(0,1)}</p>{" "}
+          <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
           <p>{dayjs(start_date).format("BBBB")}</p>
-            </div>
+            </>:
+            <>
+          <p>{String(start_date).substr(0,1)}</p>{" "}
+          <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
+          <p>{dayjs(start_date).format("BBBB")}</p>
+          <p>-</p>
+          <p>{dayjs(end_date).format("DD")}</p>{" "}
+          <p>{changeToThai(String(start_date).substr(5,2))}</p>{" "}
+          <p>{dayjs(end_date).format("BBBB")}</p>
+            </>
+            
+          }
         </DateThai>
       </div>
     </Container>

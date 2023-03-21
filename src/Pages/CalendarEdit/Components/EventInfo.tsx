@@ -55,13 +55,23 @@ const EventInfo: React.FC<eventProps> = ({ event, closeEventInfoHandle, editEven
           </ButtonContainer>
         </InfoHeader>
         <Duration>
-        <p>{dayjs(event.start_date).format('D')}</p>
-        <p>{changeToThai(dayjs(event.start_date).format('MMMM'))}</p>
-        <p>{dayjs(event.start_date).format('BBBB')}</p>
-        <p>-</p>
-        <p>{dayjs(event.end_date).format('D')}</p>
-        <p>{changeToThai(dayjs(event.end_date).format('MMMM'))}</p>
-        <p>{dayjs(event.end_date).format('BBBB')}</p>
+        {
+            (String(event.start_date) === String(event.end_date))?
+            <>
+          <p>{String(event.start_date).substr(0,1)}</p>{" "}
+          <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
+          <p>{dayjs(event.start_date).format("BBBB")}</p>
+            </>:
+            <>
+          <p>{String(event.start_date).substr(0,1)}</p>{" "}
+          <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
+          <p>{dayjs(event.start_date).format("BBBB")}</p>
+          <p>-</p>
+          <p>{dayjs(event.end_date).format("DD")}</p>{" "}
+          <p>{changeToThai(String(event.start_date).substr(5,2))}</p>{" "}
+          <p>{dayjs(event.end_date).format("BBBB")}</p>
+            </>
+          }
         </Duration>
         <Status>
           สถานะ:
@@ -78,7 +88,7 @@ export default EventInfo;
 const InfoContainer = styled.div`
   position: absolute;
   /* margin-top: 48px; */
-  z-index: 2;
+  z-index: 999;
   width: 384px;
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);

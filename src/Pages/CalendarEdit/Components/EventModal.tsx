@@ -23,13 +23,19 @@ export default function EventModal() {
     setSelectedEditEvent(null)
   };
 
+
   //state of input that are in this modal
   const [eventName, setEventName] = useState(selectedEditEvent ? selectedEditEvent.event_name : ''); //Event_name
   const [duration, setDuration] = useState(1);  //duration
   const [eventType, setEventType] = useState(selectedEditEvent ? selectedEditEvent.type : 'กิจกรรม') //type
   const [errorMessage, setErrorMessage] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(selectedEditEvent ? selectedEditEvent.color : '#347BBB');
+  const [endDate, setEndDate] = useState(selectedEditEvent ? selectedEditEvent.end_date : daySelected)
+  const [startDate, setStartDate] = useState(selectedEditEvent ? selectedEditEvent.start_date : daySelected)
   const calendarId = useParams()
+
+console.log(startDate)
+console.log(endDate)
 
   const color = [
     '#EC407A',
@@ -72,8 +78,9 @@ export default function EventModal() {
     const calendarEvent = {
       event_name: eventName,
       type: eventType,
-      start_date: daySelected,
+      start_date: startDate,
       id: selectedEvent?.id,
+      endDate: endDate,
       color: selectedColor,
     }
 
@@ -81,9 +88,12 @@ export default function EventModal() {
       event_name: eventName,
       type: eventType,
       calendar: calendarId.id,
-      start_date:  daySelected,
+      start_date:  startDate,
+      endDate: endDate,
       color: selectedColor,
     }
+
+    console.log(calendarEvent)
 
 
     if (selectedEditEvent) {
@@ -96,7 +106,6 @@ export default function EventModal() {
         setSelectedEditEvent(null);
         setDaySelected(0);
         setShowAddEventModal(false);
-        console.log(selectedEditEvent)
       }
     }
     else {
@@ -147,7 +156,7 @@ export default function EventModal() {
                 />
                 {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
 
-                <DurationInput
+                {/* <DurationInput
                   type="number"
                   name="duration"
                   placeholder="ระยะเวลา"
@@ -156,7 +165,7 @@ export default function EventModal() {
                 />
                 <div>
                   <p>วัน</p>
-                </div>
+                </div> */}
               </SettingDate>
             </div>
             <SettingSection>
@@ -172,11 +181,20 @@ export default function EventModal() {
               </Option>
             </SettingDate>
             <SettingSection>
-              <TextStatus>วันที่</TextStatus>
+              <TextStatus>วันเริ่มต้น</TextStatus>
             </SettingSection>
             <SettingDate>
-              <DatePick type="date" value={dayjs(daySelected).format("YYYY-MM-DD")} onChange={(e) => 
-                setDaySelected(e.target.value)
+              <DatePick type="date" value={startDate.substr(0,10)} onChange={(e) => 
+                setStartDate(e.target.value)
+                }>
+              </DatePick>
+            </SettingDate>
+            <SettingSection>
+              <TextStatus>วันสิ้นสุด</TextStatus>
+            </SettingSection>
+            <SettingDate>
+              <DatePick type="date" value={endDate.substr(0,10)} onChange={(e) => 
+                setEndDate(e.target.value)
                 }>
               </DatePick>
             </SettingDate>
@@ -212,6 +230,7 @@ export default function EventModal() {
 }
 
 const Container = styled.div`
+  z-index: 999;
   position: fixed;
   display: flex;
   width: 100%;
@@ -283,8 +302,8 @@ const DurationInput = styled.input`
   line-height: 19px;
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
-  width: 60%;
-  padding: 5px;
+  width: 100%;
+  padding: 8px;
   background: #fcfcfc;
   color: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
@@ -299,13 +318,13 @@ const TextStatus = styled.div`
 const Option = styled.select`
   color: rgba(0, 0, 0, 0.5);
   border: 2px solid #aaaaaa;
-  width: 50%;
+  width: 100%;
   padding: 5px;
   line-height: 19px;
   background: #fcfcfc;
   color: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
-  margin: 4px;
+  /* margin: 4px; */
 `;
 
 const SaveButton = styled.button`
@@ -347,5 +366,12 @@ const Icon = styled.div`
 `
 
 const DatePick = styled.input`
-  
+    color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #aaaaaa;
+  width: 1000%;
+  padding: 8px;
+  line-height: 19px;
+  background: #fcfcfc;
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
 `

@@ -36,37 +36,37 @@ const MonthCalendar: React.FC<DateFromDayjs> = ({ month }) => {
     const daySelectedRef = React.useRef<any>();
 
     const onDragEnd = (result: DropResult) => {
-    const { destination, source } = result
-    if (!destination) return;
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
+    // const { destination, source } = result
+    // if (!destination) return;
+    // if (
+    //   destination.droppableId === source.droppableId &&
+    //   destination.index === source.index
+    // ) {
+    //   return;
+    // }
     
-    daySelectedRef.current = new Date(dayjs(destination.droppableId).format())
+    // daySelectedRef.current = new Date(dayjs(destination.droppableId).format())
 
-    if (destination !== null && destination !== undefined) {
-        const calendarEvent: eventProps = {
-            event_name: selectedEditEventRef.current.event_name,
-            start_date: daySelectedRef.current,
-            id: selectedEditEventRef.current.id,
-            type: selectedEditEventRef.current.type
-            }
-        setLoading(true)
+    // if (destination !== null && destination !== undefined) {
+    //     const calendarEvent: eventProps = {
+    //         event_name: selectedEditEventRef.current.event_name,
+    //         start_date: daySelectedRef.current,
+    //         id: selectedEditEventRef.current.id,
+    //         type: selectedEditEventRef.current.type
+    //         }
+    //     setLoading(true)
         
-    updateEvent(calendarEvent)
-    }
+    // updateEvent(calendarEvent)
+    // }
       };  
 
 
     const onDragStart = (start: DragStart, provided: any) => {
-        savedEvents.map((event) => {
-            if(event.id === Number(start.draggableId)){
-                selectedEditEventRef.current = event
-            }
-        })
+        // savedEvents.map((event) => {
+        //     if(event.id === Number(start.draggableId)){
+        //         selectedEditEventRef.current = event
+        //     }
+        // })
       }
 
         
