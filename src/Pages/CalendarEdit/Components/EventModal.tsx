@@ -81,7 +81,7 @@ export default function EventModal() {
       event_name: eventName,
       type: eventType,
       calendar: calendarId.id,
-      start_date: new Date(daySelected),
+      start_date:  daySelected,
       color: selectedColor,
     }
 

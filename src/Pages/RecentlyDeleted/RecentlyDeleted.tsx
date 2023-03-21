@@ -15,33 +15,31 @@ import LoadingModal from "../Loading/LoadingModal";
 const RecentlyDeleted = () => {
   const [data, setData] = useState<any[]>([]);
   const { loading, setLoading } = useContext(GlobalContext)
-
+  const [name,setName] = useState('')
+ 
   useEffect(() => {
     const getData = async () => {
-        setLoading(true)
         try {
             // const res = await axios.get(`https://cmu-acad-backend-production.up.https.app/calendar/findDeleted/{id}`)
-            const res = await axios.get(`http://localhost:4000/calendar/findDeleted/{id}`)
-            setLoading(false)
-            res.data.map((card: any) => {
-              if(card.delete_at)
-                {
-                  setData((prev) => [...prev, card])
-                }
-            })
-            console.log(data)
+            const res = await axios.get(`http://localhost:4000/calendar/findDeleted?name=${name}`)
+            setData(res.data.filter((card: any) => card.delete_at).map((card: any) => card))
+        //     res.data.map((card: any) => {
+        //       if(card.delete_at)
+        //         {
+        //           setData((prev) => [...prev, card])
+        //         }
+        //     })
         }catch(error){
             return error
         }        
     }
     getData()
-}, [])
+}, [name])
 
   const restoreHandle = (calendar: any) => {
-    setLoading(true)
     try{
       // axios.put(`https://cmu-acad-backend-production.up.https.app/calendar/restore/${calendar.id}`, calendar).then(
-      axios.put(`http://localhost:4000/calendar/restore/${calendar.id}`, calendar).then(
+      axios.put(`http://localhost:4000/calendar/restore/${calendar.id}`).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
@@ -80,7 +78,7 @@ const RecentlyDeleted = () => {
                 <TableName>
                 <p>ถังขยะ</p>
                 </TableName>
-                    <input type="text" placeholder="ค้นหาปฏิทิน" />
+                    <input type="text" placeholder="ค้นหาปฏิทิน" onChange={(e) => setName(e.target.value)} />
             </TableSort>
             <table>
                 <tr>
