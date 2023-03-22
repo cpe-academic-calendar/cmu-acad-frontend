@@ -18,8 +18,6 @@ dayjs.extend(buddhistEra);
 
 const EventCard: React.FC<EventProps> = ({ name, start_date, end_date, color }) => {
 
-  // console.log(start_date)
-
   return (
     <Container>
       <Event color={color} />

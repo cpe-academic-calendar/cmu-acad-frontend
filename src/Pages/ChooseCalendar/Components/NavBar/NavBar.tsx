@@ -24,7 +24,6 @@ const NavBar: React.FC = () => {
                 // axios.get(`https://cmu-acad-backend-production.up.https.app/user/findByName/${res.data.cmuitaccount}`)
                 axios.get(`https://cmu-acad-backend-production.up.railway.app/user/findByName/${res.data.cmuitaccount}`)
                 .then(res => {
-                    console.log(res.data)
                     localStorage.setItem("acadId", res.data)
                 })
                 setFirstName(res.data.firstname_TH)

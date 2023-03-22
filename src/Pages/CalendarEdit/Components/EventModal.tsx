@@ -33,7 +33,6 @@ export default function EventModal() {
   const [startDate, setStartDate] = useState(selectedEditEvent ? selectedEditEvent.start_date : daySelected)
   const calendarId = useParams()
 
-console.log(selectedEditEvent)
 
   const color = [
     '#EC407A',
@@ -46,7 +45,6 @@ console.log(selectedEditEvent)
     '#FF5722',
     '#DD2C00'
   ]
-  console.log('start',startDate)
 
   let render_color = color.map((colo) => 
     (
@@ -92,7 +90,6 @@ console.log(selectedEditEvent)
       color: selectedColor,
     }
 
-    console.log(createEvent)
 
 
     if (selectedEditEvent) {

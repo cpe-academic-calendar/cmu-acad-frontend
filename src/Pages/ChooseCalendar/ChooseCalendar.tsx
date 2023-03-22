@@ -40,9 +40,6 @@ function ChooseCalendar(props: any) {
       }
       }, [])
 
-    useEffect(() => {
-        console.log(localStorage.getItem('token'))
-    }, []) 
 
     const newCalendarHandle = () => {
         setNewCalendar((prev) => !prev);

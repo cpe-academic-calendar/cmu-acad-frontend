@@ -71,7 +71,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                         </div>
                         <AddForm onSubmit={handleSubmit}>
                             <div >
-                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา (กรอกเป็น ค.ศ.)" onChange={
                                     handleChooseYear
                                 } />
                             </div>

@@ -48,8 +48,6 @@ const Day: React.FC<any> = ({ day }) => {
     })
   }, [savedEvents])
 
-  // console.log(dayjs(day).format());
-  // console.log(savedEvents)
 
   useEffect(() => {
     const events = savedEvents.filter(
@@ -154,7 +152,6 @@ const colorValidate = (day: any) => {
                   closeEventInfoHandle={closeEventInfoHandle}
                   editEventHandle={() => {
                     editEventHandle(selectedEvent);
-                    console.log(selectedEvent)
                   }}
                   deleteEventHandle={deleteEventHandle}
                 />
