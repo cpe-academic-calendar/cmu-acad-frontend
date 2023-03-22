@@ -20,8 +20,7 @@ function ActiveList( ) {
     useEffect(() => {
         const fetchData = async (input: string) => {
             axios
-                // .get(`https://cmu-acad-backend-production.up.https.app/calendar/findByName?query=${input}&type=Active`)
-                .get(`http://localhost:4000/calendar/findByName?query=${input}&type=Active`)
+                .get(`https://cmu-acad-backend-production.up.railway.app/calendar/findByName?query=${input}&type=Active`)
                 .then(  
                     response => {
                         setItem(response.data)

@@ -46,6 +46,7 @@ console.log(selectedEditEvent)
     '#FF5722',
     '#DD2C00'
   ]
+  console.log('start',startDate)
 
   let render_color = color.map((colo) => 
     (
@@ -91,7 +92,7 @@ console.log(selectedEditEvent)
       color: selectedColor,
     }
 
-    console.log(calendarEvent)
+    console.log(createEvent)
 
 
     if (selectedEditEvent) {

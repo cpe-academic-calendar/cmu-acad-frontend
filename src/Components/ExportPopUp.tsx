@@ -85,24 +85,22 @@ const ExportPopUp: React.FC = () => {
   const {id} = useParams()
 
   const handleConExport = () => {
-    // window.location.href = `https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`;
-    // axios.get(`https://cmu-acad-backend-production.up.https.app/calendar/exportStudy${id}`).then((res)=>{
-      window.location.href = `http://localhost:4000/calendar/exportHoliday/${id}`;
-      axios.get(`http://localhost:4000/calendar/exportHoliday/${id}`).then((res)=>{
+      window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportStudy/${id}`;
+      axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }
 
   const handleCalendarDraft = () => {
-    window.location.href = `http://localhost:4000/calendar/exportEvent/${id}`;
-    axios.get(`http://localhost:4000/calendar/exportEvent/${id}`).then((res)=>{
+    window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportEvent/${id}`;
+    axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportEvent/${id}`).then((res)=>{
       return res.data
     })
   }
 
   const handleSummarize = () => {
-    window.location.href = `http://localhost:4000/calendar/exportHoliday/${id}`;
-    axios.get(`http://localhost:4000/calendar/exportHoliday/${id}`).then((res)=>{
+    window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`;
+    axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }

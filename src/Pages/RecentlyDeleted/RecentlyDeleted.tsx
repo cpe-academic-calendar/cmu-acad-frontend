@@ -22,15 +22,8 @@ const RecentlyDeleted = () => {
   useEffect(() => {
     const getData = async () => {
         try {
-            // const res = await axios.get(`https://cmu-acad-backend-production.up.https.app/calendar/findDeleted/{id}`)
-            const res = await axios.get(`http://localhost:4000/calendar/findDeleted?name=${name}`)
+            const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted?name=${name}`)
             setData(res.data.filter((card: any) => card.delete_at).map((card: any) => card))
-        //     res.data.map((card: any) => {
-        //       if(card.delete_at)
-        //         {
-        //           setData((prev) => [...prev, card])
-        //         }
-        //     })
         }catch(error){
             return error
         }        
@@ -40,8 +33,7 @@ const RecentlyDeleted = () => {
 
   const restoreHandle = (calendar: any) => {
     try{
-      // axios.put(`https://cmu-acad-backend-production.up.https.app/calendar/restore/${calendar.id}`, calendar).then(
-      axios.put(`http://localhost:4000/calendar/restore/${calendar.id}`).then(
+      axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
@@ -55,8 +47,7 @@ const RecentlyDeleted = () => {
   const deleteHandle = (calendar: any) => {
     setLoading(true)
     try{
-      // axios.delete(`https://cmu-acad-backend-production.up.https.app/calendar/delete-real/${calendar.id}`, calendar).then(
-      axios.delete(`http://localhost:4000/calendar/delete-real/${calendar.id}`, calendar).then(
+      axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete-real/${calendar.id}`, calendar).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);

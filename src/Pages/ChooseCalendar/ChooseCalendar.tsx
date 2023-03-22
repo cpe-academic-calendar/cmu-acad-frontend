@@ -36,7 +36,7 @@ function ChooseCalendar(props: any) {
 
     useEffect(() => {
         if(localStorage.getItem("token")===null){
-        //   window.location.href = "https://cmu-acad.netlify.app/"
+          window.location.href = "https://cmu-acad.netlify.app/"
       }
       }, [])
 
@@ -50,8 +50,7 @@ function ChooseCalendar(props: any) {
 
     const onDeleteClickhandle = () => {
         multipleSelect.forEach(async (item) => {
-            // await axios.delete(`https://cmu-acad-backend-production.up.https.app/calendar/delete/${item}`)
-            await axios.delete(`http://localhost:4000/calendar/delete/${item}`)
+            await axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete/${item}`)
             .then((response: any) => {
                 setLoading(false)
                 window.location.reload();

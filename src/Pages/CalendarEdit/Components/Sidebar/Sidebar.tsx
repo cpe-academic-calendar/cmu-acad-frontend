@@ -39,12 +39,12 @@ const SideBar: React.FC = () => {
       },
     ],
   });
+  // const [studyCount, setStudyCount] = useState<any[]>([])
 
   useEffect(() => {
     axios
       .get(
-        // `https://cmu-acad-backend-production.up.https.app/calendar/studyweek/${calendarId.id}`
-        `http://localhost:4000/calendar/studyweek/${calendarId.id}`
+        `https://cmu-acad-backend-production.up.railway.app/calendar/studyweek/${calendarId.id}`
       )
       .then((res) => {
         console.log(res.data);
