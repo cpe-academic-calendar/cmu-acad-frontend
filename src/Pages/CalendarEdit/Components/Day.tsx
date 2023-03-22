@@ -108,7 +108,8 @@ const colorValidate = (day: any) => {
           <DayContainer color={colorValidate(day)}>
             <LiteralDay onClick={addEventHandle}>
                 {day.format("D")}
-                {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>}
+                {/* {day.format("D") === "1" && <div>{changeToThai(day.format("MMMM"))}</div>} */}
+                <div>{changeToThai(day.format("MMMM"))}</div>
             </LiteralDay>
             <div className="overflow">
             {dayEvents.map((evt, idx) => {

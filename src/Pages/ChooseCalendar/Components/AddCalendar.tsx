@@ -30,7 +30,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         await e.preventDefault();
         setLoading(true)
         // await axios.post('https://cmu-acad-backend-production.up.https.app/calendar/create',
-        await axios.post('http://localhost:4000/calendar/create',
+        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`, {replace: true})
@@ -72,7 +72,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                         </div>
                         <AddForm onSubmit={handleSubmit}>
                             <div >
-                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา" onChange={
+                                <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา *ต้องใส่เป็น คศ.เท่านั้น" onChange={
                                     handleChooseYear
                                 } />
                             </div>

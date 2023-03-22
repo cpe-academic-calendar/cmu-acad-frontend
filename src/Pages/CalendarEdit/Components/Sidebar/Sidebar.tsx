@@ -44,7 +44,7 @@ const SideBar: React.FC = () => {
     axios
       .get(
         // `https://cmu-acad-backend-production.up.https.app/calendar/studyweek/${calendarId.id}`
-        `http://localhost:4000/calendar/studyweek/${calendarId.id}`
+        `https://cmu-acad-backend-production.up.railway.app/calendar/studyweek/${calendarId.id}`
       )
       .then((res) => {
         console.log(res.data);
@@ -58,7 +58,7 @@ const SideBar: React.FC = () => {
         key={idx}
         name={props.event_name}
         start_date={props.start_date}
-        // end_date={props.end_date}
+        end_date={props.end_date}
         color={props.color}
       />
     );

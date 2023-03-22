@@ -28,7 +28,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} )
     useEffect(() => {
         axios
         //   .get(`https://cmu-acad-backend-production.up.https.app/calendar/${calendarId.id}`)
-          .get(`http://localhost:4000/calendar/${calendarId.id}`)
+          .get(`https://cmu-acad-backend-production.up.railway.app/calendar/${calendarId.id}`)
           .then((res) => {
             setCalendarName(res.data.name);
           });
@@ -45,7 +45,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} )
             setNameEdit(false)
         }else{
             // axios.put(`https://cmu-acad-backend-production.up.https.app/calendar/update/${calendarId.id}`, {name: nameInput}).then(
-            axios.put(`http://localhost:4000/calendar/update/${calendarId.id}`, {name: nameInput}).then(
+            axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/update/${calendarId.id}`, {name: nameInput}).then(
                 (res) => {
                     setNameEdit(false)
                 }
