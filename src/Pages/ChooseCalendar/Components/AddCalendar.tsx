@@ -30,7 +30,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
         await e.preventDefault();
         setLoading(true)
         // await axios.post('https://cmu-acad-backend-production.up.https.app/calendar/create',
-        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
+        await axios.post('http://localhost:4000/calendar/create',
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`, {replace: true})

@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
                 'Authorization' : `Bearer ${token}`
             }}).then(res => {
                 // axios.get(`https://cmu-acad-backend-production.up.https.app/user/findByName/${res.data.cmuitaccount}`)
-                axios.get(`https://cmu-acad-backend-production.up.railway.app/user/findByName/${res.data.cmuitaccount}`)
+                axios.get(`http://localhost:4000/user/findByName/${res.data.cmuitaccount}`)
                 .then(res => {
                     localStorage.setItem("acadId", res.data)
                 })

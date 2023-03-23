@@ -21,8 +21,8 @@ const RecentlyDeleted = () => {
     const getData = async () => {
         setLoading(true)
         try {
-            // const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted/{id}`)
-            const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted?name=${name}`)
+            // const res = await axios.get(`http://localhost:4000/calendar/findDeleted/{id}`)
+            const res = await axios.get(`http://localhost:4000/calendar/findDeleted?name=${name}`)
             setLoading(false)
             res.data.map((card: any) => {
               if(card.delete_at)
@@ -41,8 +41,8 @@ const RecentlyDeleted = () => {
   const restoreHandle = (calendar: any) => {
     setLoading(true)
     try{
-      // axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`, calendar).then(
-      axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`, calendar).then(
+      // axios.put(`http://localhost:4000/calendar/restore/${calendar.id}`, calendar).then(
+      axios.put(`http://localhost:4000/calendar/restore/${calendar.id}`, calendar).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
@@ -56,8 +56,8 @@ const RecentlyDeleted = () => {
   const deleteHandle = (calendar: any) => {
     setLoading(true)
     try{
-      // axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete-real/${calendar.id}`, calendar).then(
-      axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete-real/${calendar.id}`, calendar).then(
+      // axios.delete(`http://localhost:4000/calendar/delete-real/${calendar.id}`, calendar).then(
+      axios.delete(`http://localhost:4000/calendar/delete-real/${calendar.id}`, calendar).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
