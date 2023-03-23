@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
 import CalendarCard from "./CalendarCard/CalendarCard";
 import ChooseCalendarContext from "./Context/ChooseCalendarContext";
+import { CalendarPath } from "../../path";
 
 interface CalendarProps {
     id: number,
@@ -22,7 +23,7 @@ function ArchiveList( ) {
     useEffect(() => {
         const fetchData = async (input: string) => {
             axios
-                .get(`https://cmu-acad-backend-production.up.railway.app/calendar/findByName?query=${input}&type=Archive`)
+                .get(`${CalendarPath.local}/calendar/findByName?query=${input}&type=Archive`)
                 .then(  
                     response => {
                         setItem(response.data)

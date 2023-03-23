@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
 import CalendarCard from "./CalendarCard/CalendarCard";
 import ChooseCalendarContext from "./Context/ChooseCalendarContext";
+import { CalendarPath } from "../../path";
 
 interface CalendarProps {
     id: number,
@@ -20,7 +21,7 @@ function ActiveList( ) {
     useEffect(() => {
         const fetchData = async (input: string) => {
             axios
-                .get(`https://cmu-acad-backend-production.up.railway.app/calendar/findByName?query=${input}&type=Active`)
+                .get(`${CalendarPath.local}/calendar/findByName?query=${input}&type=Active`)
                 .then(  
                     response => {
                         setItem(response.data)

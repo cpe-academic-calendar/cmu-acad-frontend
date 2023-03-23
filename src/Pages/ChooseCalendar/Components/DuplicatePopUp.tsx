@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import GlobalContext from "../../../GlobalContext/GlobalContext";
+import { CalendarPath } from "../../path";
 
 const DuplicatePopUp = (props: any): JSX.Element => {
     const { setLoading } = useContext(GlobalContext)
@@ -22,7 +23,7 @@ const DuplicatePopUp = (props: any): JSX.Element => {
         e.preventDefault();
         setYear(props.data.item.year)
         setStartDate(props.data.item.start_semester)
-        await axios.post(`https://cmu-acad-backend-production.up.railway.app/calendar/duplicate/${props.data.item.id}`, {
+        await axios.post(`${CalendarPath.local}/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
             start_semester: start_date
         })

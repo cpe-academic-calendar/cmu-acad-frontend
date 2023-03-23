@@ -4,8 +4,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import GlobalContext from "../GlobalContext/GlobalContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { CSVLink } from "react-csv";
 import { useParams } from "react-router-dom";
+import { CalendarPath } from "../Pages/path";
 
 const PopUp = styled.div`
   display: flex;
@@ -85,22 +85,22 @@ const ExportPopUp: React.FC = () => {
   const {id} = useParams()
 
   const handleConExport = () => {
-      window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportStudy/${id}`;
-      axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`).then((res)=>{
+      window.location.href = `${CalendarPath.local}/calendar/exportStudy/${id}`;
+      axios.get(`${CalendarPath.local}/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }
 
   const handleCalendarDraft = () => {
-    window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportEvent/${id}`;
-    axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportEvent/${id}`).then((res)=>{
+    window.location.href = `${CalendarPath.local}/calendar/exportEvent/${id}`;
+    axios.get(`${CalendarPath.local}/calendar/exportEvent/${id}`).then((res)=>{
       return res.data
     })
   }
 
   const handleSummarize = () => {
-    window.location.href = `https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`;
-    axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/exportHoliday/${id}`).then((res)=>{
+    window.location.href = `${CalendarPath.local}/calendar/exportHoliday/${id}`;
+    axios.get(`${CalendarPath.local}/calendar/exportHoliday/${id}`).then((res)=>{
       return res.data
     })
   }

@@ -8,7 +8,7 @@ import ArchiveList from "./Components/ArchiveList";
 import styled from "styled-components";
 import AddCalendar from "./Components/AddCalendar";
 import axios from 'axios'
-import { CalendarPath } from "./Components/path";
+import { CalendarPath } from "../path";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
 import LoadingModal from "../Loading/LoadingModal";
@@ -36,7 +36,7 @@ function ChooseCalendar(props: any) {
 
     useEffect(() => {
         if(localStorage.getItem("token")===null){
-          window.location.href = "https://cmu-acad.netlify.app/"
+        //   window.location.href = "https://cmu-acad.netlify.app/"
       }
       }, [])
 
@@ -47,7 +47,7 @@ function ChooseCalendar(props: any) {
 
     const onDeleteClickhandle = () => {
         multipleSelect.forEach(async (item) => {
-            await axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete/${item}`)
+            await axios.delete(`${CalendarPath.local}/calendar/delete/${item}`)
             .then((response: any) => {
                 setLoading(false)
                 window.location.reload();

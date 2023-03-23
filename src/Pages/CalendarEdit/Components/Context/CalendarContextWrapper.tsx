@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import GlobalContext from "../../../../GlobalContext/GlobalContext";
 import axios from "axios";
+import { CalendarPath } from "../../../path";
 
 interface Payload {
     id: any;
@@ -46,7 +47,7 @@ export const CalendarContextWrapper = (props: any) => {
         const getData = async () => {
             setLoading(true)
             try {
-                const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`)
+                const res = await axios.get(`${CalendarPath.local}/calendar/findEventById/${calendarId.id}`)
                 setLoading(false)
                 setSavedEvents(res.data[0].events);
             }catch(error){
@@ -58,7 +59,7 @@ export const CalendarContextWrapper = (props: any) => {
 
     const pushEvent = (event: any) => {
         setLoading(true)
-        axios.post(`https://cmu-acad-backend-production.up.railway.app/event/create`,event).then(
+        axios.post(`${CalendarPath.local}/event/create`,event).then(
                 (res) => {
                     setSavedEvents(() => [...savedEvents, res.data])
                     setLoading(false)
@@ -68,9 +69,9 @@ export const CalendarContextWrapper = (props: any) => {
 
     const updateEvent = (newEvent: any) => {
         setLoading(true)
-        axios.put(`https://cmu-acad-backend-production.up.railway.app/event/update/${newEvent.id}`,newEvent).then(
+        axios.put(`${CalendarPath.local}/event/update/${newEvent.id}`,newEvent).then(
             (res: any) => {
-                axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findEventById/${calendarId.id}`).then(
+                axios.get(`${CalendarPath.local}/calendar/findEventById/${calendarId.id}`).then(
                     (response: any) => {
                         setSavedEvents(response.data[0].events)
                         setLoading(false)
@@ -82,7 +83,7 @@ export const CalendarContextWrapper = (props: any) => {
     const deleteEvent = (event: any) => {
         setLoading(true)
         try{
-            axios.delete(`https://cmu-acad-backend-production.up.railway.app/event/delete/${event.id}`, event).then(
+            axios.delete(`${CalendarPath.local}/event/delete/${event.id}`, event).then(
                 (res)=>{
                     const newItems = savedEvents.filter(evt => evt.id !== event.id);
                     setSavedEvents(newItems);

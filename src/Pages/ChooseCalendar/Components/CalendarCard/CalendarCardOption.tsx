@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import DuplicatePopUp from '../DuplicatePopUp'
 import styled from 'styled-components'
 import axios from 'axios'
-import { CalendarPath } from '../path'
+import { CalendarPath } from '../../../path'
 import GlobalContext from '../../../../GlobalContext/GlobalContext'
 
 const CalendarCardOption = (props: any): JSX.Element => {

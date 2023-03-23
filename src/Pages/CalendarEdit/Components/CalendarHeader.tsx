@@ -5,9 +5,8 @@ import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined
 import React, { useContext, useState, useEffect } from 'react';
 import GlobalContext from '../../../GlobalContext/GlobalContext';
 import LoadingCompoent from '../../Loading/LoadingComponent';
-// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { CalendarPath } from '../../path';
 import axios from 'axios';
 
 interface handleProps{
@@ -27,7 +26,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} )
 
     useEffect(() => {
         axios
-          .get(`https://cmu-acad-backend-production.up.railway.app/calendar/${calendarId.id}`)
+          .get(`${CalendarPath.local}/calendar/${calendarId.id}`)
           .then((res) => {
             setCalendarName(res.data.name);
           });
@@ -43,7 +42,7 @@ const CalendarHeader:React.FC<handleProps> = ( {onFileClickHandle, name, year} )
         if(nameInput === ''){
             setNameEdit(false)
         }else{
-            axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/update/${calendarId.id}`, {name: nameInput}).then(
+            axios.put(`${CalendarPath.local}/calendar/update/${calendarId.id}`, {name: nameInput}).then(
                 (res) => {
                     setNameEdit(false)
                 }

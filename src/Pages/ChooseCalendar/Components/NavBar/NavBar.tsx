@@ -6,6 +6,7 @@ import { useContext } from "react";
 import ChooseCalendarContext from "../Context/ChooseCalendarContext";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { CalendarPath } from "../../../path";
 
 const NavBar: React.FC = () => {
 
@@ -22,7 +23,7 @@ const NavBar: React.FC = () => {
                 'Authorization' : `Bearer ${token}`
             }}).then(res => {
                 // axios.get(`https://cmu-acad-backend-production.up.https.app/user/findByName/${res.data.cmuitaccount}`)
-                axios.get(`https://cmu-acad-backend-production.up.railway.app/user/findByName/${res.data.cmuitaccount}`)
+                axios.get(`${CalendarPath.local}/user/findByName/${res.data.cmuitaccount}`)
                 .then(res => {
                     localStorage.setItem("acadId", res.data)
                 })

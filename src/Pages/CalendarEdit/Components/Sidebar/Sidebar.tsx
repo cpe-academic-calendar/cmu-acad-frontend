@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import EditCalendarContext from "../Context/EditCalendarContext";
 import { useParams } from "react-router-dom";
+import { CalendarPath } from "../../../path";
 
 const SideBar: React.FC = () => {
   const { savedEvents } = useContext(EditCalendarContext);
@@ -44,7 +45,7 @@ const SideBar: React.FC = () => {
   useEffect(() => {
     axios
       .get(
-        `https://cmu-acad-backend-production.up.railway.app/calendar/studyweek/${calendarId.id}`
+        `${CalendarPath.local}/calendar/studyweek/${calendarId.id}`
       )
       .then((res) => {
         setStudyCount(res.data);

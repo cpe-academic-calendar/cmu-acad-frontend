@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 
 import LoadingModal from "../Loading/LoadingModal";
 import { useNavigate } from "react-router-dom";
+import { CalendarPath } from "../path";
 
 const RecentlyDeleted = () => {
   const [data, setData] = useState<any[]>([]);
@@ -22,7 +23,7 @@ const RecentlyDeleted = () => {
   useEffect(() => {
     const getData = async () => {
         try {
-            const res = await axios.get(`https://cmu-acad-backend-production.up.railway.app/calendar/findDeleted?name=${name}`)
+            const res = await axios.get(`${CalendarPath.local}/calendar/findDeleted?name=${name}`)
             setData(res.data.filter((card: any) => card.delete_at).map((card: any) => card))
         }catch(error){
             return error
@@ -33,7 +34,7 @@ const RecentlyDeleted = () => {
 
   const restoreHandle = (calendar: any) => {
     try{
-      axios.put(`https://cmu-acad-backend-production.up.railway.app/calendar/restore/${calendar.id}`).then(
+      axios.put(`${CalendarPath.local}/calendar/restore/${calendar.id}`).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
@@ -47,7 +48,7 @@ const RecentlyDeleted = () => {
   const deleteHandle = (calendar: any) => {
     setLoading(true)
     try{
-      axios.delete(`https://cmu-acad-backend-production.up.railway.app/calendar/delete-real/${calendar.id}`, calendar).then(
+      axios.delete(`${CalendarPath.local}/calendar/delete-real/${calendar.id}`, calendar).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
