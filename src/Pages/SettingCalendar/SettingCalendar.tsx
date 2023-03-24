@@ -1,74 +1,142 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import GlobalContext from "../../GlobalContext/GlobalContext";
 import LoadingModal from "../Loading/LoadingModal";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { CalendarPath } from "../path";
+import axios from "axios";
+import changeToThai from "../../Functions/changeToThai";
 
-const SettingCalendar: React.FC = () => {
-  const { loading } = useContext(GlobalContext)
-  const navigate = useNavigate()
+const SettingCalendar = () => {
+  const { loading } = useContext(GlobalContext);
+  const navigate = useNavigate();
+  const [view, setView] = useState("holiday");
+  const [condition, setCondition] = useState([
+    {
+      id: 0,
+      event_name: "",
+      duration_days: 0,
+      duration_weeks: 0,
+      num_days: 0,
+      num_weeks: 0,
+      reference_event: 0,
+      ref_start: "",
+      type: "",
+    },
+  ]);
+  const [holiday, setHoliday] = useState([
+    {
+      color: "",
+      event_name: "",
+      start_date: "",
+    },
+  ]);
 
-  const [view, setView] = useState('holiday')
+  // color
+
+  useEffect(() => {
+    //get condition
+    axios
+      .get(`${CalendarPath.local}/calendar/findConditionData`)
+      .then((res) => {
+        setCondition(res.data);
+        console.log(res.data);
+      });
+
+    //get holiday
+    axios.get(`${CalendarPath.local}/calendar/findHolidayData`).then((res) => {
+      setHoliday(res.data);
+    });
+  }, []);
+
+  let render_content = null;
+  if (view === "events") {
+    render_content = (
+      <>
+        <table>
+          <tr>
+            <th>No.</th>
+            <th>ชื่อกรรม</th>
+            <th>ระยะเวลา(วัน)</th>
+            <th>ระยะเวลา(สัปดาห์)</th>
+            <th>ก่อน/หลัง</th>
+            <th>วันอ้างอิง</th>
+            <th>ระยะเวลา(สัปดาห์)</th>
+            <th>ระยะเวลา(วัน)</th>
+            <th>ประเภท</th>
+          </tr>
+          {condition.map((evt, idx) => (
+            <tr key={idx}>
+              <td>{evt.id}</td>
+              <td>{evt.event_name}</td>
+              <td>{evt.duration_days}</td>
+              <td>{evt.duration_weeks}</td>
+              {evt.ref_start === "before" && <td>ก่อน</td>}
+              {evt.ref_start === "after-last" && <td>หลังวันสุดท้าย</td>}
+              {evt.ref_start === "after" && <td>ก่อนวันแรก</td>}
+              {evt.id === 1 ? (
+                <td>{evt.reference_event}</td>
+              ) : (
+                <td>No. {evt.reference_event}</td>
+              )}
+              <td>{evt.num_weeks}</td>
+              <td>{evt.num_days}</td>
+              <td>{evt.type}</td>
+            </tr>
+          ))}
+        </table>
+      </>
+    );
+  } else if (view === "holiday") {
+    render_content = (
+      <>
+        <table>
+          <tr>
+            <th>No.</th>
+            <th>ชื่อวันหยุด</th>
+            <th>วันที่</th>
+            <th>เดือน</th>
+          </tr>
+          {holiday.map((evt, idx) => (
+            <tr key={idx}>
+              <td>{idx}</td>
+              <td>{evt.event_name}</td>
+              <td>{String(evt.start_date).substr(9, 2)}</td>
+              <td>{changeToThai(String(evt.start_date).substr(5, 2))}</td>
+            </tr>
+          ))}
+        </table>
+      </>
+    );
+  }
 
   return (
-    <div>
-    <Container>
-      { loading? <LoadingModal /> : null }
+      <Container>
+        {loading ? <LoadingModal /> : null}
         <Count>
-            <BackButton onClick={() => {navigate(-1)}}>
-                <ArrowBackIosIcon />
-                <p>กลับหน้าหลัก</p>
-            </BackButton>
-            <TableSort>
-                <TableName>
-                <p>ถังขยะ</p>
-                </TableName>
-                    <Items>
-            <select value={view} onChange={(e) => setView(e.target.value)}>
+          <BackButton
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <ArrowBackIosIcon />
+            <p>กลับหน้าหลัก</p>
+          </BackButton>
+          <TableSort>
+            <TableName>
+              <p>เงื่อนไข</p>
+            </TableName>
+            <Items>
+              <select value={view} onChange={(e) => setView(e.target.value)}>
                 <option value="holiday">วันหยุดตามราชกิจจานุเบกษา</option>
                 <option value="events">วันที่มีเงื่อนไขเกี่ยวข้องกัน</option>
-            </select>
+              </select>
             </Items>
-            </TableSort>
-            <table>
-                <tr>
-                    <th>No.</th>
-                    <th>ชื่อวันหยุด</th>
-                    <th>วันที่เริ่มต้นหยุด</th>
-                    <th>เดือนที่เริ่มต้นหยุด</th>
-                    <th>วันที่สิ้นสุดหยุด</th>
-                    <th>เดือนที่สิ้นสุดหยุด</th>
-                </tr>
-                {/* {
-                  data.map((calendar: any, idx) => (
-                  <tr key={idx}>
-                      <td>{idx}</td>
-                      <td>{calendar.name}</td>
-                      <td>{Number(dayjs(calendar.start_semester).format("YYYY"))+543}</td>
-                      <td>{calendar.delete_at}</td>
-                      <td>
-                        <div className="icon" 
-                        onClick={() => {
-                          restoreHandle(calendar)
-                        }}
-                        >
-                          <RestoreIcon />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="icon" onClick={() => deleteHandle(calendar)}>
-                          <DeleteIcon />
-                        </div>
-                      </td>
-                  </tr>
-                  ))
-                } */}
-            </table>
+          </TableSort>
+          {render_content}
         </Count>
-    </Container>
-    </div>
+      </Container>
   );
 };
 
@@ -76,13 +144,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
   align-items: center;
   margin-top: 64px;
 `;
 
 const Count = styled.div`
   height: 12vh;
+  margin-left: 32vh;
+    margin-right: 32vh;
   th {
     font-weight: 600;
     color: var(--default-holiday-color);
@@ -96,7 +165,7 @@ const Count = styled.div`
     text-align: center;
     padding: 20px 40px;
   }
-  .icon{
+  .icon {
     cursor: pointer;
   }
 `;
@@ -124,43 +193,43 @@ const TableSort = styled.div`
 `;
 
 const BackButton = styled.div`
-    display: flex;
-    cursor: pointer;
-    color: var(--yellow);
-    p{
-        margin-right: 8px;
-    }
-    margin-bottom: 32px;
-`
+  display: flex;
+  cursor: pointer;
+  color: var(--yellow);
+  p {
+    margin-right: 8px;
+  }
+  margin-bottom: 32px;
+`;
 
 const Items = styled.div`
+  display: flex;
+  max-width: 100%;
+  color: var(--primary-color);
+  align-items: center;
+  .files {
     display: flex;
-    max-width: 100%;
-    color: var(--primary-color);
     align-items: center;
-    .files{
-        display: flex;
-        align-items: center;
-        margin-right: 16px;
+    margin-right: 16px;
+  }
+  .static {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    p {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
     }
-    .static{
-        display: flex;
-        align-items: center;
-        margin-right: 16px;
-        p{
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-    }
-    select{
-        border-radius: 8px;
-        border-color: var(--primary-color);
-        border-width: 2px;
-        border-style: solid;
-        padding: 8px;
-        font-weight: 700;
-    }
-`
+  }
+  select {
+    border-radius: 8px;
+    border-color: var(--primary-color);
+    border-width: 2px;
+    border-style: solid;
+    padding: 8px;
+    font-weight: 700;
+  }
+`;
 
 export default SettingCalendar;
