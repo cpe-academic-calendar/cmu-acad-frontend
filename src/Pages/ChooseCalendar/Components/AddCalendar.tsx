@@ -5,6 +5,7 @@ import DatePicker from "react-date-picker";
 import axios from 'axios'
 import { useNavigate} from "react-router-dom";
 import GlobalContext from "../../../GlobalContext/GlobalContext";
+import { CalendarPath } from "../../path";
 
 type ButtonProps = {
     handleClosePopup: () => void;
@@ -29,7 +30,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
-        await axios.post('https://cmu-acad-backend-production.up.railway.app/calendar/create',
+        await axios.post(`${CalendarPath.local}/calendar/create`,
             data)
             .then((response) => {
                 navigate(`/calendar-edit/${response.data.id}/month`, {replace: true})

@@ -14,6 +14,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import ExportPopUp from "../../Components/ExportPopUp";
+import { CalendarPath } from "../path";
 
 interface dataProps {
   data: {
@@ -52,7 +53,7 @@ const CalendarEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`https://cmu-acad-backend-production.up.railway.app/calendar/${id}`)
+      .get(`${CalendarPath.local}/calendar/${id}`)
       .then((res) => {
         setData(res.data);
         setStartSemesterMonth(dayjs(res.data.start_semester).month())

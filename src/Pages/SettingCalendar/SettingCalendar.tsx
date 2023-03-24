@@ -4,6 +4,7 @@ import GlobalContext from "../../GlobalContext/GlobalContext";
 import LoadingModal from "../Loading/LoadingModal";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from "react-router-dom";
+import { CalendarPath } from "../path";
 
 const SettingCalendar: React.FC = () => {
   const { loading } = useContext(GlobalContext)
@@ -25,7 +26,7 @@ const SettingCalendar: React.FC = () => {
                 <p>ถังขยะ</p>
                 </TableName>
                     <Items>
-            <select id="display" value={view} onChange={(e) => (e.target.value)}>
+            <select value={view} onChange={(e) => setView(e.target.value)}>
                 <option value="holiday">วันหยุดตามราชกิจจานุเบกษา</option>
                 <option value="events">วันที่มีเงื่อนไขเกี่ยวข้องกัน</option>
             </select>
