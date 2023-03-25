@@ -16,8 +16,10 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const { setLoading } = useContext(GlobalContext)
     const [name, setName] = useState('')
     const [semesterYear, setSemesterYear] = useState(0)
-    const [value, setValue] = useState(new Date("2023-06-19"))
+    const [value, setValue] = useState("2023-06-19")
     const navigate = useNavigate();
+
+    console.log()
 
     const data = {
         name: name,
@@ -30,6 +32,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
+        console.log(data)
         await axios.post(`${CalendarPath.local}/calendar/create`,
             data)
             .then((response) => {
@@ -43,14 +46,13 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
             })
     }
 
-    const onSelect = (e: any) => {
-        const day = new Date(e).setFullYear(semesterYear)
-        setValue(new Date(day))
-    }
+    useEffect(() => {
+        setValue(`${semesterYear}-06-19`)
+    }, [semesterYear])
 
     const handleChooseYear = async (e: any) => {
         setSemesterYear((e.target.value))
-        setValue(new Date(new Date(`${value}`).setFullYear((e.target.value))))
+        // setValue(new Date(new Date(`${value}`).setFullYear((e.target.value))))
     }
 
 
@@ -71,7 +73,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             </CloseButton>
                         </div>
                         <AddForm onSubmit={handleSubmit}>
-                            <div >
+                            <div>
                                 <FormInput type="number" id="year" name="year" className="border rounded-full mb-6 p-2" placeholder="ปีการศึกษา (กรอกเป็น ค.ศ.)" onChange={
                                     handleChooseYear
                                 } />
@@ -81,10 +83,8 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             </div>
                             <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
                             <div className="flex-col justify-center ">
-                                <div className="flex w-full justify-center gap-8">
-                                    <div className="w-full">
-                                        <DatePicker className="w-full" onChange={onSelect} value={value} locale='th' />
-                                    </div>
+                                <div>
+                                        <DatePick className="border rounded-full mb-3 p-2 " type='date' value={value} />
                                 </div>
                                 <div className="grid justify-center mt-4">
                                     <SubmitButton type="submit" className="border rounded-full" >สร้าง</SubmitButton>
@@ -166,6 +166,11 @@ const Modal = styled.div`
     background-color: rgba(0,0,0,0.4);
     width: 100vw;
     height: 100vh;
+`
+
+const DatePick = styled.input`
+    color: rgba(0, 0, 0, 0.4);
+    width: 100%;
 `
 
 export default AddCalendar;
