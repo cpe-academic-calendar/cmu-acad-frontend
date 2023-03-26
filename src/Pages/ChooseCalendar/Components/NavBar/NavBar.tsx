@@ -12,7 +12,18 @@ const NavBar: React.FC = () => {
 
     const [profileOption, setProfileOption] = React.useState(false);
     const { search, setSearch } = useContext(ChooseCalendarContext);
-    const [data, setData] = React.useState();
+    const [data, setData] = React.useState<any>({
+        id:0,
+        cmuitaccount:"",
+        firstname_TH:"",
+        lastname_TH:""
+    }
+    );
+    const [validateData, setValidateData] = useState({
+        id:0,
+        cmuitaccount: "",
+        roles: ""
+    });
     const [firstName, setFirstName] = useState('')
     const [lasttName, setLasttName] = useState('')
 
@@ -22,13 +33,8 @@ const NavBar: React.FC = () => {
             headers:{
                 'Authorization' : `Bearer ${token}`
             }}).then(res => {
-                axios.get(`${CalendarPath.local}/user/findByName/${res.data.cmuitaccount}`,
-                {headers:{
-                    'Validate-header' : `${res.data.cmuitaccount}`
-                }})
-                .then(res => {
-                    localStorage.setItem("acadId", res.data)
-                })
+                localStorage.setItem("acadId", res.data)
+                console.log(res.data)
                 setData(res.data)
                 setFirstName(res.data.firstname_TH)
                 setLasttName(res.data.lastname_TH)
@@ -38,6 +44,13 @@ const NavBar: React.FC = () => {
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)
     }, [])
+
+    React.useEffect(() => {
+        axios.get(`${CalendarPath.local}/permission/getAccessUser/${data.cmuitaccount}`)
+        .then(res => {
+            setValidateData(res.data)
+        })
+    }, [data])
 
     const refOne = React.useRef<HTMLDivElement | null>(null)
     const handleClickOutSide = (e: any) => {
@@ -63,7 +76,7 @@ const NavBar: React.FC = () => {
                     <h1 onClick={() => setProfileOption(true)}><KeyboardArrowDownOutlinedIcon /></h1>
                     {profileOption && 
                 <DropDown ref={refOne}>
-                    <ProfileOption />
+                    <ProfileOption roles={validateData.roles} />
                 </DropDown>}
                 </RightSide>
             </Container>

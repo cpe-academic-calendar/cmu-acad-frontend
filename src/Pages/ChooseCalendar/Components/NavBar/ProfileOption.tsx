@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const ProfileOption = () => {
+const ProfileOption = ( roles :any ) => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token")
@@ -14,9 +14,13 @@ const ProfileOption = () => {
 
   return (
     <DraftOption>
+      {
+        (roles==="admin")?
         <a href="/admin">
           <button><PeopleAltIcon /><p>จัดการผู้ใช้</p></button>
         </a>
+        : null
+      }
         <a href="/recently-deleted">
           <button><DeleteIcon /><p>ถังขยะ</p></button>
         </a>
