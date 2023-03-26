@@ -22,11 +22,14 @@ const NavBar: React.FC = () => {
             headers:{
                 'Authorization' : `Bearer ${token}`
             }}).then(res => {
-                // axios.get(`https://cmu-acad-backend-production.up.https.app/user/findByName/${res.data.cmuitaccount}`)
-                axios.get(`${CalendarPath.local}/user/findByName/${res.data.cmuitaccount}`)
+                axios.get(`${CalendarPath.local}/user/findByName/${res.data.cmuitaccount}`,
+                {headers:{
+                    'Validate-header' : `${res.data.cmuitaccount}`
+                }})
                 .then(res => {
                     localStorage.setItem("acadId", res.data)
                 })
+                setData(res.data)
                 setFirstName(res.data.firstname_TH)
                 setLasttName(res.data.lastname_TH)
             })

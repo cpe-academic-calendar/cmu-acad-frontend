@@ -84,7 +84,7 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
                             <SemesterTitle className="mb-3 mt-3">วันแรกของการเปิดการศึกษา</SemesterTitle>
                             <div className="flex-col justify-center ">
                                 <div>
-                                        <DatePick className="border rounded-full mb-3 p-2 " type='date' value={value} />
+                                        <DatePick className="border rounded-full mb-3 p-2 " type='date' value={value} onChange={(e) => setValue(e.target.value)} />
                                 </div>
                                 <div className="grid justify-center mt-4">
                                     <SubmitButton type="submit" className="border rounded-full" >สร้าง</SubmitButton>

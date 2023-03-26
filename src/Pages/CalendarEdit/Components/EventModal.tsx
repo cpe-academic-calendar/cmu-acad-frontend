@@ -137,7 +137,9 @@ export default function EventModal() {
 
           {/* Input */}
           <SettingEvent>
-            <div>
+              {
+                (eventType === "กิจกรรม" || eventType === "วันหยุด" || eventType === "วันสอบ") &&
+                <div>
             <SettingSection>
               <TextStatus>ชื่อกิจกรรม</TextStatus>
             </SettingSection>
@@ -152,11 +154,6 @@ export default function EventModal() {
                 />
                 {errorMessage ? <ErrorLabel>จำเป็นต้องกรอก</ErrorLabel> : null}
               </SettingDate>
-            </div>
-
-              {
-                (eventType === "กิจกรรม" || eventType === "วันหยุด" || eventType === "วันสอบ") &&
-                <div>
               <SettingSection>
                 <TextStatus>สถานะ</TextStatus>
               </SettingSection>

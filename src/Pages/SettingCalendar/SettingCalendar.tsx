@@ -22,6 +22,8 @@ const SettingCalendar = () => {
       num_weeks: 0,
       reference_event: 0,
       ref_start: "",
+      ref_end: "",
+      reference_condition: 0,
       type: "",
     },
   ]);
@@ -33,7 +35,14 @@ const SettingCalendar = () => {
     },
   ]);
 
-  // color
+  const renderNameFromId = (reference_event: number) => {
+    for(let i=0; i < condition.length; i++){
+      if(reference_event === condition[i].id){
+        return <p> {condition[i].event_name} </p>
+        // console.log(condition[i].event_name)
+      }
+    }
+  }
 
   useEffect(() => {
     //get condition
@@ -58,31 +67,50 @@ const SettingCalendar = () => {
           <tr>
             <th>No.</th>
             <th>ชื่อกรรม</th>
+            <th>ประเภท</th>
+            <th>ระยะเวลา(วัน) จากวันอ้างอิง</th>
+            <th>ระยะเวลา(สัปดาห์) จากวันอ้างอิง</th>
+            <th>ก่อน/หลัง</th>
+            <th>วันอ้างอิง(วันเริ่ม)</th>
             <th>ระยะเวลา(วัน)</th>
             <th>ระยะเวลา(สัปดาห์)</th>
             <th>ก่อน/หลัง</th>
-            <th>วันอ้างอิง</th>
-            <th>ระยะเวลา(สัปดาห์)</th>
-            <th>ระยะเวลา(วัน)</th>
-            <th>ประเภท</th>
+            <th>วันอ้างอิง(วันสิ้นสุด)</th>
           </tr>
           {condition.map((evt, idx) => (
             <tr key={idx}>
               <td>{evt.id}</td>
               <td>{evt.event_name}</td>
+              <td>{evt.type}</td>
+              <td>{evt.num_days}</td>
+              <td>{evt.num_weeks}</td>
+              <td>
+              {evt.ref_start === "before" && 'ก่อน'}
+              {evt.ref_start === "after-last" && 'หลังวันสุดท้าย'}
+              {evt.ref_start === "after" && 'ก่อนวันแรก'}
+              </td>
+              <td>
+              {/* {evt.id === 1 ? (
+                <>{evt.reference_event}</>
+              ) : (
+                `No. ${evt.reference_event}`
+              )} */}
+              {
+                //ชื่อ
+              }
+              </td>
               <td>{evt.duration_days}</td>
               <td>{evt.duration_weeks}</td>
-              {evt.ref_start === "before" && <td>ก่อน</td>}
-              {evt.ref_start === "after-last" && <td>หลังวันสุดท้าย</td>}
-              {evt.ref_start === "after" && <td>ก่อนวันแรก</td>}
-              {evt.id === 1 ? (
-                <td>{evt.reference_event}</td>
-              ) : (
-                <td>No. {evt.reference_event}</td>
-              )}
-              <td>{evt.num_weeks}</td>
-              <td>{evt.num_days}</td>
-              <td>{evt.type}</td>
+              <td>
+              {evt.ref_end === "before" && 'ก่อน'}
+              {evt.ref_end === "after-last" && 'หลังวันสุดท้าย'}
+              {evt.ref_end === "after" && 'ก่อนวันแรก'}
+              </td>
+              <td>
+              {
+                renderNameFromId(evt.reference_event)
+              }
+              </td>
             </tr>
           ))}
         </table>
@@ -163,7 +191,7 @@ const Count = styled.div`
   th {
     border: 1px solid var(--stroke);
     text-align: center;
-    padding: 20px 40px;
+    padding: 12px 18px;
   }
   .icon {
     cursor: pointer;
