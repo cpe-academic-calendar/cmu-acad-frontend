@@ -9,7 +9,7 @@ const ToLogin = () => {
 
     useEffect(() => {
         if(isThereToken){
-            navigate("/choose_calendar", { replace: true });
+            // navigate("/choose_calendar", { replace: true });
         }
     },[])
 

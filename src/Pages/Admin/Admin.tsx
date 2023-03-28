@@ -20,30 +20,44 @@ const Admin = () => {
     {
       id: 0,
       cmuitaccount: "",
+      roles: ""
     },
   ]);
   const [addModal, setAddModal] = useState(false);
   const [newUser, setNewUser] = useState("");
-  const [status, setStatus] = useState("Admin");
+  const [status, setStatus] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
   const [validate, setValidate] = useState(false);
+  const [cmu_acc, setAccount] = useState([])
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
+    axios.get(`https://misapi.cmu.ac.th/cmuitaccount/v1/api/cmuitaccount/basicinfo`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        setAccount(res.data.cmuitaccount)
+      })
     axios
-      .get(`${CalendarPath.local}/permission/findAll`)
+      .get(`${CalendarPath.local}/permission/findAll`, {
+        headers: {
+          'validate-header': cmu_acc
+        }
+      })
       .then((res) => setData(res.data));
-  }, []);
+  }, [data]);
 
   let error_message = null;
 
   const handleDelete = (item: number) => {
     axios
-      .delete(`${CalendarPath.local}/permission/removePermission/${item}`)
-      .then((res) => {
-        axios
-          .get(`${CalendarPath.local}/permission/findAll`)
-          .then((res) => setData(res.data));
-      });
+      .delete(`${CalendarPath.local}/permission/removePermission/${item}`, {
+        headers: {
+          'validate-header': cmu_acc
+        }
+      })
   };
 
   const handleAddUser = (e: any) => {
@@ -56,16 +70,37 @@ const Admin = () => {
         status: status,
       };
       axios
-        .post(`${CalendarPath.local}/permission/setEdit`, user)
+        .post(`${CalendarPath.local}/permission/setEdit`, user, {
+          headers: {
+            'validate-header': cmu_acc
+          }
+        })
         .then((res) => {
           axios
-            .get(`${CalendarPath.local}/permission/findAll`)
+            .get(`${CalendarPath.local}/permission/findAll`, {
+              headers: {
+                'validate-header': cmu_acc
+              }
+            })
             .then((res) => setData(res.data));
           setErrorMessage(false);
           setAddModal((prev) => !prev);
         });
     }
   };
+
+  const handleSetRole = (e: any, user_id: number) => {
+      e.preventDefault();
+      setStatus(e.target.value)
+      axios.put(`${CalendarPath.local}/permission/setRole/${user_id}`, {
+        'roles': e.target.value
+      }, {
+        headers: {
+          'validate-header': cmu_acc
+        }
+      }).then((res) => {
+      })
+  }
 
   if (errorMessage) {
     error_message = <p>จำเป็นต้องกรอก</p>;
@@ -136,11 +171,11 @@ const Admin = () => {
                 <td>
                   <select
                     name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    value={acc.roles}
+                    onChange={(e) => handleSetRole(e, acc.id)}
                   >
-                    <option value="Admin">แอดมิน</option>
-                    <option value="User">ผู้แก้ไข</option>
+                    <option value="admin">แอดมิน</option>
+                    <option value="user">ผู้แก้ไข</option>
                   </select>
                 </td>
                 <td>

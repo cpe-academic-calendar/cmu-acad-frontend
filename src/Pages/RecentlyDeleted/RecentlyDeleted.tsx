@@ -38,7 +38,6 @@ const RecentlyDeleted = () => {
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
-          setLoading(false);
       })
     }catch(err){
       return err
@@ -46,13 +45,11 @@ const RecentlyDeleted = () => {
   }
 
   const deleteHandle = (calendar: any) => {
-    setLoading(true)
     try{
       axios.delete(`${CalendarPath.local}/calendar/delete-real/${calendar.id}`, calendar).then(
         (res) => {
           const newItems = data.filter((cal) => cal.id !== calendar.id);
           setData(newItems);
-          setLoading(false);
       })
     }catch(err){
       return err

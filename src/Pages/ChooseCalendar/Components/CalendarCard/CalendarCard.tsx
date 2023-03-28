@@ -90,14 +90,10 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
       </Start>
       <End onClick={handleCardClick}>
         <h4>
-          {String(data.create_at).substr(8,2)}{" "}
-          {changeToThai(String(data.create_at).substr(5,2))}{" "}
-          {dayjs(data.create_at).format("BBBB")}
+          {new Date(data.create_at).toLocaleString('th-TH', {timeZone: "UTC", dateStyle: 'long', timeStyle: 'medium' })}{" "}
         </h4>
         <h4>
-        {String(data.update_at).substr(8,2)}{" "}
-          {changeToThai(String(data.update_at).substr(5,2))}{" "}
-          {dayjs(data.update_at).format("BBBB")}
+          {new Date(data.update_at).toLocaleString('th-TH', { timeZone: "UTC",dateStyle: 'long', timeStyle: 'medium' })}{" "}
         </h4>
       </End>
       <div className="block">

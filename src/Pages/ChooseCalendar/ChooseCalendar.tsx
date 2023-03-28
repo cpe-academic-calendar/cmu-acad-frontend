@@ -13,8 +13,9 @@ import GlobalContext from "../../GlobalContext/GlobalContext";
 import ExportPopUp from "../../Components/ExportPopUp";
 import LoadingModal from "../Loading/LoadingModal";
 import ChooseCalendarContext from "./Components/Context/ChooseCalendarContext";
+import { isExpired, decodeToken } from "react-jwt";
 
-interface calendarProps{
+interface calendarProps {
     id: number,
     name: string;
     start_semester: Date;
@@ -24,7 +25,7 @@ interface calendarProps{
     selected: boolean;
     handleCheckClick: (id: number) => void;
     handleUnCheckClick: (selectedCard: number) => void;
-  }
+}
 
 
 function ChooseCalendar(props: any) {
@@ -33,12 +34,14 @@ function ChooseCalendar(props: any) {
     const [iconMenu, setIconMenu] = useState<Boolean>(false);
     const [token, setToken] = useState('')
     const [newCalendar, setNewCalendar] = useState<Boolean>(false);
+    const user_token = localStorage.getItem('token') as string
+    const isMyTokenExpired = isExpired(user_token);
 
     useEffect(() => {
-        if(localStorage.getItem("token")===null){
-        //   window.location.href = "https://cmu-acad.netlify.app/"
-      }
-      }, [])
+        if (localStorage.getItem("token") === null || isMyTokenExpired) {
+            // window.location.href = "https://cmu-acad.netlify.app/"
+        }
+    }, [])
 
 
     const newCalendarHandle = () => {
@@ -48,10 +51,10 @@ function ChooseCalendar(props: any) {
     const onDeleteClickhandle = () => {
         multipleSelect.forEach(async (item) => {
             await axios.delete(`${CalendarPath.local}/calendar/delete/${item}`)
-            .then((response: any) => {
-                setLoading(false)
-                window.location.reload();
-            })
+                .then((response: any) => {
+                    setLoading(false)
+                    window.location.reload();
+                })
         })
         alert("delete calendar success")
     }
@@ -59,9 +62,9 @@ function ChooseCalendar(props: any) {
     const onArchiveClickhandle = () => {
         multipleSelect.map(async (item) => {
             await axios.put(`${CalendarPath.archiveCalendar}${item}`,
-            {
+                {
                     calendar_status: "Archive"
-            })
+                })
                 .then((response) => {
                     window.location.reload();
                 })
@@ -104,12 +107,12 @@ function ChooseCalendar(props: any) {
     return (
         <div>
             {
-                loading? <LoadingModal />: null
+                loading ? <LoadingModal /> : null
             }
             {
-                exportModal?
-                    <ExportPopUp />:
-                null
+                exportModal ?
+                    <ExportPopUp /> :
+                    null
             }
             <NavBar />
             <Container>
@@ -121,17 +124,17 @@ function ChooseCalendar(props: any) {
                     <p>แก้ไขล่าสุด</p>
                     <div className="end">
                         {
-                            multipleSelect.length==0?
-                            null
+                            multipleSelect.length == 0 ?
+                                null
                                 :
-                            <div className=''>
-                                <div onClick={onDeleteClickhandle}>
-                                    <DeleteIcon />
+                                <div className=''>
+                                    <div onClick={onDeleteClickhandle}>
+                                        <DeleteIcon />
+                                    </div>
+                                    <div onClick={onArchiveClickhandle}>
+                                        <FolderIcon />
+                                    </div>
                                 </div>
-                                <div onClick={onArchiveClickhandle}>
-                                    <FolderIcon />                                  
-                                </div>
-                            </div>
                         }
                     </div>
                 </TableCardHeader>

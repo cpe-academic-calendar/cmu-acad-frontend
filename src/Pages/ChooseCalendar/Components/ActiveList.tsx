@@ -42,8 +42,6 @@ function ActiveList( ) {
         setMultipleSelect(newItems);
       };
 
-
-
     return(
         <div>
              {
