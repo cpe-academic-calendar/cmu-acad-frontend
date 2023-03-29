@@ -9,7 +9,8 @@ const ProfileOption = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token")
-    window.location.reload()
+    // window.location.reload()
+    window.location.href = "https://cmu-acad.netlify.app/"
   }
 
   return (
