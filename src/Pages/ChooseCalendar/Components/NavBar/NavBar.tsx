@@ -33,11 +33,8 @@ const NavBar: React.FC = () => {
                 setData(res.data)
                 setFirstName(res.data.firstname_TH)
                 setLasttName(res.data.lastname_TH)
-                setCmuitaccount(res.data.cmuitaccount)
             })
     },[])
-
-    console.log(cmuitaccount)
 
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)

@@ -98,7 +98,7 @@ const SettingCalendar = () => {
               {evt.ref_end === "after" && 'ก่อนวันแรก'}
               </td>
               <td>
-              {evt.reference_event}
+              {evt.reference_condition}
               </td>
             </tr>
           ))}
@@ -119,7 +119,7 @@ const SettingCalendar = () => {
             <tr key={idx}>
               <td>{idx}</td>
               <td>{evt.event_name}</td>
-              <td>{String(evt.start_date).substr(9, 2)}</td>
+              <td>{String(evt.start_date).substr(8, 2)}</td>
               <td>{changeToThai(String(evt.start_date).substr(5, 2))}</td>
             </tr>
           ))}

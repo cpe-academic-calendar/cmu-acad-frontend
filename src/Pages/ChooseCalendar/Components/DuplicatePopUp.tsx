@@ -16,20 +16,19 @@ const DuplicatePopUp = (props: any): JSX.Element => {
     const handleClosePopup = () => {
         setPopup(false)
     }
-
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         setLoading(true)
         e.preventDefault();
         setYear(props.data.item.year)
-        setStartDate(props.data.item.start_semester)
+        // setStartDate(props.data.item.start_semester)
         await axios.post(`${CalendarPath.local}/calendar/duplicate/${props.data.item.id}`, {
             name: calendar_name,
-            start_semester: start_date
+            start_semester: props.data.item.start_semester
         })
             .then((response) => {
                 setResponse(response.data)
                 setLoading(false)
+                console.log(start_date)
                 alert("duplicate calendar success")
                 window.location.reload();
             })

@@ -52,6 +52,7 @@ const Admin = () => {
   let error_message = null;
 
   const handleDelete = (item: number) => {
+    // console.log(item)
     axios
       .delete(`${CalendarPath.local}/permission/removePermission/${item}`, {
         headers: {
@@ -188,9 +189,12 @@ const Admin = () => {
                   </select>
                 </td>
                 <td>
-                  <div onClick={() => setValidate((prev) => !prev)}>
+                  <div onClick={() => 
+                    // setValidate((prev) => !prev)
+                    handleDelete(acc.id)
+                  }>
                     <DeleteIcon />
-                    {validate ? (
+                    {/* {validate ? (
                       <PopUp ref={refOne}>
                         <MenuBar>
                           <Heading>
@@ -209,7 +213,7 @@ const Admin = () => {
                           </button>
                         </Inputs>
                       </PopUp>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </td>
               </tr>
