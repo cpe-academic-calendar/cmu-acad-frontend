@@ -20,10 +20,10 @@ const SettingCalendar = () => {
       duration_weeks: 0,
       num_days: 0,
       num_weeks: 0,
-      reference_event: 0,
+      reference_event: "",
       ref_start: "",
       ref_end: "",
-      reference_condition: 0,
+      reference_condition: "",
       type: "",
     },
   ]);
@@ -35,14 +35,13 @@ const SettingCalendar = () => {
     },
   ]);
 
-  const renderNameFromId = (reference_event: number) => {
-    for(let i=0; i < condition.length; i++){
-      if(reference_event === condition[i].id){
-        return <p> {condition[i].event_name} </p>
-        // console.log(condition[i].event_name)
-      }
-    }
-  }
+  // const renderNameFromId = (reference_event: number) => {
+  //   for(let i=0; i < condition.length; i++){
+  //     if(reference_event === condition[i].id){
+  //       return <p> {condition[i].event_name} </p>
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     //get condition
@@ -50,7 +49,6 @@ const SettingCalendar = () => {
       .get(`${CalendarPath.local}/calendar/findConditionData`)
       .then((res) => {
         setCondition(res.data);
-        console.log(res.data);
       });
 
     //get holiday
@@ -90,14 +88,7 @@ const SettingCalendar = () => {
               {evt.ref_start === "after" && 'ก่อนวันแรก'}
               </td>
               <td>
-              {/* {evt.id === 1 ? (
-                <>{evt.reference_event}</>
-              ) : (
-                `No. ${evt.reference_event}`
-              )} */}
-              {
-                //ชื่อ
-              }
+              {evt.reference_event}
               </td>
               <td>{evt.duration_days}</td>
               <td>{evt.duration_weeks}</td>
@@ -107,9 +98,7 @@ const SettingCalendar = () => {
               {evt.ref_end === "after" && 'ก่อนวันแรก'}
               </td>
               <td>
-              {
-                renderNameFromId(evt.reference_event)
-              }
+              {evt.reference_event}
               </td>
             </tr>
           ))}

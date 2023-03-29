@@ -15,6 +15,7 @@ const NavBar: React.FC = () => {
     const [data, setData] = React.useState();
     const [firstName, setFirstName] = useState('')
     const [lasttName, setLasttName] = useState('')
+    const [cmuitaccount, setCmuitaccount] = useState('');
 
     React.useEffect(() => {
         const token = localStorage.getItem("token")
@@ -32,8 +33,11 @@ const NavBar: React.FC = () => {
                 setData(res.data)
                 setFirstName(res.data.firstname_TH)
                 setLasttName(res.data.lastname_TH)
+                setCmuitaccount(res.data.cmuitaccount)
             })
     },[])
+
+    console.log(cmuitaccount)
 
     React.useEffect(() => {
         document.addEventListener("click", handleClickOutSide, true)

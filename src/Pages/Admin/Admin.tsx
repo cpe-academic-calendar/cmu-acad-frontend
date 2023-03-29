@@ -25,7 +25,7 @@ const Admin = () => {
   ]);
   const [addModal, setAddModal] = useState(false);
   const [newUser, setNewUser] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("user");
   const [errorMessage, setErrorMessage] = useState(false);
   const [validate, setValidate] = useState(false);
   const [cmu_acc, setAccount] = useState([])
@@ -102,6 +102,15 @@ const Admin = () => {
       })
   }
 
+  const refOne = React.useRef<HTMLDivElement | null>(null)
+  const handleClickOutSide = (e: any) => {
+      if (refOne.current != null) {
+          if (!refOne.current?.contains(e.target)) {
+              setValidate(false)
+          }
+      }
+  }
+
   if (errorMessage) {
     error_message = <p>จำเป็นต้องกรอก</p>;
   }
@@ -131,7 +140,7 @@ const Admin = () => {
             {error_message}
           </Inputs>
           <Inputs>
-            <button onClick={handleAddUser}>เพิ่มผู้ใช้</button>
+            <button className="primary" onClick={handleAddUser}>เพิ่มผู้ใช้</button>
           </Inputs>
         </PopUp>
       ) : null}
@@ -174,15 +183,15 @@ const Admin = () => {
                     value={acc.roles}
                     onChange={(e) => handleSetRole(e, acc.id)}
                   >
-                    <option value="admin">แอดมิน</option>
                     <option value="user">ผู้แก้ไข</option>
+                    <option value="admin">แอดมิน</option>
                   </select>
                 </td>
                 <td>
                   <div onClick={() => setValidate((prev) => !prev)}>
                     <DeleteIcon />
                     {validate ? (
-                      <PopUp>
+                      <PopUp ref={refOne}>
                         <MenuBar>
                           <Heading>
                             <h1>Warning</h1>
@@ -190,12 +199,12 @@ const Admin = () => {
                           </Heading>
                         </MenuBar>
                         <Inputs>
-                          <button onClick={() => handleDelete(acc.id)}>
+                          <button className="primary" onClick={() => handleDelete(acc.id)}>
                             ลบผู้ใช้
                           </button>
                         </Inputs>
-                        <Inputs onClick={() => setValidate((prev) => !prev)}>
-                          <button>
+                        <Inputs>
+                          <button className="sec" onClick={() => handleClickOutSide}>
                             ยังก่อน
                           </button>
                         </Inputs>
@@ -332,13 +341,19 @@ const Inputs = styled.div`
     border: 1px solid var(--primary-color);
   }
   button {
-    background-color: var(--primary-color);
-    color: var(--background);
     border-radius: 30px;
     padding: 12px 14px;
     display: flex;
     justify-content: space-between;
+    color: var(--primary-color);
   }
+  .primary{
+    background-color: var(--primary-color);
+    color: var(--background);
+    }
+    .sec{
+      color: var(--primary-color);
+    }
   p {
     color: var(--error);
   }

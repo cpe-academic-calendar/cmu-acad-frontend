@@ -19,7 +19,6 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const [value, setValue] = useState("2023-06-19")
     const navigate = useNavigate();
 
-    console.log()
 
     const data = {
         name: name,
@@ -32,7 +31,6 @@ const AddCalendar: React.FC<ButtonProps> = ({ handleClosePopup }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         await e.preventDefault();
         setLoading(true)
-        console.log(data)
         await axios.post(`${CalendarPath.local}/calendar/create`,
             data)
             .then((response) => {

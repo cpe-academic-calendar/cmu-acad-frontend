@@ -4,8 +4,36 @@ import HistoryIcon from '@mui/icons-material/History';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import React from "react";
+import { CalendarPath } from "../../../path";
 
 const ProfileOption = () => {
+
+  const [cmuitaccount, setCmuitaccount] = useState('')
+  const [role, setRole] = useState('')
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token")
+    axios.get(`https://misapi.cmu.ac.th/cmuitaccount/v1/api/cmuitaccount/basicinfo`,{
+        headers:{
+            'Authorization' : `Bearer ${token}`
+        }}).then(res => {
+            axios.get(`${CalendarPath.local}/user/findByName/${res.data.cmuitaccount}`,
+            {headers:{
+                'Validate-header' : `${res.data.cmuitaccount}`
+            }})
+            setCmuitaccount(res.data.cmuitaccount)
+        })
+},[])
+
+axios.get(`${CalendarPath.local}/permission/getAccessUser/${cmuitaccount}`).then(
+  (res) =>
+    {
+      setRole(res.data[0].roles)
+    }
+)
 
   const handleLogOut = () => {
     localStorage.removeItem("token")
@@ -15,9 +43,15 @@ const ProfileOption = () => {
 
   return (
     <DraftOption>
+      {
+        (role==='admin')?
+        <>
         <a href="/admin">
           <button><PeopleAltIcon /><p>จัดการผู้ใช้</p></button>
         </a>
+        </>
+        :null
+      }
         <a href="/recently-deleted">
           <button><DeleteIcon /><p>ถังขยะ</p></button>
         </a>
