@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { CalendarPath } from "../path";
 import axios from "axios";
 import changeToThai from "../../Functions/changeToThai";
+import HolidayCard from "./HolidayCard";
+import EditIcon from '@mui/icons-material/Edit';
 
 const SettingCalendar = () => {
   const { loading } = useContext(GlobalContext);
@@ -29,19 +31,16 @@ const SettingCalendar = () => {
   ]);
   const [holiday, setHoliday] = useState([
     {
+      id: 0,
       color: "",
       event_name: "",
       start_date: "",
     },
   ]);
 
-  // const renderNameFromId = (reference_event: number) => {
-  //   for(let i=0; i < condition.length; i++){
-  //     if(reference_event === condition[i].id){
-  //       return <p> {condition[i].event_name} </p>
-  //     }
-  //   }
-  // }
+  const [holidayEdit, setHolidayEdit] = useState(false)
+  const [newEventName, setNewEventName] = useState('')
+
 
   useEffect(() => {
     //get condition
@@ -56,6 +55,10 @@ const SettingCalendar = () => {
       setHoliday(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    axios.post(`${CalendarPath.local}/calendar/update/holidayMockUp`)
+  }, [holiday])
 
   let render_content = null;
   if (view === "events") {
@@ -77,9 +80,11 @@ const SettingCalendar = () => {
           </tr>
           {condition.map((evt, idx) => (
             <tr key={idx}>
-              <td>{evt.id}</td>
+              <td>{idx}</td>
               <td>{evt.event_name}</td>
-              <td>{evt.type}</td>
+              <td>
+                {evt.type}
+              </td>
               <td>{evt.num_days}</td>
               <td>{evt.num_weeks}</td>
               <td>
@@ -117,12 +122,10 @@ const SettingCalendar = () => {
           </tr>
           {holiday.map((evt, idx) => (
             <tr key={idx}>
-              <td>{idx}</td>
-              <td>{evt.event_name}</td>
-              <td>{String(evt.start_date).substr(8, 2)}</td>
-              <td>{changeToThai(String(evt.start_date).substr(5, 2))}</td>
+              <HolidayCard evt={evt} idx={idx} holiday={holiday} setHoliday={setHoliday} />
             </tr>
-          ))}
+            ))
+          }
         </table>
       </>
     );
