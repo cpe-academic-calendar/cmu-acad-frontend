@@ -11,6 +11,10 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import ChooseCalendarContext from "../Context/ChooseCalendarContext";
 import changeToThai from "../../../../Functions/changeToThai";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import 'dayjs/locale/th'; // import Thai locale
+
 
 interface calendarProps{
   id: number,
@@ -29,6 +33,9 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
   const navigate = useNavigate();
   const [selectCalendar, setSelectCalendar] = useState<boolean>(false);
   const [pathId, setPathId] = useState('')
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
 
   let render_option = null;
 
@@ -90,7 +97,8 @@ const CalendarCard: React.FC<calendarProps> = (data) => {
       </Start>
       <End onClick={handleCardClick}>
         <h4>
-          {new Date(data.create_at).toLocaleString('th-TH', {timeZone: "UTC", dateStyle: 'long', timeStyle: 'medium' })}{" "}
+          {dayjs.utc(data.create_at).tz('Asia/Bangkok').toString()}
+          {/* {new Date(data.create_at).toLocaleString('th-TH', {timeZone: "UTC", dateStyle: 'long', timeStyle: 'medium' })}{" "} */}
         </h4>
         <h4>
           {new Date(data.update_at).toLocaleString('th-TH', { timeZone: "UTC",dateStyle: 'long', timeStyle: 'medium' })}{" "}
