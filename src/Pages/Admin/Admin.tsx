@@ -52,7 +52,6 @@ const Admin = () => {
   let error_message = null;
 
   const handleDelete = (item: number) => {
-    // console.log(item)
     axios
       .delete(`${CalendarPath.local}/permission/removePermission/${item}`, {
         headers: {

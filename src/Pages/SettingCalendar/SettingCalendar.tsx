@@ -38,27 +38,22 @@ const SettingCalendar = () => {
     },
   ]);
 
-  const [holidayEdit, setHolidayEdit] = useState(false)
-  const [newEventName, setNewEventName] = useState('')
 
 
   useEffect(() => {
     //get condition
     axios
-      .get(`${CalendarPath.local}/calendar/findConditionData`)
+      .get(`${CalendarPath.local}/event/findConditionData`)
       .then((res) => {
         setCondition(res.data);
       });
 
     //get holiday
-    axios.get(`${CalendarPath.local}/calendar/findHolidayData`).then((res) => {
+    axios.get(`${CalendarPath.local}/event/findHolidayData`).then((res) => {
       setHoliday(res.data);
     });
   }, []);
 
-  useEffect(() => {
-    axios.post(`${CalendarPath.local}/calendar/update/holidayMockUp`)
-  }, [holiday])
 
   let render_content = null;
   if (view === "events") {

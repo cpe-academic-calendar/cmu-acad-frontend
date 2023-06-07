@@ -52,9 +52,7 @@ const HolidayCard = ({idx, evt, holiday, setHoliday} : evtProps) => {
             start_date: `2023-${month}-${date}`,
             color: evt.color
         }
-        console.log(newEvent)
-        console.log('date' ,date)
-        console.log('month', month)
+
         setHoliday(
             holiday.map((holiday) => (holiday.id === evt.id? {...holiday, 
                 id: newEvent.id,
@@ -63,11 +61,12 @@ const HolidayCard = ({idx, evt, holiday, setHoliday} : evtProps) => {
                 color: evt.color
             }: holiday)
         ))
-        axios.post(`${CalendarPath.local}/calendar/update/holidayMockUp`, holiday).then(
-            res => (
-                setHolidayEdit(false)
-            )
-        )
+        setHolidayEdit(false)
+        // axios.post(`${CalendarPath.local}/calendar/update/holidayMockUp`, holiday).then(
+        //     res => (
+        //         setHolidayEdit(false)
+        //     )
+        // )
     }
     return ( 
         <>

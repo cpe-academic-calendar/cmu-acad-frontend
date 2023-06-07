@@ -28,7 +28,6 @@ const DuplicatePopUp = (props: any): JSX.Element => {
             .then((response) => {
                 setResponse(response.data)
                 setLoading(false)
-                console.log(start_date)
                 alert("duplicate calendar success")
                 window.location.reload();
             })
